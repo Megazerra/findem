@@ -1,0 +1,17 @@
+.logo{
+    width: 51px;
+    margin-right: 40px;
+}
+
+.logo2{
+    margin-top: 4px;
+    width: 45px;
+    margin-right: 40px;
+    height: 47px;
+
+}
+
+
+.logo2:hover{
+    cursor: pointer;
+}

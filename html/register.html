@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- SweetAlert -->
+    <script src="../js/sweetalert2.all.min.js"></script>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/register.css">
+    <link rel="stylesheet" href="../css/bootstrap.css">
+    <meta name="google-signin-client_id"
+        content="539940953176-8mj5o0o5ckvv2t1eii2i787k3ofr33i7.apps.googleusercontent.com">
+    <title>Document</title>
+</head>
+
+<body onload="renderButton()">
+    <div class="container hub">
+        <div class="row alt">
+            <div class="col-md-6">
+                <div class="register">
+                    <img src="../imgs/LOGO_FINDEM.png" alt="logo" class="logo">
+                    <h2 class="titulo">FindEm</h2>
+                    <div id="gSignIn" class="google"></div><br>
+                    <hr class="separador">
+                    <div class="formulario text-center">
+                        <input type="text" id="nombre" placeholder="nombre" class="input">
+                        <input type="text" id="apellido" placeholder="nombre" class="input"><br><br>
+                        <input type="text" id="mail" placeholder="mail" class="input2"><br><br>
+                        <input type="text" id="username" placeholder="username" class="input2"><br><br>
+                        <input type="text" id="password" placeholder="password" class="input">
+                        <input type="text" id="r_password" placeholder="repetir password" class="input"><br><br>
+                        <input type="submit" value="REGISTER" class="btn boton center-block"
+                            onclick="getLocation()"><br><br>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <h4 class="cuenta">Ya tienes <br> una cuenta?</h4>
+                <input type="submit" value="LOG-IN" class="login" onclick="redirect()">
+            </div>
+        </div>
+    </div>
+</body>
+<script src="https://apis.google.com/js/platform.js" async defer></script>
+<script type="text/javascript" src="../js/clase.js"></script>
+
+</html>
