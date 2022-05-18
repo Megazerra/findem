@@ -59,11 +59,12 @@ function redirect3() {
 }
 
 function redirect2() {
-        cargar();
+         cargar();
         setTimeout(function () {
           volver();
+          window.location.href = "html/friends.html";
         }, 200);
-        window.location.href = "../html/friends.html";
+        
 
 }
 
@@ -84,7 +85,10 @@ function showPosition(position: any) {
   var xhttp = new XMLHttpRequest();
   xhttp.onreadystatechange = function () {
     if (this.readyState == 4 && this.status == 200) {
+
+
       let id = this.responseText;
+      console.log(id);
       if (id == '1') {
         Swal.fire({
           icon: 'success',
@@ -193,3 +197,21 @@ function volver() {
 
 }
 
+
+
+function chats(){
+
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function () {
+    if (this.readyState == 4 && this.status == 200) {
+      var par = new DOMParser();
+      var xmlDoc:any = par.parseFromString(this.responseText, "text/xml")
+      console.log(this.responseText);
+    }
+    
+  };
+ 
+  xhttp.open("POST", "../php/chats.php", true);
+  xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+  xhttp.send("i=");
+}

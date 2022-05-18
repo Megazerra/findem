@@ -1,5 +1,6 @@
 <?php
 include 'bbdd.php';
+session_start();
 $lat = $_POST['lat'];
 $long = $_POST['long'];
 $datos = trim($_POST["i"]);
@@ -17,6 +18,7 @@ while($fila = mysqli_fetch_assoc($r)){
 if($count > 0){
     $sql = "UPDATE usuario SET latitud = '$lat', longitud= '$long' WHERE userName = '$separado[0]'";
     $r = mysqli_query($conexio, $sql);
+    $_SESSION['username'] = $separado[0];
     echo "1";
 }else{
     echo "0";

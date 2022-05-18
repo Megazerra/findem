@@ -7,7 +7,7 @@ $separado = explode("-", $datos);
 $separado[3] = md5($separado[3]);
 
 
-$sql = "SELECT COUNT(*) FROM usuario WHERE userName = '$separado[0]' OR email = '$separado[1]'";
+$sql = "SELECT COUNT(*) FROM usuario WHERE userName = '$separado[0]' OR email = '$separado[4]'";
 $r = mysqli_query($conexio, $sql);
 
 while($fila = mysqli_fetch_assoc($r)){

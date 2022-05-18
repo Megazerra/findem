@@ -54,8 +54,8 @@ function redirect2() {
     cargar();
     setTimeout(function () {
         volver();
+        window.location.href = "html/friends.html";
     }, 200);
-    window.location.href = "../html/friends.html";
 }
 function getLocation() {
     if (navigator.geolocation) {
@@ -74,6 +74,7 @@ function showPosition(position) {
     xhttp.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
             var id = this.responseText;
+            console.log(id);
             if (id == '1') {
                 Swal.fire({
                     icon: 'success',
@@ -177,4 +178,17 @@ function volver() {
     body.style.opacity = "1";
     var loader = document.getElementById('loader');
     loader.style.visibility = "hidden";
+}
+function chats() {
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+            var par = new DOMParser();
+            var xmlDoc = par.parseFromString(this.responseText, "text/xml");
+            console.log(this.responseText);
+        }
+    };
+    xhttp.open("POST", "../php/chats.php", true);
+    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhttp.send("i=");
 }
