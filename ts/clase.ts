@@ -59,12 +59,12 @@ function redirect3() {
 }
 
 function redirect2() {
-         cargar();
-        setTimeout(function () {
-          volver();
-          window.location.href = "html/friends.html";
-        }, 200);
-        
+  cargar();
+  setTimeout(function () {
+    volver();
+    window.location.href = "html/friends.html";
+  }, 200);
+
 
 }
 
@@ -145,7 +145,7 @@ function login() {
     alert("GEOLOCALITZACIÓ DESACTIVADA");
   }
 }
-function sqlLogin(position:any){
+function sqlLogin(position: any) {
   var lat = position.coords.latitude;
   var long = position.coords.longitude;
   var xhttp = new XMLHttpRequest();
@@ -165,7 +165,7 @@ function sqlLogin(position:any){
           title: 'Oops...',
           text: 'El usuario no existe o los datos estan mal introducidos'
         })
-    }
+      }
     }
   };
   var identifier: any = document.getElementById('l_username');
@@ -199,19 +199,67 @@ function volver() {
 
 
 
-function chats(){
-
+function chats() {
+  var div: any = document.getElementById('inside');
+  var div2: any = document.getElementById('me');
   var xhttp = new XMLHttpRequest();
   xhttp.onreadystatechange = function () {
     if (this.readyState == 4 && this.status == 200) {
       var par = new DOMParser();
-      var xmlDoc:any = par.parseFromString(this.responseText, "text/xml")
-      console.log(this.responseText);
+      var xmlDoc: any = par.parseFromString(this.responseText, "text/xml");
+      var userName: any = xmlDoc.getElementsByTagName('userName');
+      var me: any = xmlDoc.getElementsByTagName('user');
+      var nombre: any = xmlDoc.getElementsByTagName('nombre');
+      var apellido: any = xmlDoc.getElementsByTagName('apellido');
+      var foto: any = xmlDoc.getElementsByTagName('foto');
+      for (var i: any = 0; i < userName.length; i++) {
+        var divuser: any = document.createElement('div');
+        divuser.id = userName[i].childNodes[0].nodeValue;
+        divuser.style.cursor = "pointer";
+        var h3: any = document.createElement('h3');
+        var usern: any = document.createTextNode(userName[i].childNodes[0].nodeValue);
+
+        // var base64blob:any = foto[i].childNodes[0].nodeValue;
+        //  var image = document.createElement('img');
+        // image.src = 'data:image/png;base64,'+ encode64(userName[i].childNodes[0].nodeValue);
+        // div.appendChild(image);
+        h3.appendChild(usern);
+        divuser.appendChild(h3)
+        div.appendChild(divuser);
+
+        divuser.onclick = function () {
+
+
+          xhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+              var par = new DOMParser();
+              var xmlDoc: any = par.parseFromString(this.responseText, "text/xml");
+             alert("a");
+               
+              
+            }
+          };
+        
+          xhttp.open("POST", "../php/missatges.php", true);
+          xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+          xhttp.send("i=");
+        };
+
+      }
+
+      var h3: any = document.createElement('h3');
+      var usern: any = document.createTextNode(me[0].childNodes[0].nodeValue);
+      h3.appendChild(usern);
+      div2.appendChild(h3);
+
+
     }
-    
+
   };
- 
+
   xhttp.open("POST", "../php/chats.php", true);
   xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
   xhttp.send("i=");
+
 }
+

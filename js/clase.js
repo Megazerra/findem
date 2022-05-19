@@ -180,12 +180,48 @@ function volver() {
     loader.style.visibility = "hidden";
 }
 function chats() {
+    var div = document.getElementById('inside');
+    var div2 = document.getElementById('me');
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
             var par = new DOMParser();
             var xmlDoc = par.parseFromString(this.responseText, "text/xml");
-            console.log(this.responseText);
+            var userName = xmlDoc.getElementsByTagName('userName');
+            var me = xmlDoc.getElementsByTagName('user');
+            var nombre = xmlDoc.getElementsByTagName('nombre');
+            var apellido = xmlDoc.getElementsByTagName('apellido');
+            var foto = xmlDoc.getElementsByTagName('foto');
+            for (var i = 0; i < userName.length; i++) {
+                var divuser = document.createElement('div');
+                divuser.id = userName[i].childNodes[0].nodeValue;
+                divuser.style.cursor = "pointer";
+                var h3 = document.createElement('h3');
+                var usern = document.createTextNode(userName[i].childNodes[0].nodeValue);
+                // var base64blob:any = foto[i].childNodes[0].nodeValue;
+                //  var image = document.createElement('img');
+                // image.src = 'data:image/png;base64,'+ encode64(userName[i].childNodes[0].nodeValue);
+                // div.appendChild(image);
+                h3.appendChild(usern);
+                divuser.appendChild(h3);
+                div.appendChild(divuser);
+                divuser.onclick = function () {
+                    xhttp.onreadystatechange = function () {
+                        if (this.readyState == 4 && this.status == 200) {
+                            var par = new DOMParser();
+                            var xmlDoc = par.parseFromString(this.responseText, "text/xml");
+                            alert("a");
+                        }
+                    };
+                    xhttp.open("POST", "../php/missatges.php", true);
+                    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                    xhttp.send("i=");
+                };
+            }
+            var h3 = document.createElement('h3');
+            var usern = document.createTextNode(me[0].childNodes[0].nodeValue);
+            h3.appendChild(usern);
+            div2.appendChild(h3);
         }
     };
     xhttp.open("POST", "../php/chats.php", true);
