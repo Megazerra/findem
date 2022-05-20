@@ -133,7 +133,7 @@ function showPosition(position: any) {
     let params: any = username.value + "-" + nombre.value + "-" + apellido.value + "-" + password.value + "-" + mail.value + "-" + "user";
     xhttp.open("POST", "../php/register.php", true);
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    xhttp.send("i=" + params + "&lat=" + lat + "&long=" + long);
+    xhttp.send("i=" + params + "&lat=" + lat + "&long=" + long + "&link=no");
   }
 }
 
@@ -216,6 +216,7 @@ function chats() {
         var divuser: any = document.createElement('div');
         divuser.id = userName[i].childNodes[0].nodeValue;
         divuser.style.cursor = "pointer";
+
         var h3: any = document.createElement('h3');
         var usern: any = document.createTextNode(userName[i].childNodes[0].nodeValue);
 
@@ -224,26 +225,12 @@ function chats() {
         // image.src = 'data:image/png;base64,'+ encode64(userName[i].childNodes[0].nodeValue);
         // div.appendChild(image);
         h3.appendChild(usern);
+
         divuser.appendChild(h3)
         div.appendChild(divuser);
 
-        divuser.onclick = function () {
+        divuser.setAttribute('onclick', "mostrarId(" + userName[i].childNodes[0].nodeValue + ")");
 
-
-          xhttp.onreadystatechange = function () {
-            if (this.readyState == 4 && this.status == 200) {
-              var par = new DOMParser();
-              var xmlDoc: any = par.parseFromString(this.responseText, "text/xml");
-             alert("a");
-               
-              
-            }
-          };
-        
-          xhttp.open("POST", "../php/missatges.php", true);
-          xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-          xhttp.send("i=");
-        };
 
       }
 
@@ -263,3 +250,84 @@ function chats() {
 
 }
 
+
+function mostrarId(id: any) {
+  // alert(id.innerText);
+  var div:any = document.getElementById('mens');
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function () {
+    if (this.readyState == 4 && this.status == 200) {
+      var parser = new DOMParser();
+      var xmlDoc = parser.parseFromString(this.responseText, "text/xml");
+      console.log(this.responseText);
+      var idA: any = xmlDoc.getElementsByTagName('idChatA');
+      var idE: any = xmlDoc.getElementsByTagName('idEmisorA');
+      var idR: any = xmlDoc.getElementsByTagName('idRemitenteA');
+      var us: any = xmlDoc.getElementsByTagName('usuario');
+      var mensajeA: any = xmlDoc.getElementsByTagName('mensajeA');
+      var msg: any = xmlDoc.getElementsByTagName('msg');
+      while (div.firstChild) {
+        div.removeChild(div.firstChild);
+      }
+      
+      var enviar:any = document.createElement('input');
+      enviar.classList.add('enviar');
+      enviar.placeholder = "enviar un mensaje...";
+
+      for (var i: any = 0; i < msg.length; i++) {
+        var p:any = document.createElement('p');
+        var men:any = document.createTextNode(mensajeA[i].childNodes[0].nodeValue);
+        if(idE[i].childNodes[0].nodeValue != us[0].childNodes[0].nodeValue){
+          p.classList.add("enviado");
+        }else{
+          p.classList.add("enviado2");
+
+        }
+        
+        p.appendChild(men);
+        div.appendChild(p);
+        div.appendChild(enviar);
+
+      }
+      enviar.addEventListener("keypress", function(event) {
+          
+        if (event.key === "Enter") {
+         
+
+
+          var xhttp = new XMLHttpRequest();
+          xhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+            var parser = new DOMParser();
+            var xmlDoc = parser.parseFromString(this.responseText, "text/xml");
+              console.log(this.responseText);
+            }
+          };
+          event.preventDefault();
+          var params:any = id.innerText+"-"+enviar.value;
+
+
+
+
+
+          xhttp.open("POST", "../php/insertMensaje.php", true);
+          xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+          xhttp.send("i=" + params);
+          while (div.firstChild) {
+            div.removeChild(div.firstChild);
+          }
+          
+
+
+        }
+      });
+    }
+  };
+
+  xhttp.open("POST", "../php/missatges.php", true);
+  xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+  xhttp.send("i=" + id.innerText);
+}
+
+// console.log(mensaje[i].childNodes[0].nodeValue+"--"+id[i].childNodes[0].nodeValue);
+// console.log(mensajeA[i].childNodes[0].nodeValue+"--"+idA[i].childNodes[0].nodeValue);

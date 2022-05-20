@@ -122,7 +122,7 @@ function showPosition(position) {
         var params = username.value + "-" + nombre.value + "-" + apellido.value + "-" + password.value + "-" + mail.value + "-" + "user";
         xhttp.open("POST", "../php/register.php", true);
         xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-        xhttp.send("i=" + params + "&lat=" + lat + "&long=" + long);
+        xhttp.send("i=" + params + "&lat=" + lat + "&long=" + long + "&link=no");
     }
 }
 function login() {
@@ -205,18 +205,7 @@ function chats() {
                 h3.appendChild(usern);
                 divuser.appendChild(h3);
                 div.appendChild(divuser);
-                divuser.onclick = function () {
-                    xhttp.onreadystatechange = function () {
-                        if (this.readyState == 4 && this.status == 200) {
-                            var par = new DOMParser();
-                            var xmlDoc = par.parseFromString(this.responseText, "text/xml");
-                            alert("a");
-                        }
-                    };
-                    xhttp.open("POST", "../php/missatges.php", true);
-                    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-                    xhttp.send("i=");
-                };
+                divuser.setAttribute('onclick', "mostrarId(" + userName[i].childNodes[0].nodeValue + ")");
             }
             var h3 = document.createElement('h3');
             var usern = document.createTextNode(me[0].childNodes[0].nodeValue);
@@ -228,3 +217,65 @@ function chats() {
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhttp.send("i=");
 }
+function mostrarId(id) {
+    // alert(id.innerText);
+    var div = document.getElementById('mens');
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+            var parser = new DOMParser();
+            var xmlDoc = parser.parseFromString(this.responseText, "text/xml");
+            console.log(this.responseText);
+            var idA = xmlDoc.getElementsByTagName('idChatA');
+            var idE = xmlDoc.getElementsByTagName('idEmisorA');
+            var idR = xmlDoc.getElementsByTagName('idRemitenteA');
+            var us = xmlDoc.getElementsByTagName('usuario');
+            var mensajeA = xmlDoc.getElementsByTagName('mensajeA');
+            var msg = xmlDoc.getElementsByTagName('msg');
+            while (div.firstChild) {
+                div.removeChild(div.firstChild);
+            }
+            var enviar = document.createElement('input');
+            enviar.classList.add('enviar');
+            enviar.placeholder = "enviar un mensaje...";
+            for (var i = 0; i < msg.length; i++) {
+                var p = document.createElement('p');
+                var men = document.createTextNode(mensajeA[i].childNodes[0].nodeValue);
+                if (idE[i].childNodes[0].nodeValue != us[0].childNodes[0].nodeValue) {
+                    p.classList.add("enviado");
+                }
+                else {
+                    p.classList.add("enviado2");
+                }
+                p.appendChild(men);
+                div.appendChild(p);
+                div.appendChild(enviar);
+            }
+            enviar.addEventListener("keypress", function (event) {
+                if (event.key === "Enter") {
+                    var xhttp = new XMLHttpRequest();
+                    xhttp.onreadystatechange = function () {
+                        if (this.readyState == 4 && this.status == 200) {
+                            var parser = new DOMParser();
+                            var xmlDoc = parser.parseFromString(this.responseText, "text/xml");
+                            console.log(this.responseText);
+                        }
+                    };
+                    event.preventDefault();
+                    var params = id.innerText + "-" + enviar.value;
+                    xhttp.open("POST", "../php/insertMensaje.php", true);
+                    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                    xhttp.send("i=" + params);
+                    while (div.firstChild) {
+                        div.removeChild(div.firstChild);
+                    }
+                }
+            });
+        }
+    };
+    xhttp.open("POST", "../php/missatges.php", true);
+    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhttp.send("i=" + id.innerText);
+}
+// console.log(mensaje[i].childNodes[0].nodeValue+"--"+id[i].childNodes[0].nodeValue);
+// console.log(mensajeA[i].childNodes[0].nodeValue+"--"+idA[i].childNodes[0].nodeValue);
