@@ -19,12 +19,16 @@
     <div class="container-fluid">
       <img src="../imgs/LOGO_FINDEM.png" alt="" class="logo">
       <form class="d-flex">
+        
+        <input placeholder="Introduce tu palabra" class="form-control" type="text" name="p" id="p" onkeyup="showPeople(this.value)">
+
         <img src="../imgs/home.png" alt="" class="logo">
-        <img src="../imgs/friends.png" alt="" class="logo2">
+        <img src="../imgs/message.png" alt="" class="logo2" onclick="redirect2()">
+        <img src="../imgs/friends.png" alt="" class="logo2" onclick="redirect4()">
       </form>
     </div>
   </nav>
-
+  <div class="test" id="test"></div>
   <div class="container">
     <div class="row">
       <div class="col-md-4">
@@ -42,6 +46,7 @@
           <br>
         
         </div>
+        <div class="ge3" id="ge3"></div>
       </div>
     </div>
   </div>

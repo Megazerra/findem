@@ -11,8 +11,12 @@ $user = $_SESSION['username'];
 
 $sql2 = "SELECT * FROM chat WHERE idEmisor = '$user' AND idRemitente = '$datos' OR idEmisor = '$datos' AND idRemitente = '$user'";
 $r2 = mysqli_query($conexio, $sql2);
+$rows = mysqli_num_rows($r2);
+// echo $rows;
 
-
+if($rows == 0){
+	echo "0";
+}else{
 while($fila = mysqli_fetch_assoc($r2)){
 	$amigo2[] = Array('idChatA' => $fila['idChat'],'idEmisorA' => $fila['idEmisor'],'idRemitenteA' => $fila['idRemitente'],'mensajeA' => $fila['mensaje']);
 }
@@ -23,5 +27,7 @@ foreach($amigo2 as $codigo => $ins2){
 }
 
 echo "<mensajes>\n".implode("\n", $todos2). "<usuario>".$user."</usuario></mensajes>";
+}
+
 
 ?>

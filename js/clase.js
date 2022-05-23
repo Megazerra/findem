@@ -50,12 +50,22 @@ function redirect() {
 function redirect3() {
     window.location.href = "../html/register.html";
 }
+function redirect4() {
+    window.location.href = "../html/addFriend.html";
+}
 function redirect2() {
     cargar();
     setTimeout(function () {
         volver();
         window.location.href = "html/friends.html";
     }, 200);
+}
+function refresh(iden) {
+    var div = document.getElementById('mens');
+    while (div.firstChild) {
+        div.removeChild(div.firstChild);
+    }
+    mostrarId(iden);
 }
 function getLocation() {
     if (navigator.geolocation) {
@@ -218,38 +228,51 @@ function chats() {
     xhttp.send("i=");
 }
 function mostrarId(id) {
-    // alert(id.innerText);
     var div = document.getElementById('mens');
+    var div2 = document.getElementById('ge3');
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
             var parser = new DOMParser();
             var xmlDoc = parser.parseFromString(this.responseText, "text/xml");
             console.log(this.responseText);
-            var idA = xmlDoc.getElementsByTagName('idChatA');
-            var idE = xmlDoc.getElementsByTagName('idEmisorA');
-            var idR = xmlDoc.getElementsByTagName('idRemitenteA');
-            var us = xmlDoc.getElementsByTagName('usuario');
-            var mensajeA = xmlDoc.getElementsByTagName('mensajeA');
-            var msg = xmlDoc.getElementsByTagName('msg');
-            while (div.firstChild) {
-                div.removeChild(div.firstChild);
-            }
+            console.log(xmlDoc);
             var enviar = document.createElement('input');
             enviar.classList.add('enviar');
             enviar.placeholder = "enviar un mensaje...";
-            for (var i = 0; i < msg.length; i++) {
-                var p = document.createElement('p');
-                var men = document.createTextNode(mensajeA[i].childNodes[0].nodeValue);
-                if (idE[i].childNodes[0].nodeValue != us[0].childNodes[0].nodeValue) {
-                    p.classList.add("enviado");
+            div2.appendChild(enviar);
+            if (this.responseText == "0") {
+                var h2 = document.createElement('h2');
+                var txt = document.createTextNode('No tienes mensajes todavía.');
+                h2.appendChild(txt);
+                div.appendChild(h2);
+                h2.style.opacity = "0.4";
+                h2.style.textAlign = "center";
+                h2.style.marginTop = "300px";
+            }
+            else {
+                var idA = xmlDoc.getElementsByTagName('idChatA');
+                var idE = xmlDoc.getElementsByTagName('idEmisorA');
+                var idR = xmlDoc.getElementsByTagName('idRemitenteA');
+                var us = xmlDoc.getElementsByTagName('usuario');
+                var mensajeA = xmlDoc.getElementsByTagName('mensajeA');
+                var msg = xmlDoc.getElementsByTagName('msg');
+                for (var i = 0; i < msg.length; i++) {
+                    var p = document.createElement('p');
+                    var men = document.createTextNode(mensajeA[i].childNodes[0].nodeValue);
+                    if (idE[i].childNodes[0].nodeValue != us[0].childNodes[0].nodeValue) {
+                        p.classList.add("enviado");
+                    }
+                    else {
+                        p.classList.add("enviado2");
+                    }
+                    p.appendChild(men);
+                    div.appendChild(p);
+                    div.scroll({
+                        top: 10000,
+                        behavior: 'smooth'
+                    });
                 }
-                else {
-                    p.classList.add("enviado2");
-                }
-                p.appendChild(men);
-                div.appendChild(p);
-                div.appendChild(enviar);
             }
             enviar.addEventListener("keypress", function (event) {
                 if (event.key === "Enter") {
@@ -266,9 +289,7 @@ function mostrarId(id) {
                     xhttp.open("POST", "../php/insertMensaje.php", true);
                     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
                     xhttp.send("i=" + params);
-                    while (div.firstChild) {
-                        div.removeChild(div.firstChild);
-                    }
+                    refresh(id);
                 }
             });
         }
@@ -276,6 +297,33 @@ function mostrarId(id) {
     xhttp.open("POST", "../php/missatges.php", true);
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhttp.send("i=" + id.innerText);
+    while (div.firstChild) {
+        div.removeChild(div.firstChild);
+    }
 }
-// console.log(mensaje[i].childNodes[0].nodeValue+"--"+id[i].childNodes[0].nodeValue);
-// console.log(mensajeA[i].childNodes[0].nodeValue+"--"+idA[i].childNodes[0].nodeValue);
+function showPeople(user) {
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+            var par = new DOMParser();
+            var xmlDoc = par.parseFromString(this.responseText, "text/xml");
+            var userName = xmlDoc.getElementsByTagName('userName');
+            var me = xmlDoc.getElementsByTagName('user');
+            var nombre = xmlDoc.getElementsByTagName('nombre');
+            var apellido = xmlDoc.getElementsByTagName('apellido');
+            var div = document.getElementById('test');
+            while (div.firstChild) {
+                div.removeChild(div.firstChild);
+            }
+            for (var i = 0; i < userName.length; i++) {
+                var h1 = document.createElement('h1');
+                var txt = document.createTextNode(userName[i].childNodes[0].nodeValue);
+                h1.appendChild(txt);
+                div.appendChild(h1);
+            }
+        }
+    };
+    xhttp.open("POST", "../php/show.php", true);
+    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhttp.send("i=" + user);
+}

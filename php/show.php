@@ -1,14 +1,13 @@
 <?php
 include 'bbdd.php';
 session_start();
-
 $datos = trim($_POST["i"]);
-$separado = explode("-", $datos);
 $user = $_SESSION['username'];
-// echo "SESSION: ".$_SESSION['username'];
+if($datos != ''){
+	$sql = "SELECT * FROM usuario WHERE LOWER(userName) like LOWER('".$datos."%')";
+	$r = mysqli_query($conexio, $sql);
+}
 
-$sql = "SELECT * FROM usuario WHERE userName IN (SELECT am.idUsuarioAmigo FROM usuario us LEFT JOIN amigo am ON (am.idUsuario = us.userName) WHERE am.idUsuario = '$user')";
-$r = mysqli_query($conexio, $sql);
 
 
 while($fila = mysqli_fetch_assoc($r)){
