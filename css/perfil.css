@@ -239,3 +239,45 @@ body{
 .sear{
   position: relative;
 }
+
+
+.perf{
+  width: 510px  ;
+}
+
+
+.tex{
+  margin-top: 10%;
+}
+
+
+.name{
+  margin-top: 20px;
+}
+
+.añadir{
+  background-color: #F48907;
+  color: white;
+  border: none;
+  padding: 10px;
+  width: 100px;
+  margin-top: 30px;
+}
+
+.addi{
+  padding: 5px;
+  margin-top: 10px;
+  width: 100%;
+}
+
+.añadirbtn{
+  margin-top: 20px;
+  display: block;
+  margin: auto;
+  margin-right: auto;
+  margin-top: 20px;
+  padding: 8px;
+  border: 1px solid #F48907;
+  background: none;
+  color: #F48907;
+}

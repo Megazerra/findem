@@ -1,49 +1,4 @@
 "use strict";
-var Swal;
-// function renderButton() {
-//   gapi.signin2.render('gSignIn', {
-//       'scope': 'profile email',
-//       'width': 240,
-//       'height': 50,
-//       'longtitle': true,
-//       'theme': 'dark',
-//       'onsuccess': onSuccess,
-//       'onfailure': onFailure
-//   });
-// }
-// // Sign-in success callback
-// function onSuccess(googleUser) {
-//   // Get the Google profile data (basic)
-//   //var profile = googleUser.getBasicProfile();
-//   // Retrieve the Google account data
-//   gapi.client.load('oauth2', 'v2', function () {
-//       var request = gapi.client.oauth2.userinfo.get({
-//           'userId': 'me'
-//       });
-//       request.execute(function (resp) {
-//           // Display the user details
-//           var profileHTML = '<h3>Welcome '+resp.given_name+'! <a href="javascript:void(0);" onclick="signOut();">Sign out</a></h3>';
-//           profileHTML += '<img src="'+resp.picture+'"/><p><b>Google ID: </b>'+resp.id+'</p><p><b>Name: </b>'+resp.name+'</p><p><b>Email: </b>'+resp.email+'</p><p><b>Gender: </b>'+resp.gender+'</p><p><b>Locale: </b>'+resp.locale+'</p><p><b>Google Profile:</b> <a target="_blank" href="'+resp.link+'">click to view profile</a></p>';
-//           document.getElementsByClassName("userContent")[0].innerHTML = profileHTML;
-//           document.getElementById("gSignIn").style.display = "none";
-//           document.getElementsByClassName("userContent")[0].style.display = "block";
-//       });
-//   });
-// }
-// // Sign-in failure callback
-// function onFailure(error) {
-//   alert(error);
-// }
-// // Sign out the user
-// function signOut() {
-//   var auth2 = gapi.auth2.getAuthInstance();
-//   auth2.signOut().then(function () {
-//       document.getElementsByClassName("userContent")[0].innerHTML = '';
-//       document.getElementsByClassName("userContent")[0].style.display = "none";
-//       document.getElementById("gSignIn").style.display = "block";
-//   });
-//   auth2.disconnect();
-// }
 function redirect() {
     window.location.href = "../html/login.html";
 }
@@ -202,17 +157,18 @@ function chats() {
             var nombre = xmlDoc.getElementsByTagName('nombre');
             var apellido = xmlDoc.getElementsByTagName('apellido');
             var foto = xmlDoc.getElementsByTagName('foto');
+            console.log(this.responseText);
             for (var i = 0; i < userName.length; i++) {
                 var divuser = document.createElement('div');
                 divuser.id = userName[i].childNodes[0].nodeValue;
                 divuser.style.cursor = "pointer";
+                var image = document.createElement('img');
+                image.src = foto[i].childNodes[0].nodeValue;
+                image.setAttribute('class', 'image');
                 var h3 = document.createElement('h3');
                 var usern = document.createTextNode(userName[i].childNodes[0].nodeValue);
-                // var base64blob:any = foto[i].childNodes[0].nodeValue;
-                //  var image = document.createElement('img');
-                // image.src = 'data:image/png;base64,'+ encode64(userName[i].childNodes[0].nodeValue);
-                // div.appendChild(image);
                 h3.appendChild(usern);
+                divuser.appendChild(image);
                 divuser.appendChild(h3);
                 div.appendChild(divuser);
                 divuser.setAttribute('onclick', "mostrarId(" + userName[i].childNodes[0].nodeValue + ")");
@@ -315,6 +271,14 @@ function showPeople(user) {
             while (div.firstChild) {
                 div.removeChild(div.firstChild);
             }
+            if (user === '') {
+                var idea = document.getElementById('idea');
+                idea.style.visibility = "hidden";
+            }
+            else {
+                var idea = document.getElementById('idea');
+                idea.style.visibility = "visible";
+            }
             for (var i = 0; i < userName.length; i++) {
                 var h1 = document.createElement('h1');
                 var txt = document.createTextNode(userName[i].childNodes[0].nodeValue);
@@ -326,4 +290,96 @@ function showPeople(user) {
     xhttp.open("POST", "../php/show.php", true);
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhttp.send("i=" + user);
+}
+function perfil() {
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+            var par = new DOMParser();
+            var xmlDoc = par.parseFromString(this.responseText, "text/xml");
+            var userName = xmlDoc.getElementsByTagName('userName');
+            var me = xmlDoc.getElementsByTagName('user');
+            var nombre = xmlDoc.getElementsByTagName('nombre');
+            var apellido = xmlDoc.getElementsByTagName('apellido');
+            var foto = xmlDoc.getElementsByTagName('foto');
+            var div = document.getElementById('ima');
+            var div2 = document.getElementById('tex');
+            console.log(userName.length);
+            var input = document.createElement('input');
+            input.type = "submit";
+            input.value = "Crear";
+            input.setAttribute('class', 'añadir');
+            input.setAttribute('data-toggle', 'tooltip');
+            input.setAttribute('data-placement', 'top');
+            input.setAttribute('title', 'añadir publicacion');
+            input.onclick = function () { publicaciones(); };
+            var h3 = document.createElement('h3');
+            var h5 = document.createElement('h5');
+            h5.setAttribute('class', 'name');
+            var img = document.createElement('img');
+            img.src = foto[0].childNodes[0].nodeValue;
+            img.setAttribute('class', 'perf');
+            var user = document.createTextNode("@" + userName[0].childNodes[0].nodeValue);
+            var name = document.createTextNode(nombre[0].childNodes[0].nodeValue + apellido[0].childNodes[0].nodeValue);
+            h3.appendChild(user);
+            h5.appendChild(name);
+            div2.appendChild(h3);
+            div2.appendChild(h5);
+            div2.appendChild(input);
+            div.appendChild(img);
+            console.log(xmlDoc);
+        }
+    };
+    xhttp.open("POST", "../php/perfil.php", true);
+    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhttp.send("i=");
+}
+var desc = 0;
+function publicaciones() {
+    var div = document.getElementById('add');
+    var descripcion = document.createElement('input');
+    descripcion.placeholder = "Descripcion";
+    descripcion.id = "Descripcion";
+    var lugar = document.createElement('input');
+    lugar.placeholder = "Lugar";
+    lugar.id = "lugar";
+    var archivo = document.createElement('input');
+    archivo.type = "file";
+    archivo.id = "file";
+    var button = document.createElement('input');
+    button.type = "submit";
+    button.value = "Crear";
+    descripcion.setAttribute('class', 'addi');
+    lugar.setAttribute('class', 'addi');
+    archivo.setAttribute('class', 'addi');
+    button.setAttribute('class', 'añadirbtn');
+    button.onclick = function () { añadirpubli(); };
+    if (desc == 0) {
+        div.appendChild(archivo);
+        div.appendChild(descripcion);
+        div.appendChild(lugar);
+        div.appendChild(button);
+        desc++;
+    }
+    else {
+        div.innerText = '';
+        desc = 0;
+    }
+}
+function añadirpubli() {
+    var div = document.getElementById('add');
+    var desc = document.getElementById('Descripcion');
+    var lugar = document.getElementById('lugar');
+    var file = document.getElementById('file');
+    console.log(desc.value + lugar.value + file.files[0]);
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+            var par = new DOMParser();
+            var xmlDoc = par.parseFromString(this.responseText, "text/xml");
+        }
+    };
+    xhttp.open("POST", "../php/perfil.php", true);
+    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhttp.send("i=");
 }

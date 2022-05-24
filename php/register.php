@@ -22,7 +22,7 @@ if($count == 0){
 		$sql = "INSERT INTO usuario (userName, nombre, apellido, password, email, latitud, longitud, tipo, href) VALUES ('$separado[0]', '$separado[1]', '$separado[2]', '$separado[3]', '$separado[4]', '$lat', '$long', '$separado[5]', '$separado[6]')";
 
 	}else{
-		$sql = "INSERT INTO usuario (userName, nombre, apellido, password, email, latitud, longitud, tipo) VALUES ('$separado[0]', '$separado[1]', '$separado[2]', '$separado[3]', '$separado[4]', '$lat', '$long', '$separado[5]')";
+		$sql = "INSERT INTO usuario (userName, nombre, apellido, password, email, latitud, longitud, tipo, foto) VALUES ('$separado[0]', '$separado[1]', '$separado[2]', '$separado[3]', '$separado[4]', '$lat', '$long', '$separado[5]', '../imgs/profile.png')";
 	}
 	$r = mysqli_query($conexio, $sql);
 	$_SESSION['username'] = $separado[0];
@@ -30,13 +30,5 @@ if($count == 0){
 }else{
 	echo "0";
 }
-?>
-
-
-
-
-
-
-
 
 ?>

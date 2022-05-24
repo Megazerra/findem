@@ -7,9 +7,8 @@ $separado = explode("-", $datos);
 $user = $_SESSION['username'];
 // echo "SESSION: ".$_SESSION['username'];
 
-$sql = "SELECT * FROM usuario WHERE userName IN (SELECT am.idUsuarioAmigo FROM usuario us LEFT JOIN amigo am ON (am.idUsuario = us.userName) WHERE am.idUsuario = '$user')";
+$sql = "SELECT * FROM usuario WHERE userName = '$user'";
 $r = mysqli_query($conexio, $sql);
-
 
 while($fila = mysqli_fetch_assoc($r)){
 	$amigo[] = Array('userName' => $fila['userName'],'nombre' => $fila['nombre'],'apellido' => $fila['apellido'],'foto' => $fila['foto']);
@@ -23,6 +22,6 @@ foreach($amigo as $codigo => $ins){
 }
 	
 
-echo "<amigos>\n".implode("\n", $todos). "<user>".$user."</user></amigos>";
+echo "<amigos>".implode("\n", $todos). "<user>".$user."</user></amigos>";
 
 ?>
