@@ -6,7 +6,7 @@ function redirect3() {
     window.location.href = "../html/register.html";
 }
 function redirect4() {
-    window.location.href = "../html/addFriend.html";
+    window.location.href = "/html/perfil.html";
 }
 function redirect2() {
     cargar();
@@ -156,19 +156,19 @@ function chats() {
             var me = xmlDoc.getElementsByTagName('user');
             var nombre = xmlDoc.getElementsByTagName('nombre');
             var apellido = xmlDoc.getElementsByTagName('apellido');
-            var foto = xmlDoc.getElementsByTagName('foto');
-            console.log(this.responseText);
             for (var i = 0; i < userName.length; i++) {
                 var divuser = document.createElement('div');
                 divuser.id = userName[i].childNodes[0].nodeValue;
                 divuser.style.cursor = "pointer";
-                var image = document.createElement('img');
-                image.src = foto[i].childNodes[0].nodeValue;
-                image.setAttribute('class', 'image');
+                var x = xmlDoc.getElementsByTagName("foto")[i].childNodes[0].nodeValue;
+                var a = document.createElement("img");
+                a.setAttribute('class', 'image');
+                a.src = x;
                 var h3 = document.createElement('h3');
                 var usern = document.createTextNode(userName[i].childNodes[0].nodeValue);
                 h3.appendChild(usern);
-                divuser.appendChild(image);
+                // divuser.appendChild(image)
+                divuser.appendChild(a);
                 divuser.appendChild(h3);
                 div.appendChild(divuser);
                 divuser.setAttribute('onclick', "mostrarId(" + userName[i].childNodes[0].nodeValue + ")");
@@ -192,7 +192,6 @@ function mostrarId(id) {
             var parser = new DOMParser();
             var xmlDoc = parser.parseFromString(this.responseText, "text/xml");
             console.log(this.responseText);
-            console.log(xmlDoc);
             var enviar = document.createElement('input');
             enviar.classList.add('enviar');
             enviar.placeholder = "enviar un mensaje...";
@@ -237,7 +236,6 @@ function mostrarId(id) {
                         if (this.readyState == 4 && this.status == 200) {
                             var parser = new DOMParser();
                             var xmlDoc = parser.parseFromString(this.responseText, "text/xml");
-                            console.log(this.responseText);
                         }
                     };
                     event.preventDefault();
@@ -304,7 +302,6 @@ function perfil() {
             var foto = xmlDoc.getElementsByTagName('foto');
             var div = document.getElementById('ima');
             var div2 = document.getElementById('tex');
-            console.log(userName.length);
             var input = document.createElement('input');
             input.type = "submit";
             input.value = "Crear";
@@ -316,9 +313,10 @@ function perfil() {
             var h3 = document.createElement('h3');
             var h5 = document.createElement('h5');
             h5.setAttribute('class', 'name');
-            var img = document.createElement('img');
-            img.src = foto[0].childNodes[0].nodeValue;
-            img.setAttribute('class', 'perf');
+            var x = xmlDoc.getElementsByTagName("foto")[0].childNodes[0].nodeValue;
+            var a = document.createElement("img");
+            a.setAttribute('class', 'perf');
+            a.src = x;
             var user = document.createTextNode("@" + userName[0].childNodes[0].nodeValue);
             var name = document.createTextNode(nombre[0].childNodes[0].nodeValue + apellido[0].childNodes[0].nodeValue);
             h3.appendChild(user);
@@ -326,13 +324,13 @@ function perfil() {
             div2.appendChild(h3);
             div2.appendChild(h5);
             div2.appendChild(input);
-            div.appendChild(img);
-            console.log(xmlDoc);
+            div.appendChild(a);
         }
     };
     xhttp.open("POST", "../php/perfil.php", true);
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhttp.send("i=");
+    showpublis();
 }
 var desc = 0;
 function publicaciones() {
@@ -346,6 +344,7 @@ function publicaciones() {
     var archivo = document.createElement('input');
     archivo.type = "file";
     archivo.id = "file";
+    archivo.name = "file";
     var button = document.createElement('input');
     button.type = "submit";
     button.value = "Crear";
@@ -371,15 +370,95 @@ function añadirpubli() {
     var desc = document.getElementById('Descripcion');
     var lugar = document.getElementById('lugar');
     var file = document.getElementById('file');
-    console.log(desc.value + lugar.value + file.files[0]);
+    var formData = new FormData();
+    formData.append("image", file.files[0]);
+    formData.append("descripcion", desc.value);
+    formData.append("lugar", lugar.value);
+    fetch("../php/publicaciones.php", {
+        method: 'POST',
+        body: formData,
+    })
+        .then(function (respuesta) { return respuesta.text(); })
+        .then(function (decodificado) {
+        console.log(decodificado);
+    });
+}
+function showpublis() {
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
             var par = new DOMParser();
             var xmlDoc = par.parseFromString(this.responseText, "text/xml");
+            var div = document.getElementById('row');
+            var id = xmlDoc.getElementsByTagName('idPost');
+            for (var i = 0; i < xmlDoc.getElementsByTagName("archivo").length; i++) {
+                var div2 = document.createElement('div');
+                div2.setAttribute('class', 'col-md-4');
+                var x = xmlDoc.getElementsByTagName("archivo")[i].childNodes[0].nodeValue;
+                var a = document.createElement("img");
+                a.setAttribute('class', 'publicacion');
+                a.src = x;
+                a.id = id[i].childNodes[0].nodeValue;
+                a.setAttribute('onclick', "mostrarPubli(" + id[i].childNodes[0].nodeValue + ")");
+                div.appendChild(div2);
+                div2.appendChild(a);
+            }
         }
     };
-    xhttp.open("POST", "../php/perfil.php", true);
+    xhttp.open("POST", "../php/showpubli.php", true);
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhttp.send("i=");
+}
+function mostrarPubli(id) {
+    var div = document.getElementById('foto');
+    var oscu = document.getElementById('gen');
+    oscu.style.opacity = "0.5";
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+            var par = new DOMParser();
+            var xmlDoc = par.parseFromString(this.responseText, "text/xml");
+            var div = document.getElementById('foto');
+            div.style.display = "block";
+            var id = xmlDoc.getElementsByTagName('idPost');
+            var desc = xmlDoc.getElementsByTagName('descripcion');
+            var lugar = xmlDoc.getElementsByTagName('lugar');
+            var input = document.createElement('input');
+            input.type = "submit";
+            input.setAttribute('class', 'cerrar');
+            input.value = "cerrar";
+            input.onclick = function () {
+                div.style.display = "none";
+                oscu.style.opacity = "1";
+            };
+            var div2 = document.createElement('div');
+            // div2.setAttribute('class', 'col-md-4');
+            div2.style;
+            var x = xmlDoc.getElementsByTagName("archivo")[0].childNodes[0].nodeValue;
+            var a = document.createElement("img");
+            a.setAttribute('class', 'publicacion2');
+            a.src = x;
+            var div3 = document.createElement('div');
+            var h3 = document.createElement('h3');
+            var descripcion = document.createTextNode(desc[0].childNodes[0].nodeValue);
+            h3.setAttribute('class', 'desc');
+            var h32 = document.createElement('h3');
+            var sitio = document.createTextNode(lugar[0].childNodes[0].nodeValue);
+            h32.setAttribute('class', 'desc');
+            while (div.firstChild) {
+                div.removeChild(div.firstChild);
+            }
+            h3.appendChild(descripcion);
+            h32.appendChild(sitio);
+            div3.appendChild(h3);
+            div3.appendChild(h32);
+            div2.appendChild(a);
+            div2.appendChild(input);
+            div.appendChild(div2);
+            div.appendChild(div3);
+        }
+    };
+    xhttp.open("POST", "../php/showpubliconcreta.php", true);
+    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhttp.send("i=" + id);
 }

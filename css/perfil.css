@@ -281,3 +281,49 @@ body{
   background: none;
   color: #F48907;
 }
+
+.add{
+  margin-top: 40px;
+}
+
+
+.publicacion{
+  width: 200px;
+}
+
+.publicacion2{
+  width: 300px;
+  display: block;
+  margin: auto;
+  margin-right: auto;
+}
+
+.foto{
+  background-color: white; 
+  position: absolute; 
+  z-index: 99; 
+  top: 0; 
+  height: 600px; 
+  width: 800px;
+  left: 25%;
+  top: 20%;
+  display: none;
+  box-shadow: 0px 4px 33px -12px rgba(0, 0, 0, 0.25);
+}
+
+
+.cerrar{
+  background-color: red;
+  color: white;
+  border: none;
+  position: absolute;
+  top: 20px;
+  right: 20px;
+}
+
+
+.desc{
+  text-align: center;
+  font-family: Arial, Helvetica, sans-serif;
+
+}
