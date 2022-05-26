@@ -264,6 +264,25 @@ body{
   margin-top: 30px;
 }
 
+.añadir2{
+  background-color: #6a6eb0;
+  color: white;
+  border: none;
+  padding: 10px;
+  width: 100px;
+  margin-top: 30px;
+  margin-left: 10px;
+}
+
+.añadir:hover{
+  background-color: #f3a546;
+}
+
+.añadir2:hover{
+  background-color: #8587c0;
+
+}
+
 .addi{
   padding: 5px;
   margin-top: 10px;
@@ -296,6 +315,7 @@ body{
   display: block;
   margin: auto;
   margin-right: auto;
+  margin-top: 20px;
 }
 
 .foto{
@@ -326,4 +346,32 @@ body{
   text-align: center;
   font-family: Arial, Helvetica, sans-serif;
 
+
+  
+}
+
+.desc2{
+  text-align: center;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 0.9em;
+  color:#414141;
+  
+}
+
+
+
+.like{
+  width: 40px;
+
+ 
+}
+
+.mg{
+  display: inline-block;
+
+}
+
+.divnew{
+  margin: auto;
+  width: fit-content;
 }

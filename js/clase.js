@@ -305,10 +305,18 @@ function perfil() {
             var input = document.createElement('input');
             input.type = "submit";
             input.value = "Crear";
+            var input2 = document.createElement('input');
+            input2.type = "submit";
+            input2.value = "Configurar";
             input.setAttribute('class', 'añadir');
             input.setAttribute('data-toggle', 'tooltip');
             input.setAttribute('data-placement', 'top');
             input.setAttribute('title', 'añadir publicacion');
+            input2.setAttribute('class', 'añadir2');
+            input2.setAttribute('data-toggle', 'tooltip');
+            input2.setAttribute('data-placement', 'top');
+            input2.setAttribute('title', 'añadir publicacion');
+            input2.onclick = function () { configurar(); };
             input.onclick = function () { publicaciones(); };
             var h3 = document.createElement('h3');
             var h5 = document.createElement('h5');
@@ -324,6 +332,7 @@ function perfil() {
             div2.appendChild(h3);
             div2.appendChild(h5);
             div2.appendChild(input);
+            div2.appendChild(input2);
             div.appendChild(a);
         }
     };
@@ -382,6 +391,7 @@ function añadirpubli() {
         .then(function (decodificado) {
         console.log(decodificado);
     });
+    location.reload();
 }
 function showpublis() {
     var xhttp = new XMLHttpRequest();
@@ -410,6 +420,7 @@ function showpublis() {
     xhttp.send("i=");
 }
 function mostrarPubli(id) {
+    var iden = id;
     var div = document.getElementById('foto');
     var oscu = document.getElementById('gen');
     oscu.style.opacity = "0.5";
@@ -423,6 +434,8 @@ function mostrarPubli(id) {
             var id = xmlDoc.getElementsByTagName('idPost');
             var desc = xmlDoc.getElementsByTagName('descripcion');
             var lugar = xmlDoc.getElementsByTagName('lugar');
+            var count = xmlDoc.getElementsByTagName('like');
+            var total = xmlDoc.getElementsByTagName('total');
             var input = document.createElement('input');
             input.type = "submit";
             input.setAttribute('class', 'cerrar');
@@ -431,6 +444,20 @@ function mostrarPubli(id) {
                 div.style.display = "none";
                 oscu.style.opacity = "1";
             };
+            var img = document.createElement('img');
+            img.setAttribute('class', 'like');
+            img.id = "likes";
+            if (count[0].childNodes[0].nodeValue === "0") {
+                img.src = "../imgs/notliked.png";
+            }
+            else {
+                img.src = "../imgs/liked.png";
+            }
+            img.onclick = function () {
+                likes(iden);
+            };
+            console.log(count[0].childNodes[0].nodeValue);
+            console.log(total[0].childNodes[0].nodeValue);
             var div2 = document.createElement('div');
             // div2.setAttribute('class', 'col-md-4');
             div2.style;
@@ -439,18 +466,28 @@ function mostrarPubli(id) {
             a.setAttribute('class', 'publicacion2');
             a.src = x;
             var div3 = document.createElement('div');
+            div3.id = "div3";
             var h3 = document.createElement('h3');
             var descripcion = document.createTextNode(desc[0].childNodes[0].nodeValue);
             h3.setAttribute('class', 'desc');
             var h32 = document.createElement('h3');
             var sitio = document.createTextNode(lugar[0].childNodes[0].nodeValue);
-            h32.setAttribute('class', 'desc');
+            h32.setAttribute('class', 'desc2');
+            var tot = document.createElement('h4');
+            tot.setAttribute('class', 'mg');
+            var txttot = document.createTextNode(total[0].childNodes[0].nodeValue + " Me gusta");
+            tot.appendChild(txttot);
             while (div.firstChild) {
                 div.removeChild(div.firstChild);
             }
             h3.appendChild(descripcion);
             h32.appendChild(sitio);
             div3.appendChild(h3);
+            var divnew = document.createElement('div');
+            divnew.setAttribute('class', 'divnew');
+            divnew.appendChild(img);
+            divnew.appendChild(tot);
+            div3.appendChild(divnew);
             div3.appendChild(h32);
             div2.appendChild(a);
             div2.appendChild(input);
@@ -461,4 +498,29 @@ function mostrarPubli(id) {
     xhttp.open("POST", "../php/showpubliconcreta.php", true);
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhttp.send("i=" + id);
+}
+var l = 0;
+function likes(id) {
+    var div = document.getElementById('div3');
+    var xhttp = new XMLHttpRequest();
+    var like = document.getElementById('likes');
+    l++;
+    xhttp.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+            var par = new DOMParser();
+            var xmlDoc = par.parseFromString(this.responseText, "text/xml");
+            var string = this.responseText.split("-");
+            console.log(string[0]);
+            if (string[0] === "in") {
+                like.src = '../imgs/liked.png';
+            }
+            else if (string[0] === "out") {
+                like.src = '../imgs/notliked.png';
+            }
+        }
+    };
+    var params = id + "-" + l;
+    xhttp.open("POST", "../php/likes.php", true);
+    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhttp.send("i=" + params);
 }
