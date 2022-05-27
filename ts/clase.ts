@@ -231,10 +231,10 @@ function mostrarId(id: any) {
       console.log(this.responseText);
 
 
-      var enviar: any = document.createElement('input');
-      enviar.classList.add('enviar');
-      enviar.placeholder = "enviar un mensaje...";
-      div2.appendChild(enviar);
+      // var enviar: any = document.createElement('input');
+      // enviar.classList.add('enviar');
+      // enviar.placeholder = "enviar un mensaje...";
+      // div2.appendChild(enviar);
       if (this.responseText == "0") {
         var h2: any = document.createElement('h2');
         var txt: any = document.createTextNode('No tienes mensajes todavía.')
@@ -251,23 +251,36 @@ function mostrarId(id: any) {
         var us: any = xmlDoc.getElementsByTagName('usuario');
         var mensajeA: any = xmlDoc.getElementsByTagName('mensajeA');
         var msg: any = xmlDoc.getElementsByTagName('msg');
+
         for (var i: any = 0; i < msg.length; i++) {
           var p: any = document.createElement('p');
+          p.style.wordWrap = "break-word";
           var men: any = document.createTextNode(mensajeA[i].childNodes[0].nodeValue);
-          if (idE[i].childNodes[0].nodeValue != us[0].childNodes[0].nodeValue) {
-            p.classList.add("enviado");
-          } else {
-            p.classList.add("enviado2");
 
+          
+          if (idE[i].childNodes[0].nodeValue != us[0].childNodes[0].nodeValue) {
+            var container:any = document.createElement('div');
+            var container2:any = document.createElement('div');
+            container.setAttribute('class', 'inlineContainer');
+            container2.setAttribute('class', 'otherBubble other');
+            p.appendChild(men);
+            container2.appendChild(p);
+            container.appendChild(container2);
+          } else {
+            var container:any = document.createElement('div');
+            var container2:any = document.createElement('div');
+            container.setAttribute('class', 'inlineContainer own');
+            container2.setAttribute('class', 'ownBubble own');
+            p.appendChild(men);
+            container2.appendChild(p);
+            container.appendChild(container2);
           }
 
-          p.appendChild(men);
-          div.appendChild(p);
-
-          div.scroll({
-            top: 10000,
-            behavior: 'smooth'
-          });
+         
+          div.appendChild(container);
+          var padre:any =  document.getElementById('padre');
+          padre.scrollTo(0, document.body.scrollHeight);
+        
         }
       }
 
@@ -363,12 +376,13 @@ function showPeople(user: any) {
 
 
 function perfil() {
+
   var xhttp = new XMLHttpRequest();
   xhttp.onreadystatechange = function () {
     if (this.readyState == 4 && this.status == 200) {
+    
       var par = new DOMParser();
       var xmlDoc: any = par.parseFromString(this.responseText, "text/xml");
-
       var userName: any = xmlDoc.getElementsByTagName('userName');
       var me: any = xmlDoc.getElementsByTagName('user');
       var nombre: any = xmlDoc.getElementsByTagName('nombre');
@@ -377,7 +391,7 @@ function perfil() {
       var div: any = document.getElementById('ima');
       var div2: any = document.getElementById('tex');
 
-
+  
 
       var input: any = document.createElement('input');
       input.type = "submit";
@@ -395,40 +409,39 @@ function perfil() {
       input2.setAttribute('class', 'añadir2');
       input2.setAttribute('data-toggle', 'tooltip');
       input2.setAttribute('data-placement', 'top');
-      input2.setAttribute('title', 'añadir publicacion');
+      input2.setAttribute('title', 'Configuración');
 
 
-      input2.onclick = function () { configurar() };
+      input2.onclick = function () {
+        configurar();
+        
+      }
       input.onclick = function () { publicaciones() };
-      var h3: any = document.createElement('h3');
-      var h5: any = document.createElement('h5');
-      h5.setAttribute('class', 'name');
+        var h3: any = document.createElement('h3');
+        var h5: any = document.createElement('h5');
+        h5.setAttribute('class', 'name');
 
-      var x = xmlDoc.getElementsByTagName("foto")[0].childNodes[0].nodeValue;
-      var a = document.createElement("img");
-      a.setAttribute('class', 'perf');
-      a.src = x;
-      var user: any = document.createTextNode("@" + userName[0].childNodes[0].nodeValue);
-      var name: any = document.createTextNode(nombre[0].childNodes[0].nodeValue + apellido[0].childNodes[0].nodeValue);
-      h3.appendChild(user);
-      h5.appendChild(name);
-      div2.appendChild(h3);
-      div2.appendChild(h5);
-      div2.appendChild(input);
-      div2.appendChild(input2);
-      div.appendChild(a);
+        var x = xmlDoc.getElementsByTagName("foto")[0].childNodes[0].nodeValue;
+        var a = document.createElement("img");
+        a.setAttribute('class', 'perf');
+        a.src = x;
+        var user: any = document.createTextNode("@" + userName[0].childNodes[0].nodeValue);
+        var name: any = document.createTextNode(nombre[0].childNodes[0].nodeValue + apellido[0].childNodes[0].nodeValue);
+        h3.appendChild(user);
+        h5.appendChild(name);
+        div2.appendChild(h3);
+        div2.appendChild(h5);
+        div2.appendChild(input);
+        div2.appendChild(input2);
+        div.appendChild(a);
 
-
-
-
-    }
-
-  };
-
-  xhttp.open("POST", "../php/perfil.php", true);
-  xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-  xhttp.send("i=");
-  showpublis();
+    };
+}
+    xhttp.open("POST", "../php/perfil.php", true);
+    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhttp.send("i=");
+    showpublis();
+  
 }
 
 var desc: any = 0;
@@ -618,5 +631,9 @@ function likes(id: any) {
   xhttp.open("POST", "../php/likes.php", true);
   xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
   xhttp.send("i=" + params);
+}
 
+
+function configurar(){
+  alert("a");
 }

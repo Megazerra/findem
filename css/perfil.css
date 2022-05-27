@@ -168,6 +168,7 @@ body{
   margin-left: 80%;
   width: fit-content;
   max-width: 167px;
+  overflow:hidden;
 }
 
 /* .enviado2{
@@ -307,7 +308,11 @@ body{
 
 
 .publicacion{
-  width: 200px;
+  margin-top: 5px;
+  float: left;
+  width: 435px;
+  height: 246px;
+  object-fit: cover;
 }
 
 .publicacion2{

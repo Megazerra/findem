@@ -192,10 +192,10 @@ function mostrarId(id) {
             var parser = new DOMParser();
             var xmlDoc = parser.parseFromString(this.responseText, "text/xml");
             console.log(this.responseText);
-            var enviar = document.createElement('input');
-            enviar.classList.add('enviar');
-            enviar.placeholder = "enviar un mensaje...";
-            div2.appendChild(enviar);
+            // var enviar: any = document.createElement('input');
+            // enviar.classList.add('enviar');
+            // enviar.placeholder = "enviar un mensaje...";
+            // div2.appendChild(enviar);
             if (this.responseText == "0") {
                 var h2 = document.createElement('h2');
                 var txt = document.createTextNode('No tienes mensajes todavía.');
@@ -214,19 +214,29 @@ function mostrarId(id) {
                 var msg = xmlDoc.getElementsByTagName('msg');
                 for (var i = 0; i < msg.length; i++) {
                     var p = document.createElement('p');
+                    p.style.wordWrap = "break-word";
                     var men = document.createTextNode(mensajeA[i].childNodes[0].nodeValue);
                     if (idE[i].childNodes[0].nodeValue != us[0].childNodes[0].nodeValue) {
-                        p.classList.add("enviado");
+                        var container = document.createElement('div');
+                        var container2 = document.createElement('div');
+                        container.setAttribute('class', 'inlineContainer');
+                        container2.setAttribute('class', 'otherBubble other');
+                        p.appendChild(men);
+                        container2.appendChild(p);
+                        container.appendChild(container2);
                     }
                     else {
-                        p.classList.add("enviado2");
+                        var container = document.createElement('div');
+                        var container2 = document.createElement('div');
+                        container.setAttribute('class', 'inlineContainer own');
+                        container2.setAttribute('class', 'ownBubble own');
+                        p.appendChild(men);
+                        container2.appendChild(p);
+                        container.appendChild(container2);
                     }
-                    p.appendChild(men);
-                    div.appendChild(p);
-                    div.scroll({
-                        top: 10000,
-                        behavior: 'smooth'
-                    });
+                    div.appendChild(container);
+                    var padre = document.getElementById('padre');
+                    padre.scrollTo(0, document.body.scrollHeight);
                 }
             }
             enviar.addEventListener("keypress", function (event) {
@@ -315,8 +325,10 @@ function perfil() {
             input2.setAttribute('class', 'añadir2');
             input2.setAttribute('data-toggle', 'tooltip');
             input2.setAttribute('data-placement', 'top');
-            input2.setAttribute('title', 'añadir publicacion');
-            input2.onclick = function () { configurar(); };
+            input2.setAttribute('title', 'Configuración');
+            input2.onclick = function () {
+                configurar();
+            };
             input.onclick = function () { publicaciones(); };
             var h3 = document.createElement('h3');
             var h5 = document.createElement('h5');
@@ -335,6 +347,7 @@ function perfil() {
             div2.appendChild(input2);
             div.appendChild(a);
         }
+        ;
     };
     xhttp.open("POST", "../php/perfil.php", true);
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
@@ -523,4 +536,7 @@ function likes(id) {
     xhttp.open("POST", "../php/likes.php", true);
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhttp.send("i=" + params);
+}
+function configurar() {
+    alert("a");
 }

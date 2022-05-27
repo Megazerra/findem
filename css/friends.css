@@ -75,28 +75,53 @@ body{
     height: 700px;
     background: #FFFFFF;
   box-shadow: 0px 4px 33px -12px rgba(0, 0, 0, 0.25);
+  border: 1px solid #f48907;
+  border-radius: 8px;
   }
 
 .ge2{
-  margin-top: 9.9%;
-  
-    background-color: white;
-    border-radius: 5px;
-    height: 700px;
-    background: #FFFFFF;
-  box-shadow: 0px 4px 33px -12px rgba(0, 0, 0, 0.25);
-  position: relative;
-  
+    padding: 10px 10px;
+	  display: flex;
+	  justify-content: flex-end;
+	  flex-direction: column;
+	  align-self: flex-end;
   }
 
-  .ge2{
-    margin-top: 9.9%;
-    
-    position: relative;
-    overflow-y: scroll;
-    /* overflow-x: hidden; */
-    }
+  .inlineContainer {
+    display: inline-flex;
+  }
+  .inlineContainer.own {
+    flex-direction: row-reverse;
+  }
   
+  .ownBubble {
+	min-width: 60px;
+	max-width: 700px;
+	padding: 14px 18px;
+  margin: 6px 8px;
+	background-color: #7b7eaf;
+    color: white;
+	border-radius: 16px 16px 0 16px;
+	border: 1px solid white;
+ 
+}
+.otherBubble {
+	min-width: 60px;
+	max-width: 700px;
+	padding: 14px 18px;
+  margin: 6px 8px;
+  background-color: #ffa83f;
+  color: white;
+	border-radius: 16px 16px 16px 0;
+	border: 1px solid white;
+  
+}
+.own {
+	align-self: flex-end;
+}
+.other {
+	align-self: flex-start;
+}
 
 
 .ge3{
@@ -120,14 +145,14 @@ body{
 
 .inside > div:hover{
   /* border: 1px solid black; */
-  background-color:rgba(228, 225, 225, 0.25)
+  background-color:#fac27e
  
 }
 
 
 
 .me{
-  border-bottom: 1px solid black;
+  border-bottom: 1px solid #f48907;
 }
 
 .me > h3{
@@ -150,17 +175,21 @@ body{
 
 
 .enviado{
-  background-color: rgb(250 250 250);
+
+  /* background-color: rgb(250 250 250);
     border: 1px solid rgb(201, 201, 201);
     width: fit-content;
     padding: 10px;
     border-radius: 20px;
     margin-top: 10px;
-    margin-left: 20px;
+    margin-left: 10px;
+  word-wrap: break-word;
+  
+  max-width: 300px; */
 }
 
 .enviado2{
-  text-align: left;
+  /* text-align: left;
   background-color: rgb(242 239 239);
   border: 1px solid rgb(201, 201, 201);
   padding: 10px;
@@ -169,6 +198,8 @@ body{
   margin-left: 80%;
   width: fit-content;
   max-width: 167px;
+  overflow:hidden;
+  word-wrap: break-word; */
 }
 
 /* .enviado2{
@@ -241,95 +272,103 @@ body{
   position: relative;
 }
 
-/* 
-@property --rotate {
-  syntax: "<angle>";
-  initial-value: 132deg;
-  inherits: false;
+.padre{
+  background-color: #ffffff;
+  margin-top: 9.9%;
+  display: block;
+  overflow-y: scroll;
+  height: 700px;
+  border: 1px solid #f48907;
+  border-radius: 8px;
+  
 }
 
-:root {
-  --card-height: 65vh;
-  --card-width: calc(var(--card-height) / 1.5);
+
+
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 5px;
+  display: block
+}
+::-webkit-scrollbar-thumb {
+  background: #e4eaf5;
+  border-radius: 8px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgb(196, 201, 211)
 }
 
 
-
-.ge2 {
-  background: #191c29;
-  width: var(--card-width);
-  height: var(--card-height);
-  padding: 3px;
-  position: relative;
-  border-radius: 6px;
+.testing {
+  
+  width: 100%;
+  height: 100vh;
+  display: flex;
   justify-content: center;
   align-items: center;
-  text-align: center;
-  display: flex;
-  font-size: 1.5em;
-  color: rgb(88 199 250 / 0%);
-  cursor: pointer;
-  font-family: cursive;
+  flex-direction: column;
 }
 
-.ge2:hover {
-  color: rgb(88 199 250 / 100%);
-  transition: color 1s;
-}
-.ge2:hover:before, .ge2:hover:after {
-  animation: none;
-  opacity: 0;
+h1 {
+  color: white;
 }
 
-
-.ge2::before {
-  content: "";
-  width: 104%;
-  height: 102%;
-  border-radius: 8px;
-  background-image: linear-gradient(
-    var(--rotate)
-    , #5ddcff, #3c67e3 43%, #4e00c2);
-    position: absolute;
-    z-index: -1;
-    top: -1%;
-    left: -2%;
-    animation: spin 2.5s linear infinite;
+/** This is the css of the input **/
+#w-input-container {
+  width: 500px;
+  min-height: 20px;
+  box-sizing: border-box;
+  padding: 9px 18px 11px;
+  margin: 5px 10px;
+  background-color: #fff;
+  border: 1px solid rgb(87, 87, 87);
+  border-radius: 21px;
+  display: block;
+  margin: auto;
+  margin-right: auto;
+  margin-top: 10px;
 }
 
-.ge2::after {
+.w-input-text-group {
+  position: relative;
+}
+
+.w-placeholder {
+  color: #a0a0a0;
+  top: 0;
+  pointer-events: none;
+  user-select: none;
   position: absolute;
-  content: "";
-  top: calc(var(--card-height) / 6);
-  left: 0;
-  right: 0;
-  z-index: -1;
-  height: 100%;
-  width: 100%;
-  margin: 0 auto;
-  transform: scale(0.8);
-  filter: blur(calc(var(--card-height) / 6));
-  background-image: linear-gradient(
-    var(--rotate)
-    , #5ddcff, #3c67e3 43%, #4e00c2);
-    opacity: 1;
-  transition: opacity .5s;
-  animation: spin 2.5s linear infinite;
+  opacity: 0;
+  transition: 0.2s padding ease-in-out;
 }
 
-@keyframes spin {
-  0% {
-    --rotate: 0deg;
-  }
-  100% {
-    --rotate: 360deg;
-  }
+#w-input-text {
+  overflow-x: hidden;
+  overflow-y: auto;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  z-index: 1;
+  max-height: 100px;
+  min-height: 20px;
+  padding: 0 0 0 2px;
+  outline: 0;
+  transition: 0.2s padding ease-in-out;
 }
 
-a {
-  color: #212534;
-  text-decoration: none;
-  font-family: sans-serif;
-  font-weight: bold;
-  margin-top: 2rem;
-} */
+#w-input-text:empty + .w-placeholder {
+  opacity: 1;
+}
+
+#w-input-text:focus + .w-placeholder {
+  padding: 0 6px 0px;
+}
+
+#w-input-text:focus {
+  padding: 0 6px 0px;
+}
+
+
+
+
