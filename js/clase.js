@@ -167,7 +167,6 @@ function chats() {
                 var h3 = document.createElement('h3');
                 var usern = document.createTextNode(userName[i].childNodes[0].nodeValue);
                 h3.appendChild(usern);
-                // divuser.appendChild(image)
                 divuser.appendChild(a);
                 divuser.appendChild(h3);
                 div.appendChild(divuser);
@@ -191,11 +190,7 @@ function mostrarId(id) {
         if (this.readyState == 4 && this.status == 200) {
             var parser = new DOMParser();
             var xmlDoc = parser.parseFromString(this.responseText, "text/xml");
-            console.log(this.responseText);
-            // var enviar: any = document.createElement('input');
-            // enviar.classList.add('enviar');
-            // enviar.placeholder = "enviar un mensaje...";
-            // div2.appendChild(enviar);
+            // console.log(this.responseText);
             if (this.responseText == "0") {
                 var h2 = document.createElement('h2');
                 var txt = document.createTextNode('No tienes mensajes todavía.');
@@ -236,31 +231,37 @@ function mostrarId(id) {
                     }
                     div.appendChild(container);
                     var padre = document.getElementById('padre');
-                    padre.scrollTo(0, document.body.scrollHeight);
+                    padre.scrollTo(0, padre.scrollHeight);
                 }
             }
-            enviar.addEventListener("keypress", function (event) {
-                if (event.key === "Enter") {
-                    var xhttp = new XMLHttpRequest();
-                    xhttp.onreadystatechange = function () {
-                        if (this.readyState == 4 && this.status == 200) {
-                            var parser = new DOMParser();
-                            var xmlDoc = parser.parseFromString(this.responseText, "text/xml");
-                        }
-                    };
-                    event.preventDefault();
-                    var params = id.innerText + "-" + enviar.value;
-                    xhttp.open("POST", "../php/insertMensaje.php", true);
-                    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-                    xhttp.send("i=" + params);
-                    refresh(id);
-                }
-            });
         }
     };
     xhttp.open("POST", "../php/missatges.php", true);
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhttp.send("i=" + id.innerText);
+    var enviar = document.getElementById('w-input-text');
+    var hola = 0;
+    enviar.addEventListener("keyup", function (event) {
+        if (event.key === "Enter" && enviar.innerText != "") {
+            hola++;
+            console.log(enviar.innerText);
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    var parser = new DOMParser();
+                    var xmlDoc = parser.parseFromString(this.responseText, "text/xml");
+                }
+            };
+            var params = id.innerText + "-" + enviar.innerText;
+            console.log("contador: " + hola);
+            xhttp.open("POST", "../php/insertMensaje.php", true);
+            xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+            xhttp.send("i=" + params);
+            enviar.innerText = "";
+            refresh(id);
+            event.preventDefault();
+        }
+    });
     while (div.firstChild) {
         div.removeChild(div.firstChild);
     }
@@ -313,10 +314,12 @@ function perfil() {
             var div = document.getElementById('ima');
             var div2 = document.getElementById('tex');
             var input = document.createElement('input');
-            input.type = "submit";
-            input.value = "Crear";
+            input.type = "image";
+            input.value = 'crar';
+            input.src = '../imgs/add.svg';
             var input2 = document.createElement('input');
-            input2.type = "submit";
+            input2.type = "image";
+            input2.src = '../imgs/conf.svg';
             input2.value = "Configurar";
             input.setAttribute('class', 'añadir');
             input.setAttribute('data-toggle', 'tooltip');
@@ -416,7 +419,7 @@ function showpublis() {
             var id = xmlDoc.getElementsByTagName('idPost');
             for (var i = 0; i < xmlDoc.getElementsByTagName("archivo").length; i++) {
                 var div2 = document.createElement('div');
-                div2.setAttribute('class', 'col-md-4');
+                div2.setAttribute('class', 'col-md-4 col-md-3 col-sm-2');
                 var x = xmlDoc.getElementsByTagName("archivo")[i].childNodes[0].nodeValue;
                 var a = document.createElement("img");
                 a.setAttribute('class', 'publicacion');
@@ -538,5 +541,50 @@ function likes(id) {
     xhttp.send("i=" + params);
 }
 function configurar() {
-    alert("a");
+    var div = document.getElementById('config');
+    var xhttp = new XMLHttpRequest();
+    div.style.display = "block";
+    var divinside = document.createElement('div');
+    divinside.setAttribute('class', 'insidediv');
+    var foto = document.createElement('input');
+    foto.type = "file";
+    foto.setAttribute('class', 'custom-file-input');
+    var label_nombre = document.createElement('label');
+    label_nombre.setAttribute('for', 'name');
+    var label_text = document.createTextNode('Nombre');
+    label_nombre.appendChild(label_text);
+    label_nombre.style.marginRight = "3px";
+    var nombre = document.createElement('input');
+    nombre.id = "name";
+    var br = document.createElement('br');
+    var label_username = document.createElement('label');
+    label_username.setAttribute('for', 'username');
+    var label_text = document.createTextNode('Nombre de usuario');
+    label_username.appendChild(label_text);
+    label_username.style.marginRight = "3px";
+    var username = document.createElement('input');
+    username.id = "username";
+    var username = document.createElement('input');
+    xhttp.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+            var par = new DOMParser();
+            var xmlDoc = par.parseFromString(this.responseText, "text/xml");
+            var x = xmlDoc.getElementsByTagName("foto")[0].childNodes[0].nodeValue;
+            nombre.setAttribute('placeholder', xmlDoc.getElementsByTagName("nombre")[0].childNodes[0].nodeValue);
+            var a = document.createElement("img");
+            a.setAttribute('class', 'like');
+            a.src = x;
+            divinside.appendChild(a);
+            divinside.appendChild(foto);
+            divinside.appendChild(label_nombre);
+            divinside.appendChild(nombre);
+            divinside.appendChild(br);
+            divinside.appendChild(label_username);
+            divinside.appendChild(username);
+        }
+    };
+    xhttp.open("POST", "../php/perfil.php", true);
+    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhttp.send("i=");
+    div.appendChild(divinside);
 }
