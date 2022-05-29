@@ -291,6 +291,8 @@ function showPeople(user) {
             for (var i = 0; i < userName.length; i++) {
                 var h1 = document.createElement('h1');
                 var txt = document.createTextNode(userName[i].childNodes[0].nodeValue);
+                h1.id = userName[i].childNodes[0].nodeValue;
+                h1.setAttribute('onclick', "mostrarPerfil(" + userName[i].childNodes[0].nodeValue + ")");
                 h1.appendChild(txt);
                 div.appendChild(h1);
             }
@@ -299,6 +301,9 @@ function showPeople(user) {
     xhttp.open("POST", "../php/show.php", true);
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhttp.send("i=" + user);
+}
+function mostrarPerfil(id) {
+    alert(id);
 }
 function perfil() {
     var xhttp = new XMLHttpRequest();
@@ -548,43 +553,75 @@ function configurar() {
     divinside.setAttribute('class', 'insidediv');
     var foto = document.createElement('input');
     foto.type = "file";
-    foto.setAttribute('class', 'custom-file-input');
-    var label_nombre = document.createElement('label');
-    label_nombre.setAttribute('for', 'name');
-    var label_text = document.createTextNode('Nombre');
-    label_nombre.appendChild(label_text);
-    label_nombre.style.marginRight = "3px";
+    foto.id = "fotito";
+    foto.setAttribute('class', 'custom-file-input inp');
     var nombre = document.createElement('input');
     nombre.id = "name";
     var br = document.createElement('br');
-    var label_username = document.createElement('label');
-    label_username.setAttribute('for', 'username');
-    var label_text = document.createTextNode('Nombre de usuario');
-    label_username.appendChild(label_text);
-    label_username.style.marginRight = "3px";
     var username = document.createElement('input');
     username.id = "username";
-    var username = document.createElement('input');
+    var gmail = document.createElement('input');
+    gmail.id = "gmail";
+    var password = document.createElement('input');
+    password.id = "password";
+    var button = document.createElement('input');
+    button.type = "submit";
+    button.onclick = function () {
+        conf();
+    };
+    nombre.setAttribute('class', 'inp');
+    username.setAttribute('class', 'inp');
+    gmail.setAttribute('class', 'inp');
+    password.setAttribute('class', 'inp');
+    button.setAttribute('class', 'but inp');
     xhttp.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
             var par = new DOMParser();
             var xmlDoc = par.parseFromString(this.responseText, "text/xml");
             var x = xmlDoc.getElementsByTagName("foto")[0].childNodes[0].nodeValue;
-            nombre.setAttribute('placeholder', xmlDoc.getElementsByTagName("nombre")[0].childNodes[0].nodeValue);
+            nombre.setAttribute('placeholder', "Nombre (" + xmlDoc.getElementsByTagName("nombre")[0].childNodes[0].nodeValue + ")");
+            username.setAttribute('placeholder', "Username (" + xmlDoc.getElementsByTagName("userName")[0].childNodes[0].nodeValue + ")");
+            gmail.setAttribute('placeholder', "Username (" + xmlDoc.getElementsByTagName("email")[0].childNodes[0].nodeValue + ")");
+            password.setAttribute('placeholder', "Password");
             var a = document.createElement("img");
             a.setAttribute('class', 'like');
             a.src = x;
             divinside.appendChild(a);
             divinside.appendChild(foto);
-            divinside.appendChild(label_nombre);
             divinside.appendChild(nombre);
             divinside.appendChild(br);
-            divinside.appendChild(label_username);
             divinside.appendChild(username);
+            divinside.appendChild(br);
+            divinside.appendChild(gmail);
+            divinside.appendChild(br);
+            divinside.appendChild(password);
+            divinside.appendChild(button);
         }
     };
     xhttp.open("POST", "../php/perfil.php", true);
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhttp.send("i=");
     div.appendChild(divinside);
+}
+function conf() {
+    var username = document.getElementById('username');
+    var password = document.getElementById('password');
+    var gmail = document.getElementById('gmail');
+    var name = document.getElementById('name');
+    var file = document.getElementById('fotito');
+    var formData = new FormData();
+    formData.append("image", file.files[0]);
+    formData.append("username", username.value);
+    formData.append("gmail", gmail.value);
+    formData.append("name", name.value);
+    formData.append("password", password.value);
+    fetch("../php/config.php", {
+        method: 'POST',
+        body: formData,
+    })
+        .then(function (respuesta) { return respuesta.text(); })
+        .then(function (decodificado) {
+        console.log(decodificado);
+    });
+    // location.reload();
 }

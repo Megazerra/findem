@@ -339,6 +339,10 @@ function showPeople(user: any) {
       for (var i: any = 0; i < userName.length; i++) {
         var h1: any = document.createElement('h1');
         var txt: any = document.createTextNode(userName[i].childNodes[0].nodeValue);
+        h1.id = userName[i].childNodes[0].nodeValue;
+        h1.setAttribute('onclick', "mostrarPerfil(" + userName[i].childNodes[0].nodeValue + ")");
+
+
 
         h1.appendChild(txt);
         div.appendChild(h1);
@@ -354,6 +358,9 @@ function showPeople(user: any) {
   xhttp.send("i=" + user);
 }
 
+function mostrarPerfil(id:any){
+  alert(id);
+}
 
 function perfil() {
 
@@ -632,50 +639,56 @@ function configurar() {
 
   var foto:any = document.createElement('input');
   foto.type = "file";
-  foto.setAttribute('class', 'custom-file-input');
+  foto.id = "fotito";
+  foto.setAttribute('class', 'custom-file-input inp');
+  
 
 
-  var label_nombre:any = document.createElement('label');
-  label_nombre.setAttribute('for', 'name');
-  var label_text:any = document.createTextNode('Nombre');
-  label_nombre.appendChild(label_text);
-  label_nombre.style.marginRight = "3px";
+ 
   var nombre:any = document.createElement('input');
   nombre.id = "name";
-
   var br:any = document.createElement('br');
-  var label_username:any = document.createElement('label');
-  label_username.setAttribute('for', 'username');
-  var label_text:any = document.createTextNode('Nombre de usuario');
-  label_username.appendChild(label_text);
-  label_username.style.marginRight = "3px";
   var username:any = document.createElement('input');
   username.id = "username";
+  var gmail:any = document.createElement('input');
+  gmail.id = "gmail";
+  var password:any = document.createElement('input');
+  password.id = "password";
+  var button:any = document.createElement('input');
+  button.type = "submit";
 
-  
-  var username:any = document.createElement('input')
-  
+  button.onclick = function () {
+    conf();
+  }
 
+  nombre.setAttribute('class', 'inp');
+  username.setAttribute('class', 'inp');
+  gmail.setAttribute('class', 'inp');
+  password.setAttribute('class', 'inp');
+  button.setAttribute('class', 'but inp');
   xhttp.onreadystatechange = function () {
     if (this.readyState == 4 && this.status == 200) {
       var par = new DOMParser();
       var xmlDoc: any = par.parseFromString(this.responseText, "text/xml");
-     
       var x = xmlDoc.getElementsByTagName("foto")[0].childNodes[0].nodeValue;
-      nombre.setAttribute('placeholder', xmlDoc.getElementsByTagName("nombre")[0].childNodes[0].nodeValue)
+      nombre.setAttribute('placeholder', "Nombre ("+xmlDoc.getElementsByTagName("nombre")[0].childNodes[0].nodeValue+")");
+      username.setAttribute('placeholder', "Username ("+xmlDoc.getElementsByTagName("userName")[0].childNodes[0].nodeValue+")");
+      gmail.setAttribute('placeholder', "Username ("+xmlDoc.getElementsByTagName("email")[0].childNodes[0].nodeValue+")");
+      password.setAttribute('placeholder', "Password");
       var a = document.createElement("img");
       a.setAttribute('class', 'like');
       a.src = x;
       divinside.appendChild(a);
       divinside.appendChild(foto);
-
-      divinside.appendChild(label_nombre);
       divinside.appendChild(nombre);
       divinside.appendChild(br);
-      divinside.appendChild(label_username);
       divinside.appendChild(username);
+      divinside.appendChild(br);
+      divinside.appendChild(gmail);
+      divinside.appendChild(br);
+      divinside.appendChild(password);
+      divinside.appendChild(button);
 
-      
     }
   };
 
@@ -690,4 +703,28 @@ function configurar() {
 
 
 
+}
+
+function conf(){
+  var username: any = document.getElementById('username');
+  var password: any = document.getElementById('password')
+  var gmail: any = document.getElementById('gmail');
+  var name: any = document.getElementById('name');
+  var file: any = document.getElementById('fotito');
+  let formData = new FormData();
+
+  formData.append("image", file.files[0]);
+  formData.append("username", username.value);
+  formData.append("gmail", gmail.value);
+  formData.append("name", name.value);
+  formData.append("password", password.value);
+  fetch("../php/config.php", {
+    method: 'POST',
+    body: formData,
+  })
+    .then(respuesta => respuesta.text())
+    .then(decodificado => {
+      console.log(decodificado);
+    });
+  // location.reload();
 }

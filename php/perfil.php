@@ -12,12 +12,12 @@ $sql = "SELECT * FROM usuario WHERE userName = '$user'";
 $r = mysqli_query($conexio, $sql);
 
 while($fila = mysqli_fetch_assoc($r)){
-	$amigo[] = Array('userName' => $fila['userName'],'nombre' => $fila['nombre'],'apellido' => $fila['apellido'],'foto' => "data:image/png;base64," . base64_encode($fila['foto']));
+	$amigo[] = Array('userName' => $fila['userName'],'nombre' => $fila['nombre'],'apellido' => $fila['apellido'],'foto' => "data:image/png;base64," . base64_encode($fila['foto']),'email' => $fila['email']);
 	
 }
 
 foreach($amigo as $codigo => $ins){
-	$todos[] = "<usuario><userName>".$ins['userName']."</userName><nombre>".$ins['nombre']."</nombre><apellido>".$ins['apellido']."</apellido><foto>".$ins['foto']."</foto></usuario>";
+	$todos[] = "<usuario><userName>".$ins['userName']."</userName><nombre>".$ins['nombre']."</nombre><apellido>".$ins['apellido']."</apellido><foto>".$ins['foto']."</foto><email>".$ins['email']."</email></usuario>";
 }
 
 echo "<amigos>".implode("\n", $todos). "<user>".$user."</user></amigos>";
