@@ -1,0 +1,17 @@
+/*IMPORTS*/
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@1,200&display=swap');
+/*-------*/
+html{
+    font-family: Poppins;
+}
+
+#nav{
+    box-shadow: rgb(235, 235, 235) 0 10px 10px -5px;
+}
+#left-nav{
+    background-color: hsla(210, 9%, 18%, 0.9);
+    box-shadow: 20px 0px 20px -6px #d6d0d0 !important;
+}
+#general{
+    height: 100% !important;
+}

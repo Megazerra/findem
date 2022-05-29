@@ -3,6 +3,7 @@ include 'bbdd.php';
 session_start();
 $datos = trim($_POST["i"]);
 $user = $_SESSION['username'];
+
 if($datos != ''){
 	$sql = "SELECT * FROM usuario WHERE LOWER(userName) like LOWER('".$datos."%')";
 	$r = mysqli_query($conexio, $sql);

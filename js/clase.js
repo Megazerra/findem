@@ -183,6 +183,11 @@ function chats() {
     xhttp.send("i=");
 }
 function mostrarId(id) {
+    var padre = document.getElementById('padre');
+    padre.setAttribute('class', 'padre box-shadow pulse');
+    setTimeout(function () {
+        padre.setAttribute('class', 'padre box-shadow');
+    }, 100);
     var div = document.getElementById('mens');
     var div2 = document.getElementById('ge3');
     var xhttp = new XMLHttpRequest();
@@ -193,6 +198,7 @@ function mostrarId(id) {
             // console.log(this.responseText);
             if (this.responseText == "0") {
                 var h2 = document.createElement('h2');
+                h2.setAttribute('class', 'text-pop-up-top');
                 var txt = document.createTextNode('No tienes mensajes todavía.');
                 h2.appendChild(txt);
                 div.appendChild(h2);
@@ -215,7 +221,7 @@ function mostrarId(id) {
                         var container = document.createElement('div');
                         var container2 = document.createElement('div');
                         container.setAttribute('class', 'inlineContainer');
-                        container2.setAttribute('class', 'otherBubble other');
+                        container2.setAttribute('class', 'otherBubble other slide-in-left');
                         p.appendChild(men);
                         container2.appendChild(p);
                         container.appendChild(container2);
@@ -224,13 +230,12 @@ function mostrarId(id) {
                         var container = document.createElement('div');
                         var container2 = document.createElement('div');
                         container.setAttribute('class', 'inlineContainer own');
-                        container2.setAttribute('class', 'ownBubble own');
+                        container2.setAttribute('class', 'ownBubble own slide-in-right');
                         p.appendChild(men);
                         container2.appendChild(p);
                         container.appendChild(container2);
                     }
                     div.appendChild(container);
-                    var padre = document.getElementById('padre');
                     padre.scrollTo(0, padre.scrollHeight);
                 }
             }
@@ -272,6 +277,7 @@ function showPeople(user) {
         if (this.readyState == 4 && this.status == 200) {
             var par = new DOMParser();
             var xmlDoc = par.parseFromString(this.responseText, "text/xml");
+            console.log(this.responseText);
             var userName = xmlDoc.getElementsByTagName('userName');
             var me = xmlDoc.getElementsByTagName('user');
             var nombre = xmlDoc.getElementsByTagName('nombre');
@@ -303,7 +309,46 @@ function showPeople(user) {
     xhttp.send("i=" + user);
 }
 function mostrarPerfil(id) {
-    alert(id);
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+            console.log(this.responseText);
+            var par = new DOMParser();
+            var xmlDoc = par.parseFromString(this.responseText, "text/xml");
+            var userName = xmlDoc.getElementsByTagName('userName');
+            var me = xmlDoc.getElementsByTagName('user');
+            var nombre = xmlDoc.getElementsByTagName('nombre');
+            var apellido = xmlDoc.getElementsByTagName('apellido');
+            var foto = xmlDoc.getElementsByTagName('foto');
+            var div = document.getElementById('ima2');
+            var div2 = document.getElementById('tex2');
+            while (div.firstChild) {
+                div.removeChild(div.firstChild);
+            }
+            while (div2.firstChild) {
+                div2.removeChild(div2.firstChild);
+            }
+            var h3 = document.createElement('h3');
+            var h5 = document.createElement('h5');
+            h5.setAttribute('class', 'name');
+            var x = xmlDoc.getElementsByTagName("foto")[0].childNodes[0].nodeValue;
+            var a = document.createElement("img");
+            a.setAttribute('class', 'perf');
+            a.src = x;
+            var user = document.createTextNode("@" + userName[0].childNodes[0].nodeValue);
+            var name = document.createTextNode(nombre[0].childNodes[0].nodeValue + apellido[0].childNodes[0].nodeValue);
+            h3.appendChild(user);
+            h5.appendChild(name);
+            div2.appendChild(h3);
+            div2.appendChild(h5);
+            div.appendChild(a);
+        }
+        ;
+    };
+    xhttp.open("POST", "../php/perfilA.php", true);
+    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhttp.send("i=" + id.innerText);
+    showpublis2(id);
 }
 function perfil() {
     var xhttp = new XMLHttpRequest();
@@ -439,6 +484,35 @@ function showpublis() {
     xhttp.open("POST", "../php/showpubli.php", true);
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhttp.send("i=");
+}
+function showpublis2(id) {
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+            var par = new DOMParser();
+            var xmlDoc = par.parseFromString(this.responseText, "text/xml");
+            var div = document.getElementById('row2');
+            var id = xmlDoc.getElementsByTagName('idPost');
+            while (div.firstChild) {
+                div.removeChild(div.firstChild);
+            }
+            for (var i = 0; i < xmlDoc.getElementsByTagName("archivo").length; i++) {
+                var div2 = document.createElement('div');
+                div2.setAttribute('class', 'col-md-4 col-md-3 col-sm-2');
+                var x = xmlDoc.getElementsByTagName("archivo")[i].childNodes[0].nodeValue;
+                var a = document.createElement("img");
+                a.setAttribute('class', 'publicacion');
+                a.src = x;
+                a.id = id[i].childNodes[0].nodeValue;
+                a.setAttribute('onclick', "mostrarPubli(" + id[i].childNodes[0].nodeValue + ")");
+                div.appendChild(div2);
+                div2.appendChild(a);
+            }
+        }
+    };
+    xhttp.open("POST", "../php/showpubli2.php", true);
+    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhttp.send("i=" + id.innerText);
 }
 function mostrarPubli(id) {
     var iden = id;

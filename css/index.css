@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato&display=swap');
+
 .logo{
     width: 51px;
     margin-right: 40px;
@@ -49,3 +51,71 @@
   background-image: url('../imgs/locura.svg');
     
   }
+
+  nav{
+    box-shadow: 0px 4px 33px -12px rgb(0 0 0 / 25%);
+  }
+
+  .valorados{
+    border-top: 7px solid #6d71b2;
+    border-radius: 19px;
+    background-color: white;
+    box-shadow: 0px 4px 33px -12px rgb(0 0 0 / 25%);
+    height: 400px;
+  }
+
+  .amigos{
+    border-top: 7px solid #6d71b2;
+    border-radius: 19px;
+    background-color: white;
+    box-shadow: 0px 4px 33px -12px rgb(0 0 0 / 25%);
+    height: 400px;
+  }
+
+  .cercanas{
+    margin-top: 50px;
+    border-top: 7px solid #6d71b2;
+    border-radius: 19px;
+    box-shadow: 0px 4px 33px -12px rgb(0 0 0 / 25%);
+    height: 400px;
+  }
+
+  .sugerencias{
+    margin-top: 50px;
+    border-top: 7px solid #6d71b2;
+    border-radius: 19px;
+    background-color: white;
+    box-shadow: 0px 4px 33px -12px rgb(0 0 0 / 25%);
+    height: 400px;
+  }
+
+  .publis{
+
+    margin-top: -250px;
+    border-top: 7px solid #6d71b2;
+    border-radius: 19px;
+    background-color: white;
+    box-shadow: 0px 4px 33px -12px rgb(0 0 0 / 25%);
+    height: 700px;
+  }
+
+  .momentos{
+    border-top: 7px solid #6d71b2;
+    border-radius: 19px;
+    background-color: white;
+    box-shadow: 0px 4px 33px -12px rgb(0 0 0 / 25%);
+    height: 100px;
+  }
+
+  h3{
+    font-family: Lato;
+    text-align: center;
+    margin-top: 25px !important;
+
+  }
+
+  .altura{
+    height: 100px;
+  }
+
+ 

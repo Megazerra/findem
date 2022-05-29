@@ -5,14 +5,17 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../css/administracion.css">
+    <script src="../js/delDisco.js"></script>
+    <script src="../js/sweetalert2.all.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <title>Administración</title>
 </head>
 
-<body>
+<body onload="">
+
     <div id="general" class="row m-0 p-0">
-        <div id="left-nav" class="col-sm-2 col-md-1 col-lg-1">
+        <div id="left-nav" class="col-sm-3 col-lg-1">
             <div class="row justify-content-center">
                 <ul class="nav flex-column">
                     <li class="nav-item">
@@ -28,7 +31,6 @@
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="./addUser.html">Usuario</a></li>
                             <li><a class="dropdown-item" href="./addDiscoteca.html">Discoteca</a></li>
-                            <li><a class="dropdown-item" href="#"></a></li>
                             <li>
                                 <hr class="dropdown-divider">
                             </li>
@@ -65,10 +67,22 @@
                 </ul>
             </div>
         </div>
-        <div class="col-sm-9 col-md-10 col-lg-10">
-            <div class="row">
-                <div class="col-12">
-                    <h1>REPORTES</h1>
+        <div id="right-sec" class="col-sm-9 col-lg-11">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-4 ">
+                        <h1 class="bg-secondary mt-5 text-light text-center">Eliminar Discoteca</h1>
+                        <label class="d-block" for="filtro">Buscar discotecas</label>
+                        <div class="d-flex mb-3 bd-highlight ms-auto">
+                            <input id="filtro" class="form-control border-dark border-2" type="search" placeholder="Filtrar">
+                            <button id="btnFil" class="btn btn-outline-dark ms-2" onclick="infoDisco()">Filtrar</button>
+                        </div>
+                        <label class="d-block" for="disco">Selecionar una discoteca</label>
+                        <select id="disco" class="form-select" disabled>
+                            <option selected value="error">Seleciona la discoteca</option>
+                        </select>
+                        <button id="delBtn" class="btn btn-danger mt-3 col-12" onclick="eliminar()"disabled>ELIMINAR</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -78,6 +92,6 @@
 <!-- BOOTSTRAP JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
-</script>
+    </script>
 
 </html>

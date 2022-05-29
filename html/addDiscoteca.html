@@ -5,14 +5,17 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../css/administracion.css">
+    <link rel="stylesheet" href="../css/addUser.css">
+    <script src="../js/discoteca.js"></script>
+    <script src="../js/sweetalert2.all.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <title>Administración</title>
 </head>
 
-<body>
+<body onload="mostrarDiscotecas('sin', 0, 'ss');">
     <div id="general" class="row m-0 p-0">
-        <div id="left-nav" class="col-sm-2 col-md-1 col-lg-1">
+        <div id="left-nav" class="col-sm-3 col-lg-1">
             <div class="row justify-content-center">
                 <ul class="nav flex-column">
                     <li class="nav-item">
@@ -28,7 +31,6 @@
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="./addUser.html">Usuario</a></li>
                             <li><a class="dropdown-item" href="./addDiscoteca.html">Discoteca</a></li>
-                            <li><a class="dropdown-item" href="#"></a></li>
                             <li>
                                 <hr class="dropdown-divider">
                             </li>
@@ -65,10 +67,52 @@
                 </ul>
             </div>
         </div>
-        <div class="col-sm-9 col-md-10 col-lg-10">
-            <div class="row">
-                <div class="col-12">
-                    <h1>REPORTES</h1>
+        <div id="right-sec" class="col-sm-9 col-lg-11">
+            <div class="container">
+                <div class="row">
+                    <div class="col-5 border-4 border-end border-secondary">
+                        <h1 class="m-5 mb-0 bg-secondary text-center p-1 text-white">Agregar Discoteca</h1>
+                        <div class="mx-5 pt-3 border-5 border-start border-end border-bottom border-secondary">
+                            <div class="row justify-content-center">
+                                <div class="col-11">
+                                    <label class="d-block" for="nombre">Nombre</label>
+                                    <input id="nombre" class="d-block form-control" type="text">
+                                    <label class="d-block mt-2" for="direccion">Direccion</label>
+                                    <input id="direccion" class="d-block form-control" type="text">
+                                    <label class="d-block mt-2" for="horario">Horario</label>
+                                    <input id="horario" class="d-block form-control" type="text">
+                                    <label class="d-block mt-2" for="url">URL de la discoteca</label>
+                                    <input id="url" class="d-block form-control" type="text">
+                                    <label class="d-block mt-2" for="url">Latitud</label>
+                                    <input id="lati" class="d-block form-control" type="text">
+                                    <label class="d-block mt-2" for="url">Longitud</label>
+                                    <input id="longi" class="d-block form-control" type="text">
+                                    <label class="d-block mt-2" for="url">Imagen del logo</label>
+                                    <input id="img" class="d-block form-control" type="file">
+                                    <label class="d-block mt-2" for="descripcion">Descripcion</label>
+                                    <textarea class="form-control" name="descripcion" id="descripcion" rows="5"></textarea>
+                                    <button onclick="addDisco();"
+                                        class="my-4 btn btn-secondary col-12 mx-auto d-grid">CREAR</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-7">
+                        <div class="d-flex flex-row bg-secondary mt-5 ms-5">
+                            <div class="d-flex p-3">
+                                <h1 class="ms-4 text-white">Discotecas</h1>
+                            </div>
+                            <div class="d-flex p-4 bd-highlight ms-auto">
+                                <input id="filtro" class="form-control border-light border-2" type="search" placeholder="Filtrar">
+                                <button class="btn btn-outline-light ms-2" onclick="cambiar('sin', 0)">Filtrar</button>
+                            </div>
+                        </div>
+                        <div id="discos">
+                        </div>
+                        <div id="pag" class="row justify-content-center mb-3">
+
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -78,6 +122,6 @@
 <!-- BOOTSTRAP JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
-</script>
+    </script>
 
 </html>
