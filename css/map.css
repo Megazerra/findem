@@ -26,3 +26,14 @@
     height: 100%;
     object-fit: cover;
 }
+
+button.gm-control-active, .gm-svpc{
+    border-radius: 20px !important;
+}
+
+.gmnoprint > div{
+    border-radius: 20px !important
+}
+
+border-bottom-left-radius: 20px;
+border-top-left-radius: 20px;

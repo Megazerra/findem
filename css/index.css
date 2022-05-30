@@ -62,6 +62,7 @@
     background-color: white;
     box-shadow: 0px 4px 33px -12px rgb(0 0 0 / 25%);
     height: 400px;
+    width: 83%;
   }
 
   .amigos{
@@ -118,4 +119,30 @@
     height: 100px;
   }
 
+ .image{
+  float: left;
+  width: 100px;
+  height: 100px;
+  border-radius: 22px;
+  object-fit: cover;
+  box-shadow: 0px 4px 33px -12px rgb(0 0 0 / 10%);
+  margin-left: 15px;
+ }
  
+
+ .pin{
+   width: 20px;
+   display: inline-block;
+ }
+
+ .name2{
+   display: inline-block;
+ }
+
+ .name{
+   
+  text-align: left;
+  position: relative;
+  left: 15px;
+
+ }

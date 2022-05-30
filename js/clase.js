@@ -1,4 +1,17 @@
 "use strict";
+function cerrar() {
+    window.location.href = "../html/login.html";
+}
+function borrar() {
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+        }
+    };
+    xhttp.open("POST", "../php/cerrarSession.php", true);
+    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhttp.send("");
+}
 function redirect() {
     window.location.href = "../html/login.html";
 }
@@ -16,6 +29,7 @@ function redirect2() {
     }, 200);
 }
 function refresh(iden) {
+    console.log("2:" + iden.innerText);
     var div = document.getElementById('mens');
     while (div.firstChild) {
         div.removeChild(div.firstChild);
@@ -182,7 +196,10 @@ function chats() {
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhttp.send("i=");
 }
+var defi;
 function mostrarId(id) {
+    // alert(id.innerText);
+    defi = id;
     var padre = document.getElementById('padre');
     padre.setAttribute('class', 'padre box-shadow pulse');
     setTimeout(function () {
@@ -219,6 +236,7 @@ function mostrarId(id) {
                     var men = document.createTextNode(mensajeA[i].childNodes[0].nodeValue);
                     if (idE[i].childNodes[0].nodeValue != us[0].childNodes[0].nodeValue) {
                         var container = document.createElement('div');
+                        container2.id = "container2";
                         var container2 = document.createElement('div');
                         container.setAttribute('class', 'inlineContainer');
                         container2.setAttribute('class', 'otherBubble other slide-in-left');
@@ -248,8 +266,8 @@ function mostrarId(id) {
     var hola = 0;
     enviar.addEventListener("keyup", function (event) {
         if (event.key === "Enter" && enviar.innerText != "") {
+            console.log(defi);
             hola++;
-            console.log(enviar.innerText);
             var xhttp = new XMLHttpRequest();
             xhttp.onreadystatechange = function () {
                 if (this.readyState == 4 && this.status == 200) {
@@ -257,13 +275,15 @@ function mostrarId(id) {
                     var xmlDoc = parser.parseFromString(this.responseText, "text/xml");
                 }
             };
-            var params = id.innerText + "-" + enviar.innerText;
+            var params = defi.innerText + "-" + enviar.innerText;
             console.log("contador: " + hola);
             xhttp.open("POST", "../php/insertMensaje.php", true);
             xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
             xhttp.send("i=" + params);
             enviar.innerText = "";
-            refresh(id);
+            setTimeout(function () {
+                refresh(defi);
+            }, 300);
             event.preventDefault();
         }
     });
@@ -455,8 +475,8 @@ function añadirpubli() {
     })
         .then(function (respuesta) { return respuesta.text(); })
         .then(function (decodificado) {
-        console.log(decodificado);
-    });
+            console.log(decodificado);
+        });
     location.reload();
 }
 function showpublis() {
@@ -695,7 +715,57 @@ function conf() {
     })
         .then(function (respuesta) { return respuesta.text(); })
         .then(function (decodificado) {
-        console.log(decodificado);
-    });
+            console.log(decodificado);
+        });
     // location.reload();
+}
+function valoraciones() {
+    var div = document.getElementById('val');
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+            var par = new DOMParser();
+            var xmlDoc = par.parseFromString(this.responseText, "text/xml");
+            console.log(this.responseText);
+            var nombre = xmlDoc.getElementsByTagName('nombre');
+            var descripcion = xmlDoc.getElementsByTagName('descripcion');
+            var logo = xmlDoc.getElementsByTagName('logo');
+            var direccion = xmlDoc.getElementsByTagName('direccion');
+            var latitud = xmlDoc.getElementsByTagName('latitud');
+            var longitud = xmlDoc.getElementsByTagName('longitud');
+            var href = xmlDoc.getElementsByTagName('href');
+            var discoteca = xmlDoc.getElementsByTagName('discoteca');
+            var row = document.createElement('div');
+            row.setAttribute('class', 'row');
+            for (var i = 0; i < discoteca.length; i++) {
+                var divcol6 = document.createElement('div');
+                divcol6.setAttribute('class', 'col-md-12');
+                var h3 = document.createElement('h3');
+                h3.setAttribute('class', 'name');
+                var h32 = document.createElement('h5');
+                h32.setAttribute('class', 'name2');
+                var nombreN = document.createTextNode(nombre[i].childNodes[0].nodeValue);
+                console.log(nombreN);
+                var x = xmlDoc.getElementsByTagName("logo")[i].childNodes[0].nodeValue;
+                var a = document.createElement("img");
+                a.setAttribute('class', 'image');
+                a.src = x;
+                var direccionN = document.createTextNode(direccion[i].childNodes[0].nodeValue);
+                var img_pin = document.createElement('img');
+                img_pin.src = "./imgs/location-pin.png";
+                img_pin.setAttribute('class', 'pin');
+                h3.appendChild(nombreN);
+                h32.appendChild(direccionN);
+                divcol6.appendChild(a);
+                divcol6.appendChild(h3);
+                divcol6.appendChild(img_pin);
+                divcol6.appendChild(h32);
+                row.appendChild(divcol6);
+                div.appendChild(row);
+            }
+        }
+    };
+    xhttp.open("POST", "php/valoradas.php", true);
+    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhttp.send("i=");
 }

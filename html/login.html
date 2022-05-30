@@ -1,7 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
+    <!-- js -->
+    <script type="text/javascript" src="../js/clase.js"></script>
     <!-- SweetAlert -->
     <script src="../js/sweetalert2.all.min.js"></script>
     <meta charset="UTF-8">
@@ -11,11 +13,11 @@
     <link rel="stylesheet" href="../css/bootstrap.css">
     <meta name="google-signin-client_id"
         content="539940953176-8mj5o0o5ckvv2t1eii2i787k3ofr33i7.apps.googleusercontent.com">
-    <title>Document</title>
+    <title>Login</title>
 </head>
 
-<body onload="renderButton();" id="bod">
-    <div class="loader" id="loader"></div>    
+<body onload="renderButton(); borrar();" id="bod">
+    <div class="loader" id="loader"></div>
     <div class="container hub" id="cont">
         <div class="row alt">
             <div class="col-md-6">
@@ -39,6 +41,5 @@
     </div>
 </body>
 <script src="https://apis.google.com/js/platform.js" async defer></script>
-<script type="text/javascript" src="../js/clase.js"></script>
 
 </html>

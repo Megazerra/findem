@@ -23,6 +23,7 @@ function redirect2() {
 
 
 function refresh(iden: any) {
+  console.log("2:" +iden.innerText);
   var div: any = document.getElementById('mens');
   while (div.firstChild) {
     div.removeChild(div.firstChild);
@@ -208,8 +209,10 @@ function chats() {
 
 }
 
-
+let defi:any;
 function mostrarId(id: any) {
+  // alert(id.innerText);
+  defi = id;
   var padre: any = document.getElementById('padre');
   padre.setAttribute('class', 'padre box-shadow pulse');
 
@@ -250,6 +253,7 @@ function mostrarId(id: any) {
 
           if (idE[i].childNodes[0].nodeValue != us[0].childNodes[0].nodeValue) {
             var container: any = document.createElement('div');
+            container2.id = "container2";
             var container2: any = document.createElement('div');
             container.setAttribute('class', 'inlineContainer');
             container2.setAttribute('class', 'otherBubble other slide-in-left');
@@ -288,8 +292,12 @@ function mostrarId(id: any) {
   var hola:any = 0;
   enviar.addEventListener("keyup", function (event) {
     if (event.key === "Enter" && enviar.innerText != "") {
+    console.log(defi);
+
+    
+
+
       hola++;
-      console.log(enviar.innerText);
       var xhttp = new XMLHttpRequest();
       xhttp.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
@@ -298,13 +306,15 @@ function mostrarId(id: any) {
 
         }
       };
-      var params: any = id.innerText + "-" + enviar.innerText;
+      var params: any = defi.innerText + "-" + enviar.innerText;
       console.log("contador: "+hola);
       xhttp.open("POST", "../php/insertMensaje.php", true);
       xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
       xhttp.send("i=" + params);
       enviar.innerText = "";
-      refresh(id);
+      setTimeout(function(){
+        refresh(defi);
+      }, 300);
 
       event.preventDefault();
     }
@@ -816,4 +826,63 @@ function conf(){
       console.log(decodificado);
     });
   // location.reload();
+}
+
+function valoraciones(){
+  var div:any = document.getElementById('val');
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function () {
+    if (this.readyState == 4 && this.status == 200) {
+      var par = new DOMParser();
+      var xmlDoc: any = par.parseFromString(this.responseText, "text/xml");
+      console.log(this.responseText);
+      var nombre:any = xmlDoc.getElementsByTagName('nombre');
+      var descripcion:any = xmlDoc.getElementsByTagName('descripcion');
+      var logo:any = xmlDoc.getElementsByTagName('logo');
+      var direccion:any = xmlDoc.getElementsByTagName('direccion');
+      var latitud:any = xmlDoc.getElementsByTagName('latitud');
+      var longitud:any = xmlDoc.getElementsByTagName('longitud');
+      var href:any = xmlDoc.getElementsByTagName('href');
+      var discoteca:any = xmlDoc.getElementsByTagName('discoteca');
+      var row:any = document.createElement('div');
+      row.setAttribute('class', 'row');
+
+      for(var i:any = 0; i<discoteca.length; i++){
+        var divcol6:any = document.createElement('div');
+        divcol6.setAttribute('class', 'col-md-12')
+        var h3:any = document.createElement('h3');
+        h3.setAttribute('class', 'name');
+        var h32:any = document.createElement('h5');
+        h32.setAttribute('class', 'name2');
+        var nombreN:any = document.createTextNode(nombre[i].childNodes[0].nodeValue);
+        console.log(nombreN);
+        var x = xmlDoc.getElementsByTagName("logo")[i].childNodes[0].nodeValue;
+        var a = document.createElement("img");
+        a.setAttribute('class', 'image');
+        a.src = x;
+
+        var direccionN:any = document.createTextNode(direccion[i].childNodes[0].nodeValue);
+        var  img_pin:any = document.createElement('img');
+        img_pin.src = "./imgs/location-pin.png";
+        img_pin.setAttribute('class', 'pin');
+        
+
+
+        h3.appendChild(nombreN);
+        h32.appendChild(direccionN);
+        divcol6.appendChild(a);
+        divcol6.appendChild(h3);
+        divcol6.appendChild(img_pin)
+        divcol6.appendChild(h32);
+        row.appendChild(divcol6);
+        div.appendChild(row);
+      }
+
+      
+    }
+  };
+  xhttp.open("POST", "php/valoradas.php", true);
+  xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+  xhttp.send("i=");
+
 }
