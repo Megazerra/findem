@@ -1,3 +1,16 @@
+function cerrar() {
+  window.location.href = "./html/login.html";
+}
+function borrar() {
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function () {
+      if (this.readyState == 4 && this.status == 200) {
+      }
+  };
+  xhttp.open("POST", "../php/cerrarSession.php", true);
+  xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+  xhttp.send("");
+}
 
 function redirect() {
   window.location.href = "../html/login.html";
@@ -849,7 +862,7 @@ function valoraciones(){
 
       for(var i:any = 0; i<discoteca.length; i++){
         var divcol6:any = document.createElement('div');
-        divcol6.setAttribute('class', 'col-md-12')
+        divcol6.setAttribute('class', 'col-md-12 move')
         var h3:any = document.createElement('h3');
         h3.setAttribute('class', 'name');
         var h32:any = document.createElement('h5');
@@ -885,4 +898,53 @@ function valoraciones(){
   xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
   xhttp.send("i=");
 
+}
+
+
+function feed(){
+  var div:any = document.getElementById('publis');
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function () {
+    if (this.readyState == 4 && this.status == 200) {
+      var par = new DOMParser();
+      var xmlDoc: any = par.parseFromString(this.responseText, "text/xml");
+      console.log(xmlDoc);
+      var descripcion:any = xmlDoc.getElementsByTagName('descripcion');
+      var lugar:any = xmlDoc.getElementsByTagName('descripcion');
+      var likes:any = xmlDoc.getElementsByTagName('likes');
+      var idUsuario:any = xmlDoc.getElementsByTagName('idUsuario');
+      var publi:any = xmlDoc.getElementsByTagName('publi');
+
+      for(var i:any = 0; i<publi.length; i++){
+        var div2:any = document.createElement('div');
+        var div3:any = document.createElement('div');
+        div2.setAttribute('class', 'my-12 try')
+        var x = xmlDoc.getElementsByTagName("archivo")[i].childNodes[0].nodeValue;
+        var a = document.createElement("img");
+        a.setAttribute('class', 'imageFeed');
+        a.src = x;
+
+        var xP = xmlDoc.getElementsByTagName("foto")[i].childNodes[0].nodeValue;
+        var aP = document.createElement("img");
+        aP.setAttribute('class', 'perf');
+        aP.src = xP;
+
+        var nombreUsuario:any = document.createTextNode(idUsuario[i].childNodes[0].nodeValue)
+        var h4:any = document.createElement('h4');
+        h4.setAttribute('class', 'margen');
+        h4.appendChild(nombreUsuario);
+        div2.appendChild(aP);
+        div2.appendChild(h4);
+        div3.appendChild(a);
+        div2.appendChild(div3);
+        div.appendChild(div2)
+
+      }
+
+      
+    }
+  };
+  xhttp.open("POST", "php/feed.php", true);
+  xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+  xhttp.send("i=");
 }

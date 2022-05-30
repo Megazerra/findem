@@ -1,6 +1,6 @@
 "use strict";
 function cerrar() {
-    window.location.href = "../html/login.html";
+    window.location.href = "./html/login.html";
 }
 function borrar() {
     var xhttp = new XMLHttpRequest();
@@ -475,8 +475,8 @@ function añadirpubli() {
     })
         .then(function (respuesta) { return respuesta.text(); })
         .then(function (decodificado) {
-            console.log(decodificado);
-        });
+        console.log(decodificado);
+    });
     location.reload();
 }
 function showpublis() {
@@ -715,8 +715,8 @@ function conf() {
     })
         .then(function (respuesta) { return respuesta.text(); })
         .then(function (decodificado) {
-            console.log(decodificado);
-        });
+        console.log(decodificado);
+    });
     // location.reload();
 }
 function valoraciones() {
@@ -739,7 +739,7 @@ function valoraciones() {
             row.setAttribute('class', 'row');
             for (var i = 0; i < discoteca.length; i++) {
                 var divcol6 = document.createElement('div');
-                divcol6.setAttribute('class', 'col-md-12');
+                divcol6.setAttribute('class', 'col-md-12 move');
                 var h3 = document.createElement('h3');
                 h3.setAttribute('class', 'name');
                 var h32 = document.createElement('h5');
@@ -766,6 +766,47 @@ function valoraciones() {
         }
     };
     xhttp.open("POST", "php/valoradas.php", true);
+    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhttp.send("i=");
+}
+function feed() {
+    var div = document.getElementById('publis');
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+            var par = new DOMParser();
+            var xmlDoc = par.parseFromString(this.responseText, "text/xml");
+            console.log(xmlDoc);
+            var descripcion = xmlDoc.getElementsByTagName('descripcion');
+            var lugar = xmlDoc.getElementsByTagName('descripcion');
+            var likes = xmlDoc.getElementsByTagName('likes');
+            var idUsuario = xmlDoc.getElementsByTagName('idUsuario');
+            var publi = xmlDoc.getElementsByTagName('publi');
+            for (var i = 0; i < publi.length; i++) {
+                var div2 = document.createElement('div');
+                var div3 = document.createElement('div');
+                div2.setAttribute('class', 'my-12 try');
+                var x = xmlDoc.getElementsByTagName("archivo")[i].childNodes[0].nodeValue;
+                var a = document.createElement("img");
+                a.setAttribute('class', 'imageFeed');
+                a.src = x;
+                var xP = xmlDoc.getElementsByTagName("foto")[i].childNodes[0].nodeValue;
+                var aP = document.createElement("img");
+                aP.setAttribute('class', 'perf');
+                aP.src = xP;
+                var nombreUsuario = document.createTextNode(idUsuario[i].childNodes[0].nodeValue);
+                var h4 = document.createElement('h4');
+                h4.setAttribute('class', 'margen');
+                h4.appendChild(nombreUsuario);
+                div2.appendChild(aP);
+                div2.appendChild(h4);
+                div3.appendChild(a);
+                div2.appendChild(div3);
+                div.appendChild(div2);
+            }
+        }
+    };
+    xhttp.open("POST", "php/feed.php", true);
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhttp.send("i=");
 }
