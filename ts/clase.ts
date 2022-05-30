@@ -270,6 +270,7 @@ function mostrarId(id: any) {
             var container2: any = document.createElement('div');
             container.setAttribute('class', 'inlineContainer');
             container2.setAttribute('class', 'otherBubble other slide-in-left');
+            container2.id = "left";
             p.appendChild(men);
             container2.appendChild(p);
             container.appendChild(container2);
@@ -306,6 +307,8 @@ function mostrarId(id: any) {
   enviar.addEventListener("keyup", function (event) {
     if (event.key === "Enter" && enviar.innerText != "") {
     console.log(defi);
+    var div:any = document.getElementById('left');
+    div.setAttribute('class', 'otherBubble other');
 
     
 
