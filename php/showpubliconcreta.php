@@ -8,8 +8,11 @@ $separado = explode("-", $datos);
 $user = $_SESSION['username'];
 
 
-$post = "SELECT * FROM usuario us JOIN post po ON (po.idUsuario = us.userName) WHERE us.userName = '$user' AND  idPost = '$datos'";
+
+
+$post = "SELECT * FROM usuario us JOIN post po ON (po.idUsuario = us.userName) WHERE us.userName = '$separado[1]' AND  idPost = '$separado[0]'";
 $r2 = mysqli_query($conexio, $post);
+
 
 $s = "SELECT COUNT(*) FROM likes WHERE idUsuario = '$user' AND idPost = '$datos'";
 $r3 = mysqli_query($conexio, $s);
@@ -27,7 +30,7 @@ while($fila2 = mysqli_fetch_assoc($r3)){
 
 }
 
-$ss = "SELECT COUNT(*) FROM likes WHERE idPost = '$datos'";
+$ss = "SELECT COUNT(*) FROM likes WHERE idPost = '$separado[0]'";
 $r4 = mysqli_query($conexio, $ss);
 
 while($fila3 = mysqli_fetch_assoc($r4)){

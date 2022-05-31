@@ -2,6 +2,10 @@
 <html lang="es">
 
 <head>
+  <!-- SELECTS -->
+  <script type="text/javascript" src="./js/select/jquery.js"></script>
+  <script type="text/javascript" src="./js/select/awselect.js"></script>
+  <link href="./css/select/awselect.css" rel="stylesheet" />
   <!-- para el mapa -->
   <script src="./js/googleMaps.js"></script>
   <script src="https://unpkg.com/@googlemaps/markerclusterer/dist/index.min.js"></script>
@@ -21,7 +25,7 @@
   <title>INDEX</title>
 </head>
 
-<body onload="valoraciones(); feed()">
+<body onload="valoraciones(); feed(); listas(); sugerencias();">
   <div class="loader" id="loader"></div>
   <div id="cont">
     <nav class="navbar navbar-light bg-light">
@@ -35,7 +39,7 @@
           <img src="imgs/home.png" alt="" class="logo" draggable="false">
           <img src="imgs/message.png" alt="" class="logo2" draggable="false" onclick="redirect2()">
           <img src="imgs/friends.png" alt="" class="logo2" draggable="false" onclick="redirect4()">
-          <img src="imgs/friends.png" alt="" class="logo2" draggable="false" onclick="cerrar()">
+          <img src="imgs/cerrar.png" alt="" class="logo2" draggable="false" onclick="cerrar()">
         </form>
       </div>
     </nav>
@@ -55,7 +59,8 @@
         <div class="momentos"></div>
       </div>
       <div class="col-md-4">
-        <div class="amigos">
+        <div class="listas" id="listas">
+          <div id="buscador"></div>
 
         </div>
       </div>
@@ -70,8 +75,11 @@
       </div>
       <div class="col-md-4">
         <div class="sugerencias">
-          <h3>Tus amigos</h3>
+          <h3 class="pb-2">Usuarios sugeridos</h3>
+          <hr style="border:2px solid #6d71b2; opacity: 0.5;">
+          <div class="row" id="sugerencias">
 
+          </div>
         </div>
       </div>
     </div>
