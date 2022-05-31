@@ -1,7 +1,6 @@
 <?php
-
-include 'bbdd.php';
 session_start();
+include 'bbdd.php';
 
 $datos = trim($_POST["i"]);
 $separado = explode("-", $datos);
@@ -13,7 +12,7 @@ if($datos == "undefined"){
 
 
 
-		$post = "SELECT li.titulo, li.fecha_inicio, li.idLista, li.fecha_inicio, li.fecha_final, li.idDiscoteca, dis.logo, dis.nombre FROM lista li JOIN discoteca dis ON (dis.idDiscoteca = li.idDiscoteca) WHERE dis.idDiscoteca LIKE '%$datos%' GROUP BY li.idDiscoteca ORDER BY fecha_inicio";
+		$post = "SELECT li.titulo, li.fecha_inicio, li.idLista, li.fecha_inicio, li.fecha_final, li.idDiscoteca, dis.logo, dis.nombre FROM lista li JOIN discoteca dis ON (dis.idDiscoteca = li.idDiscoteca) WHERE dis.idDiscoteca LIKE '%$datos%' ORDER BY fecha_inicio";
 		$r2 = mysqli_query($conexio, $post);
 
 		while($fila = mysqli_fetch_assoc($r2)){

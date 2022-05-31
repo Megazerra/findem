@@ -12,13 +12,69 @@ body{
     font-family: Poppins;
 }
 
+
+/*nuevo*/
 .hub{
     margin-top: 400px;
     color: white;
-    width: 900px;
-  
+    width: 800px !important;
+}
+.login{
+    background: none;
+    border: 1px solid white;
+    display: block;
+    margin: auto;
+    margin-right: auto;
+    padding: 10px;
+    width: 30%;
+    margin-top: 5%;
+}
+.login:hover{
+    color: #F48907 !important;
+    background: white;
+    border: 1px solid white;
+    display: block;
+    margin: auto;
+    margin-right: auto;
+    padding: 10px;
+    width: 30%;
+    margin-top: 5%;
+}
+#cont{
+    position: relative !important;
+    top: -150px !important;
+}
+.logins{
+    position: relative;
+    top: 25px;
+    left: -15px;
 }
 
+#contReg{
+    position: relative;
+    top: 40px;
+}
+
+#contLogo{
+    position: relative;
+    top: 25px;
+    left: -25px;
+}
+.boton{
+    background-color: #F48907;
+    color: white;
+    margin-top: 30px;
+    border: 2px solid #F48907 !important;
+
+}
+
+.boton:hover{
+    border: 2px solid #F48907;
+    background-color: white;
+    color: #F48907 !important;
+    margin-top: 30px;
+}
+/*hasta aqui*/
 
 .cuenta{
     font-size: 3em;
@@ -43,7 +99,6 @@ body{
     z-index: 99;
     padding-bottom: 52px;
     border-radius: 5px;
-
 }
 
 .logo{
@@ -83,27 +138,6 @@ body{
     margin-left: 10px;
 }
 
-
-
-.boton{
-    background-color: #F48907;
-    color: white;
-    margin-top: 30px;
-    
-}
-
-.login{
-    background: none;
-    border: 1px solid white;
-    display: block;
-    margin: auto;
-    margin-right: auto;
-    padding: 10px;
-    width: 20%;
-    margin-top: 5%;
-
-}
-
 .row{
     background-color: #F48907;
     height: 310px;
@@ -113,7 +147,6 @@ body{
 
 
 .loader {
-   
     height: 5rem;
     width: 5rem;
     border-radius: 50%;

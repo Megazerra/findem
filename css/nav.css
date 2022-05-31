@@ -1,0 +1,44 @@
+#pendent{
+    width: 40px;
+    height: 32px;
+    margin-right: 30px;
+
+}
+.logoNew{
+    cursor: pointer !important;
+    opacity: 0.7;
+}
+.logoNew:hover{
+    opacity: 1;
+}
+#friendd{
+    width: 40px;
+    height: 32px;
+    margin-right: 30px;
+
+}
+
+#house{
+    width: 35px;
+    height: 32px;
+    margin-right: 30px;
+}
+
+#mestext{
+    width: 35px;
+    height: 32px;
+    margin-right: 30px;
+}
+
+#out{
+    width: 35px;
+    height: 32px;
+    margin-right: 30px;
+}
+
+.top-m{
+    margin-top: 10px;
+}
+.botonañadir{
+    width: 50px;
+}

@@ -2,6 +2,8 @@
 <html lang="es">
 
 <head>
+  <link rel="stylesheet" href="../css/nav.css">
+
   <!-- SweetAlert -->
   <script src="../js/sweetalert2.all.min.js"></script>
   <meta charset="UTF-8">
@@ -12,59 +14,67 @@
     integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
   <title>INDEX</title>
 </head>
+
 <body onload="perfil();">
   <nav class="navbar navbar-light bg-light" style="background: #FFFFFF;
   box-shadow: 0px 4px 33px -12px rgba(0, 0, 0, 0.25);">
     <div class="container-fluid">
-      <ul>
-      
-      <img src="../imgs/LOGO_FINDEM.png" alt="" class="logo">
-     
-      </ul>
-      <form class="d-flex">
-        <div class="sear">
-        <input placeholder="Introduce tu palabra" class="form-control" type="search" name="p" id="p" onkeyup="showPeople(this.value)">
-        <div class="AvhYw nLL4f" id="idea"></div>
-        <div class="test" id="test"></div>
+      <div class="row">
+        <div class="col-3">
+          <img src="../imgs/LOGO_FINDEM.png" class="img-fluid ms-5 p-2" class="logo">
         </div>
-
-        <a href="../index.html"><img src="../imgs/home.png" alt="" class="logo"></a>
-       <a href="friends.html"><img src="../imgs/message.png" alt="" class="logo2"></a> 
-       <a href="#"><img src="../imgs/friends.png" alt="" class="logo2"></a> 
+      </div>
+      <form class="d-flex" >
+        <div class="sear">
+          <input placeholder="Introduce tu palabra" class="form-control" type="text" name="p" id="p"
+            onkeyup="showPeople(this.value)">
+          <div class="AvhYw nLL4f" id="idea"></div>
+          <div class="test" id="test"></div>
+        </div>
+        <div class="top-m">
+          <img src="../imgs/home.png" alt="" id="house" class="logoNew" draggable="false" onclick="redirect1()">
+          <img src="../imgs/message.png" alt="" id="mestext" class="logoNew" draggable="false" onclick="redirect5()">
+          <img src="../imgs/cerrar.png" alt="" id="out" class="logoNew" draggable="false" onclick="redirect7()">
+        </div>
       </form>
     </div>
   </nav>
 
-    <div class="gen" id="gen">
-      <div class="container">
-        <div class="row">
-          <div class="col-md-4 col-sm-2 col-md-2">
-            <div class="ima" id="ima"></div>
-          </div>
-          <div class="col-md-4 col-sm-4 col-md-2">
-            <div class="tex" id="tex"></div>
-          </div>
-          <div class="col-md-4 col-sm-4 col-md-2">
-            <div class="add" id="add"></div>
-          </div>
+  <div class="gen" id="gen">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-4 col-sm-2 col-md-2">
+          <div class="ima" id="ima2"></div>
         </div>
-      </div>
-      <br>
-      
-      <div class="container">
-        <div class="row" id="row">
-          
+        <div class="col-md-4 col-sm-4 col-md-2">
+          <div class="tex" id="tex2"></div>
+        </div>
+        <div class="col-md-4 col-sm-4 col-md-2">
+          <div class="add" id="add"></div>
         </div>
       </div>
     </div>
-      
-    <div class="foto" id="foto">
-    
+    <br>
+    <div class="container">
+      <div class="row" id="row2">
+
+      </div>
     </div>
-    <div class="config" id="config">
-      <div class="row"id="config2"></div>
-    </div>
-    </body>
+  </div>
+
+  <div class="foto" id="foto">
+
+  </div>
+  <div class="config" id="config">
+    <div class="row" id="config2"></div>
+  </div>
+
+
+
+
+
+  
+</body>
 
 
 

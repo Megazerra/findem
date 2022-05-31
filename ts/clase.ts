@@ -1,14 +1,15 @@
 
-let Swal:any;
+let Swal: any;
+comprobarBuscador();
 function sugerencias() {
   let superDiv: any = document.getElementById('sugerencias');
   var xhttp = new XMLHttpRequest();
   xhttp.onreadystatechange = function () {
     if (this.readyState == 4 && this.status == 200) {
-      
+
       var par = new DOMParser();
       var xmlDoc = par.parseFromString(this.responseText, "text/xml");
-     
+
       var username = xmlDoc.getElementsByTagName('userName');
       var nombre = xmlDoc.getElementsByTagName('nombre');
       var apellido = xmlDoc.getElementsByTagName('apellido');
@@ -64,7 +65,7 @@ function sugerencias() {
   xhttp.send("");
 }
 
-function amigoChange(id:any) {
+function amigoChange(id: any) {
   localStorage.setItem('amigo', id);
   window.location.href = "./html/perfilA.html";
 }
@@ -91,13 +92,23 @@ function borrar() {
 function redirect() {
   window.location.href = "../html/login.html";
 }
-
+function redirect1() {
+  window.location.href = "../index.html";
+}
 function redirect3() {
   window.location.href = "../html/register.html";
 }
-
 function redirect4() {
   window.location.href = "./html/perfil.html";
+}
+function redirect5() {
+  window.location.href = "./friends.html";
+}
+function redirect6() {
+  window.location.href = "./perfil.html";
+}
+function redirect7() {
+  window.location.href = "./login.html";
 }
 
 function redirect2() {
@@ -298,7 +309,10 @@ function chats() {
 }
 
 let defi: any;
+var animatronic = 0;
 function mostrarId(id: any) {
+  animatronic++;
+
   defi = id;
   var padre: any = document.getElementById('padre');
   padre.setAttribute('class', 'padre box-shadow pulse');
@@ -339,13 +353,17 @@ function mostrarId(id: any) {
 
 
           if (idE[i].childNodes[0].nodeValue != us[0].childNodes[0].nodeValue) {
-            
+
             var container: any = document.createElement('div');
             var container2: any = document.createElement('div');
 
             container2.id = "left";
             container.setAttribute('class', 'inlineContainer');
+            if(animatronic == 1){
             container2.setAttribute('class', 'otherBubble other slide-in-left');
+            }else{
+            container2.setAttribute('class', 'otherBubble other');
+            }
             p.appendChild(men);
             container2.appendChild(p);
             container.appendChild(container2);
@@ -353,7 +371,13 @@ function mostrarId(id: any) {
             var container: any = document.createElement('div');
             var container2: any = document.createElement('div');
             container.setAttribute('class', 'inlineContainer own');
-            container2.setAttribute('class', 'ownBubble own slide-in-right');
+            if(animatronic == 1){
+              container2.setAttribute('class', 'ownBubble own slide-in-right');
+
+              }else{
+                container2.setAttribute('class', 'ownBubble own');
+
+              }
             p.appendChild(men);
             container2.appendChild(p);
             container.appendChild(container2);
@@ -370,7 +394,7 @@ function mostrarId(id: any) {
 
   var enviar: any = document.getElementById('w-input-text');
   var hola: any = 0;
-  enviar.addEventListener("keyup", function (event:any) {
+  enviar.addEventListener("keyup", function (event: any) {
     if (event.key === "Enter" && enviar.innerText != "") {
 
 
@@ -410,7 +434,7 @@ function mostrarId(id: any) {
 
 
 function showPeople(user: any) {
- 
+
 
   var xhttp = new XMLHttpRequest();
   xhttp.onreadystatechange = function () {
@@ -492,13 +516,13 @@ function mostrarPerfil(id: any) {
       a.src = x;
       var user: any = document.createTextNode("@" + userName[0].childNodes[0].nodeValue);
       var name: any = document.createTextNode(nombre[0].childNodes[0].nodeValue + apellido[0].childNodes[0].nodeValue);
-      
-      var addfriend:any = document.createElement('input');
+
+      var addfriend: any = document.createElement('input');
       addfriend.type = "image";
       addfriend.value = "add";
       addfriend.src = "../imgs/add.png";
-      addfriend.setAttribute('class','botonañadir');
-      addfriend.setAttribute('onclick', 'addFriend("' + userName[0].childNodes[0].nodeValue +'",'+ cont[0].childNodes[0].nodeValue + ")");
+      addfriend.setAttribute('class', 'botonañadir');
+      addfriend.setAttribute('onclick', 'addFriend("' + userName[0].childNodes[0].nodeValue + '",' + cont[0].childNodes[0].nodeValue + ")");
 
 
 
@@ -522,23 +546,23 @@ function mostrarPerfil(id: any) {
     localStorage.removeItem('amigo');
   } else {
     // console.log("navbar: " + id.innerText);
-    showpublis2(id.innerText);
+    showpublis2(id);
     xhttp.send("i=" + id.innerText);
   }
 
 }
 
 
-function addFriend(persona:any, cont:any){
+function addFriend(persona: any, cont: any) {
   var xhttp = new XMLHttpRequest();
 
-  if(cont == 1){
+  if (cont == 1) {
     Swal.fire({
       icon: 'error',
       title: ':)',
       text: 'Ya tienes a este amigo agregado...'
     })
-  }else if(cont == 0){
+  } else if (cont == 0) {
 
     let formData = new FormData();
     formData.append("idamigo", persona);
@@ -551,22 +575,22 @@ function addFriend(persona:any, cont:any){
         console.log(decodificado);
       });
 
-      Swal.fire({
-        icon: 'success',
-        title: 'Agregado',
-        text: 'Solicitud de amistad enviada!'
-      })
+    Swal.fire({
+      icon: 'success',
+      title: 'Agregado',
+      text: 'Solicitud de amistad enviada!'
+    })
   }
-  
- 
+
+
 }
 
-function pendiente(){
+function pendiente() {
   var xhttp = new XMLHttpRequest();
-  var div:any = document.getElementById('menu');
-  var pendent:any = document.getElementById('pendent');
-  var esconder:any = document.getElementById('esconder');
-  
+  var div: any = document.getElementById('menu');
+  var pendent: any = document.getElementById('pendent');
+  var esconder: any = document.getElementById('esconder');
+
   pendent.onclick = function () {
 
     esconder.style.display = "block";
@@ -578,14 +602,14 @@ function pendiente(){
       var par = new DOMParser();
       var xmlDoc: any = par.parseFromString(this.responseText, "text/xml");
       // console.log(this.responseText)
-      var username:any = xmlDoc.getElementsByTagName('username')
-      var pendiente:any = xmlDoc.getElementsByTagName('pendiente');
-   
-      for(var i:any = 0; i<pendiente.length; i++){
-        var dentro:any = document.createElement('div');
+      var username: any = xmlDoc.getElementsByTagName('username')
+      var pendiente: any = xmlDoc.getElementsByTagName('pendiente');
+
+      for (var i: any = 0; i < pendiente.length; i++) {
+        var dentro: any = document.createElement('div');
         dentro.style.marginTop = "10px"
-        var usernameN:any = document.createTextNode(username[i].childNodes[0].nodeValue);
-        var h3:any = document.createElement('h3');
+        var usernameN: any = document.createTextNode(username[i].childNodes[0].nodeValue);
+        var h3: any = document.createElement('h3');
         h3.style.display = "inline-block"
 
         var x = xmlDoc.getElementsByTagName("foto")[i].childNodes[0].nodeValue;
@@ -593,18 +617,18 @@ function pendiente(){
         a.setAttribute('class', 'perf');
         a.src = x;
 
-        var aceptar:any = document.createElement('input');
+        var aceptar: any = document.createElement('input');
         aceptar.type = "image";
         aceptar.value = "add";
         aceptar.src = "./imgs/aceptar.png";
-        aceptar.setAttribute('class','botonacceptar');
+        aceptar.setAttribute('class', 'botonacceptar');
         aceptar.setAttribute('onclick', 'update()');
 
         h3.appendChild(usernameN);
         dentro.appendChild(a);
         dentro.appendChild(h3);
         dentro.appendChild(aceptar);
-      
+
         esconder.appendChild(dentro);
       }
     };
@@ -615,7 +639,7 @@ function pendiente(){
 }
 
 
-function update(){
+function update() {
   var xhttp = new XMLHttpRequest();
 
   xhttp.open("POST", "./php/actualizar.php", true);
@@ -626,7 +650,7 @@ function update(){
     title: 'Añadido',
     text: 'Usuario añadido a amigos!.'
   });
-  setTimeout(function() {location.reload()}, 1000);
+  setTimeout(function () { location.reload() }, 1000);
 }
 
 
@@ -643,8 +667,8 @@ function perfil() {
       var nombre: any = xmlDoc.getElementsByTagName('nombre');
       var apellido: any = xmlDoc.getElementsByTagName('apellido');
       var foto: any = xmlDoc.getElementsByTagName('foto');
-      var div: any = document.getElementById('ima');
-      var div2: any = document.getElementById('tex');
+      var div: any = document.getElementById('ima2');
+      var div2: any = document.getElementById('tex2');
 
 
 
@@ -766,7 +790,7 @@ function showpublis() {
     if (this.readyState == 4 && this.status == 200) {
       var par = new DOMParser();
       var xmlDoc: any = par.parseFromString(this.responseText, "text/xml");
-      var div: any = document.getElementById('row');
+      var div: any = document.getElementById('row2');
       var id: any = xmlDoc.getElementsByTagName('idPost');
       var username: any = xmlDoc.getElementsByTagName('user');
       for (var i = 0; i < xmlDoc.getElementsByTagName("archivo").length; i++) {
@@ -777,9 +801,9 @@ function showpublis() {
         a.setAttribute('class', 'publicacion');
         a.src = x;
         a.id = id[i].childNodes[0].nodeValue;
-        a.setAttribute('onclick', 'mostrarPubli(' + id[i].childNodes[0].nodeValue +',"'+ username[i].childNodes[0].nodeValue + '")');
-        div.appendChild(div2);
+        a.setAttribute('onclick', 'mostrarPubli(' + id[i].childNodes[0].nodeValue + ',"' + username[i].childNodes[0].nodeValue + '")');
         div2.appendChild(a);
+        div.appendChild(div2);
       }
     }
   };
@@ -789,11 +813,27 @@ function showpublis() {
 
 }
 
+function comprobarBuscador(){
+  if(localStorage.getItem('per3')){
+    let id = localStorage.getItem('per3');
+    localStorage.removeItem('per3');
+    let p:any = document.createElement('p');
+    p.innerText = id;
+    alert(p.innerText);
+    showpublis2(p);
+  }
+}
+
 function showpublis2(id: any) {
-  
+  var URLactual = window.location.pathname;
+  if (URLactual == '/findem/html/friends.html') {
+    localStorage.setItem('per3', id.innerText);
+    window.location.href ="./perfilA.html";
+  }
   var xhttp = new XMLHttpRequest();
   xhttp.onreadystatechange = function () {
     if (this.readyState == 4 && this.status == 200) {
+      console.log(this.responseText);
       var par = new DOMParser();
       var xmlDoc: any = par.parseFromString(this.responseText, "text/xml");
       var div: any = document.getElementById('row2');
@@ -803,7 +843,7 @@ function showpublis2(id: any) {
       while (div.firstChild) {
         div.removeChild(div.firstChild);
       }
-  
+
       for (var i = 0; i < xmlDoc.getElementsByTagName("archivo").length; i++) {
         var div2: any = document.createElement('div');
         div2.setAttribute('class', 'col-md-4 col-md-3 col-sm-2');
@@ -812,7 +852,7 @@ function showpublis2(id: any) {
         a.setAttribute('class', 'publicacion');
         a.src = x;
         a.id = id[i].childNodes[0].nodeValue;
-        a.setAttribute('onclick', 'mostrarPubli(' + id[i].childNodes[0].nodeValue +',"'+ username[i].childNodes[0].nodeValue + '")');
+        a.setAttribute('onclick', 'mostrarPubli(' + id[i].childNodes[0].nodeValue + ',"' + username[i].childNodes[0].nodeValue + '")');
 
 
         div.appendChild(div2);
@@ -823,12 +863,12 @@ function showpublis2(id: any) {
   };
   xhttp.open("POST", "../php/showpubli2.php", true);
   xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-  xhttp.send("i=" + id);
-  
+  xhttp.send("i=" + id.innerText);
+
 }
 
 
-function mostrarPubli(id: any, idPersona:any) {
+function mostrarPubli(id: any, idPersona: any) {
 
   var iden: any = id;
   var div: any = document.getElementById('foto');
@@ -839,7 +879,7 @@ function mostrarPubli(id: any, idPersona:any) {
     if (this.readyState == 4 && this.status == 200) {
       var par = new DOMParser();
       var xmlDoc: any = par.parseFromString(this.responseText, "text/xml");
-  
+
       var div: any = document.getElementById('foto');
       div.style.display = "block";
       var id: any = xmlDoc.getElementsByTagName('idPost');
@@ -904,7 +944,7 @@ function mostrarPubli(id: any, idPersona:any) {
       div.appendChild(div3);
     }
   };
-  var params:any = id+"-"+idPersona;
+  var params: any = id + "-" + idPersona;
   xhttp.open("POST", "../php/showpubliconcreta.php", true);
   xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
   xhttp.send("i=" + params);
@@ -1073,7 +1113,7 @@ function valoraciones() {
 
         var x = xmlDoc.getElementsByTagName("logo")[i].childNodes[0].nodeValue;
         var a = document.createElement("img");
-        a.setAttribute('class', 'image');
+        a.classList.add('image', 'mt-4');
         a.src = x;
 
         var direccionN: any = document.createTextNode(direccion[i].childNodes[0].nodeValue);
@@ -1114,6 +1154,12 @@ function valoraciones() {
         divcol6.appendChild(img_pin)
         divcol6.appendChild(h32);
         row.appendChild(divcol6);
+        if ((i + 1) != discoteca.length) {
+          let hr = document.createElement('hr');
+          hr.classList.add('mt-4', 'mb-0', 'w-75', 'mx-auto');
+          hr.style.height = "2px";
+          row.appendChild(hr);
+        }
         div.appendChild(row);
       }
 
@@ -1269,7 +1315,7 @@ function listas(value: any) {
         h3.appendChild(tituloN);
         var arrow: any = document.createElement('img');
         arrow.src = "./imgs/arrow.svg";
-        
+
 
 
 
@@ -1290,64 +1336,64 @@ function listas(value: any) {
     $(select).awselect();
 
   };
- 
+
   div.appendChild(buscador);
 
   xhttp.open("POST", "php/listas.php", true);
   xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
   xhttp.send("i=" + value);
-  
+
 }
 
-function showList(id:any){
+function showList(id: any) {
 
   var div: any = document.getElementById('publis');
-  
+
   var mostrar: any = document.getElementById('listas_def');
   mostrar.style.display = "block";
   var xhttp = new XMLHttpRequest();
   xhttp.onreadystatechange = function () {
     if (this.readyState == 4 && this.status == 200) {
-     
+
       var par = new DOMParser();
       var xmlDoc: any = par.parseFromString(this.responseText, "text/xml");
 
-      
 
-      var nombre:any = xmlDoc.getElementsByTagName('username');
-      var participante:any = xmlDoc.getElementsByTagName('participante');
-      var row:any = document.createElement('div');
+
+      var nombre: any = xmlDoc.getElementsByTagName('username');
+      var participante: any = xmlDoc.getElementsByTagName('participante');
+      var row: any = document.createElement('div');
       row.setAttribute('class', 'row');
-      var cerrar:any = document.createElement('input');
+      var cerrar: any = document.createElement('input');
       cerrar.type = "submit";
 
       cerrar.onclick = function () {
-        
+
         mostrar.style.display = "none";
-        
-      }  
+
+      }
 
       cerrar.setAttribute('class', 'cerrar');
       cerrar.value = "X";
 
       console.log("participantes:");
       console.log(xmlDoc);
-      
-      var tit:any = document.createElement('h3');
+
+      var tit: any = document.createElement('h3');
       tit.setAttribute('class', 'part');
       tit.innerText = "Participantes";
       while (mostrar.firstChild) {
         mostrar.removeChild(mostrar.firstChild);
       }
       mostrar.appendChild(tit);
-        for(var i:any = 0; i<participante.length;i++){
+      for (var i: any = 0; i < participante.length; i++) {
 
-        var col:any = document.createElement('div');
+        var col: any = document.createElement('div');
         col.setAttribute('classs', 'col-md-4');
 
 
-        var userN:any = document.createTextNode(nombre[i].childNodes[0].nodeValue);
-        var h3:any = document.createElement('h3');
+        var userN: any = document.createTextNode(nombre[i].childNodes[0].nodeValue);
+        var h3: any = document.createElement('h3');
         h3.appendChild(userN);
 
         var x = xmlDoc.getElementsByTagName("foto")[i].childNodes[0].nodeValue;
@@ -1361,22 +1407,36 @@ function showList(id:any){
 
         mostrar.appendChild(row);
         mostrar.appendChild(cerrar);
-        
-        
+
+
       }
-      
-      
+
+
 
     }
-    
+
   };
   xhttp.open("POST", "php/showList.php", true);
   xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-  xhttp.send("i="+id);
-  
+  xhttp.send("i=" + id);
+
 }
 
 function my_callback(value) {
 
   listas(value);
+}
+
+function loader(){
+
+
+  var load:any = document.getElementById('loaderr');
+  var cargador:any = document.getElementById('cargador');
+  
+    /* background-image: url('../imgs/locura.svg'); */
+  setTimeout(function(){
+  load.style.display = "none";
+  cargador.style.display = "block";
+  document.body.style.backgroundImage = "url(./imgs/locura.svg)";
+  }, 1890);
 }

@@ -1,6 +1,6 @@
 <?php
-include 'bbdd.php';
 session_start();
+include 'bbdd.php';
 $lat = $_POST['lat'];
 $long = $_POST['long'];
 $datos = trim($_POST["i"]);

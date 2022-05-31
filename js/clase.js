@@ -1,5 +1,6 @@
 "use strict";
 var Swal;
+comprobarBuscador();
 function sugerencias() {
     var superDiv = document.getElementById('sugerencias');
     var xhttp = new XMLHttpRequest();
@@ -82,11 +83,23 @@ function borrar() {
 function redirect() {
     window.location.href = "../html/login.html";
 }
+function redirect1() {
+    window.location.href = "../index.html";
+}
 function redirect3() {
     window.location.href = "../html/register.html";
 }
 function redirect4() {
     window.location.href = "./html/perfil.html";
+}
+function redirect5() {
+    window.location.href = "./friends.html";
+}
+function redirect6() {
+    window.location.href = "./perfil.html";
+}
+function redirect7() {
+    window.location.href = "./login.html";
 }
 function redirect2() {
     cargar();
@@ -259,7 +272,9 @@ function chats() {
     xhttp.send("i=");
 }
 var defi;
+var animatronic = 0;
 function mostrarId(id) {
+    animatronic++;
     defi = id;
     var padre = document.getElementById('padre');
     padre.setAttribute('class', 'padre box-shadow pulse');
@@ -300,7 +315,12 @@ function mostrarId(id) {
                         var container2 = document.createElement('div');
                         container2.id = "left";
                         container.setAttribute('class', 'inlineContainer');
-                        container2.setAttribute('class', 'otherBubble other slide-in-left');
+                        if (animatronic == 1) {
+                            container2.setAttribute('class', 'otherBubble other slide-in-left');
+                        }
+                        else {
+                            container2.setAttribute('class', 'otherBubble other');
+                        }
                         p.appendChild(men);
                         container2.appendChild(p);
                         container.appendChild(container2);
@@ -309,7 +329,12 @@ function mostrarId(id) {
                         var container = document.createElement('div');
                         var container2 = document.createElement('div');
                         container.setAttribute('class', 'inlineContainer own');
-                        container2.setAttribute('class', 'ownBubble own slide-in-right');
+                        if (animatronic == 1) {
+                            container2.setAttribute('class', 'ownBubble own slide-in-right');
+                        }
+                        else {
+                            container2.setAttribute('class', 'ownBubble own');
+                        }
                         p.appendChild(men);
                         container2.appendChild(p);
                         container.appendChild(container2);
@@ -440,7 +465,7 @@ function mostrarPerfil(id) {
     }
     else {
         // console.log("navbar: " + id.innerText);
-        showpublis2(id.innerText);
+        showpublis2(id);
         xhttp.send("i=" + id.innerText);
     }
 }
@@ -538,8 +563,8 @@ function perfil() {
             var nombre = xmlDoc.getElementsByTagName('nombre');
             var apellido = xmlDoc.getElementsByTagName('apellido');
             var foto = xmlDoc.getElementsByTagName('foto');
-            var div = document.getElementById('ima');
-            var div2 = document.getElementById('tex');
+            var div = document.getElementById('ima2');
+            var div2 = document.getElementById('tex2');
             var input = document.createElement('input');
             input.type = "image";
             input.value = 'crar';
@@ -642,7 +667,7 @@ function showpublis() {
         if (this.readyState == 4 && this.status == 200) {
             var par = new DOMParser();
             var xmlDoc = par.parseFromString(this.responseText, "text/xml");
-            var div = document.getElementById('row');
+            var div = document.getElementById('row2');
             var id = xmlDoc.getElementsByTagName('idPost');
             var username = xmlDoc.getElementsByTagName('user');
             for (var i = 0; i < xmlDoc.getElementsByTagName("archivo").length; i++) {
@@ -654,8 +679,8 @@ function showpublis() {
                 a.src = x;
                 a.id = id[i].childNodes[0].nodeValue;
                 a.setAttribute('onclick', 'mostrarPubli(' + id[i].childNodes[0].nodeValue + ',"' + username[i].childNodes[0].nodeValue + '")');
-                div.appendChild(div2);
                 div2.appendChild(a);
+                div.appendChild(div2);
             }
         }
     };
@@ -663,10 +688,26 @@ function showpublis() {
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhttp.send("i=");
 }
+function comprobarBuscador() {
+    if (localStorage.getItem('per3')) {
+        var id = localStorage.getItem('per3');
+        localStorage.removeItem('per3');
+        var p = document.createElement('p');
+        p.innerText = id;
+        alert(p.innerText);
+        showpublis2(p);
+    }
+}
 function showpublis2(id) {
+    var URLactual = window.location.pathname;
+    if (URLactual == '/findem/html/friends.html') {
+        localStorage.setItem('per3', id.innerText);
+        window.location.href = "./perfilA.html";
+    }
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
+            console.log(this.responseText);
             var par = new DOMParser();
             var xmlDoc = par.parseFromString(this.responseText, "text/xml");
             var div = document.getElementById('row2');
@@ -691,7 +732,7 @@ function showpublis2(id) {
     };
     xhttp.open("POST", "../php/showpubli2.php", true);
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    xhttp.send("i=" + id);
+    xhttp.send("i=" + id.innerText);
 }
 function mostrarPubli(id, idPersona) {
     var iden = id;
@@ -906,7 +947,7 @@ function valoraciones() {
                 var nombreN = document.createTextNode(nombre[i].childNodes[0].nodeValue);
                 var x = xmlDoc.getElementsByTagName("logo")[i].childNodes[0].nodeValue;
                 var a = document.createElement("img");
-                a.setAttribute('class', 'image');
+                a.classList.add('image', 'mt-4');
                 a.src = x;
                 var direccionN = document.createTextNode(direccion[i].childNodes[0].nodeValue);
                 var img_pin = document.createElement('img');
@@ -955,6 +996,12 @@ function valoraciones() {
                 divcol6.appendChild(img_pin);
                 divcol6.appendChild(h32);
                 row.appendChild(divcol6);
+                if ((i + 1) != discoteca.length) {
+                    var hr = document.createElement('hr');
+                    hr.classList.add('mt-4', 'mb-0', 'w-75', 'mx-auto');
+                    hr.style.height = "2px";
+                    row.appendChild(hr);
+                }
                 div.appendChild(row);
             }
         }
@@ -1140,4 +1187,14 @@ function showList(id) {
 }
 function my_callback(value) {
     listas(value);
+}
+function loader() {
+    var load = document.getElementById('loaderr');
+    var cargador = document.getElementById('cargador');
+    /* background-image: url('../imgs/locura.svg'); */
+    setTimeout(function () {
+        load.style.display = "none";
+        cargador.style.display = "block";
+        document.body.style.backgroundImage = "url(./imgs/locura.svg)";
+    }, 1890);
 }

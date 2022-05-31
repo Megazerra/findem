@@ -1,6 +1,6 @@
 <?php
-include 'bbdd.php';
 session_start();
+include 'bbdd.php';
 $user = $_SESSION['username'];
 // $friend = $_POST['idamigo'];
 // $datos = trim($_POST["i"]);

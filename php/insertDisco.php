@@ -1,4 +1,5 @@
 <?php
+session_start();
 include 'bbdd.php';
 $img = $_FILES['image']['tmp_name'];
 $nombre = $_POST['nombre'];

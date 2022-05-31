@@ -11,5 +11,9 @@
   "devDependencies": {
     "@types/jquery": "^3.5.14",
     "http-server": "^13.0.2"
+  },
+  "dependencies": {
+    "git": "^0.1.5",
+    "gity": "^1.0.5"
   }
 }

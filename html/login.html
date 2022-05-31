@@ -11,35 +11,40 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../css/login.css">
     <link rel="stylesheet" href="../css/bootstrap.css">
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+
     <meta name="google-signin-client_id"
         content="539940953176-8mj5o0o5ckvv2t1eii2i787k3ofr33i7.apps.googleusercontent.com">
     <title>Login</title>
 </head>
 
-<body onload="renderButton(); borrar();" id="bod">
+<body onload="borrar();" id="bod">
     <div class="loader" id="loader"></div>
     <div class="container hub" id="cont">
         <div class="row alt">
-            <div class="col-md-6">
+            <div id="contReg" class="col-md-6">
                 <h4 class="cuenta">No tienes <br> una cuenta?</h4>
                 <input type="submit" value="REGISTER" class="login" onclick="redirect3()">
             </div>
             <div class="col-md-6 mover">
                 <div class="logins">
-                    <img src="../imgs/LOGO_FINDEM.png" alt="logo" class="logo">
-                    <h2 class="titulo">FindEm</h2>
+                    <div id="contLogo">
+                        <img src="../imgs/LOGO_FINDEM.png" alt="logo" class="logo">
+                        <h2 class="titulo">FindEm</h2>
+                    </div>
                     <div id="gSignIn" class="google"></div><br>
                     <hr class="separador">
                     <div class="formulario text-center">
-                        <input type="text" id="l_username" placeholder="username o mail" class="input2"><br><br>
-                        <input type="password" id="l_password" placeholder="password" class="input2">
-                        <input type="submit" value="LOGIN" class="btn boton center-block" onclick="login()"><br><br>
+                        <div id="inputDiv">
+                            <input type="text" id="l_username" placeholder="username o mail" class="input2"><br><br>
+                            <input type="password" id="l_password" placeholder="password" class="input2">
+                            <input type="submit" value="LOGIN" class="btn boton center-block" onclick="login()"><br><br>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </body>
-<script src="https://apis.google.com/js/platform.js" async defer></script>
 
 </html>

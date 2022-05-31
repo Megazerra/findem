@@ -14,29 +14,29 @@
   font-style: normal;
   font-display: swap;
 }
-
-
-
+.test h1:hover{
+  z-index: 99 !important;
+  cursor: pointer !important;
+  background-color: #808080 !important;
+}
 
 .logo{
-    width: 51px;
-    margin-right: 40px;
+  width: 51px;
+  margin-right: 40px;
 }
 
 .logo2{
-    margin-top: 4px;
-    width: 45px;
-    margin-right: 40px;
-    height: 47px;
+  margin-top: 4px;
+  width: 45px;
+  margin-right: 40px;
+  height: 47px;
 
 }
 
 
 .logo2:hover{
-    cursor: pointer;
+  cursor: pointer;
 }
-
-
 .loader {
    
     height: 5rem;
@@ -240,10 +240,10 @@ body{
 }
 
 
-
+/* 
 .enviado{
 
-  /* background-color: rgb(250 250 250);
+  background-color: rgb(250 250 250);
     border: 1px solid rgb(201, 201, 201);
     width: fit-content;
     padding: 10px;
@@ -252,11 +252,12 @@ body{
     margin-left: 10px;
   word-wrap: break-word;
   
-  max-width: 300px; */
+  max-width: 300px; 
 }
-
+*/
+/*
 .enviado2{
-  /* text-align: left;
+   text-align: left;
   background-color: rgb(242 239 239);
   border: 1px solid rgb(201, 201, 201);
   padding: 10px;
@@ -266,9 +267,9 @@ body{
   width: fit-content;
   max-width: 167px;
   overflow:hidden;
-  word-wrap: break-word; */
+  word-wrap: break-word; 
 }
-
+*/
 /* .enviado2{
 
   background-color: rgb(242 239 239);
@@ -296,21 +297,20 @@ body{
 
 
 .image{
-   
     width: 100px;
     height: 100px;
-  
     object-fit: cover;
 }
 
 
 .test{
+  border-radius: 15px;
   position: absolute;
   border: 1px solid #d4d4d4;
-  background-color: white;
   border-bottom: none;
   border-top: none;
-  z-index: 99;
+  background-color: #363736;
+  z-index: 0;
   /*position the autocomplete items to be the same width as the container:*/
   top: 110%;
   left: 0;
@@ -318,15 +318,11 @@ body{
 }
 
 .AvhYw {
-  background: #fff;
-  background: rgba(var(--d87,255,255,255),1);
-  border: 1px solid #fff;
-  border: 1px solid rgba(var(--f23,255,255,255),1);
+  background: #363736;
+  /*background: rgba(var(--d87,255,255,255),1);*/
+  border: 1px solid #363736;
+  border: 1px solid #363736;
   bottom: -6px;
-  -webkit-box-shadow: 0 0 5px 1px rgb(0 0 0 / 10%);
-  box-shadow: 0 0 5px 1px rgb(0 0 0 / 10%);
-  -webkit-box-shadow: 0 0 5px 1px rgba(var(--jb7,0,0,0),.0975);
-  box-shadow: 0 0 5px 1px rgba(var(--jb7,0,0,0),.0975);
   height: 14px;
   -webkit-transform: rotate(45deg);
   transform: rotate(45deg);
@@ -336,11 +332,19 @@ body{
   left: 50%;
   right: 0;
   visibility: hidden;
+  z-index: 5 !important;
 }
 
+.test h1{
+  padding: 0px 15px;
+  margin: 15px 0px;
+  color: white;
+}
 
 .sear{
   position: relative;
+  margin-top: 10px;
+  margin-right: 40px;
 }
 
 .padre{

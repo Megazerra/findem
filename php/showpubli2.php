@@ -7,8 +7,7 @@ $datos = trim($_POST["i"]);
 $separado = explode("-", $datos);
 $user = $_SESSION['username'];
 
-
-$post = "SELECT * FROM usuario us JOIN post po ON (po.idUsuario = us.userName) WHERE us.userName = '$datos'";
+$post = "SELECT * FROM usuario us JOIN post po ON (po.idUsuario = us.userName) WHERE us.userName = '".$separado[0]."'";
 $r2 = mysqli_query($conexio, $post);
 
 while($fila = mysqli_fetch_assoc($r2)){
