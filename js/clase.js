@@ -6,52 +6,63 @@ function sugerencias() {
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
-            var par = new DOMParser();
-            var xmlDoc = par.parseFromString(this.responseText, "text/xml");
-            var username = xmlDoc.getElementsByTagName('userName');
-            var nombre = xmlDoc.getElementsByTagName('nombre');
-            var apellido = xmlDoc.getElementsByTagName('apellido');
-            var email = xmlDoc.getElementsByTagName('email');
-            var prop = xmlDoc.getElementsByTagName('prop');
-            var foto = xmlDoc.getElementsByTagName('foto');
-            var foto2 = xmlDoc.getElementsByTagName('foto2');
-            for (var i = 0; i < nombre.length; i++) {
-                var hr = document.createElement('hr');
-                hr.style.height = '2px';
-                hr.classList.add('my-2');
-                var row = document.createElement('div');
-                row.classList.add('col-md-12');
-                var div1 = document.createElement('div');
-                div1.classList.add('row', 'justify-content-center');
-                var div3 = document.createElement('div');
-                div3.classList.add('col-4');
-                var div2 = document.createElement('div');
-                div2.classList.add('col-8');
-                var h4 = document.createElement('h4');
-                h4.innerHTML = "<strong>@" + username[i].childNodes[0].nodeValue + "</strong>";
-                var sigue = document.createElement('p');
-                sigue.innerHTML = prop[i].childNodes[0].nodeValue + " sige a esta cuenta.";
-                sigue.classList.add('d-inline', 'col-md-6');
-                var imagen2 = document.createElement('img');
-                imagen2.setAttribute('src', foto2[i].childNodes[0].nodeValue);
-                imagen2.setAttribute('onclick', 'amigoChange("' + prop[i].childNodes[0].nodeValue + '")');
-                imagen2.classList.add('thumb');
-                imagen2.classList.add('d-inline');
-                div2.appendChild(h4);
-                div2.appendChild(imagen2);
-                div2.appendChild(sigue);
-                div2.classList.add('mt-3');
-                var imagen = document.createElement('img');
-                imagen.setAttribute('src', foto[i].childNodes[0].nodeValue);
-                imagen.setAttribute('onclick', 'amigoChange("' + username[i].childNodes[0].nodeValue + '")');
-                imagen.style = "border-radius: 100%";
-                imagen.classList.add('imFix', 'img-fluid', 'd-inline', 'd-flex', 'ms-auto');
-                div3.appendChild(imagen);
-                div1.appendChild(div3);
-                div1.appendChild(div2);
-                row.appendChild(div1);
-                superDiv.appendChild(row);
-                superDiv.appendChild(hr);
+            var log = this.responseText;
+            console.log(log);
+            if (log == '0') {
+                var h2 = document.createElement('h2');
+                h2.setAttribute('class', 'text-pop-up-top nothing');
+                var txt = document.createTextNode('No tienes mensajes todavía.');
+                h2.appendChild(txt);
+                superDiv.appendChild(h2);
+            }
+            else {
+                var par = new DOMParser();
+                var xmlDoc = par.parseFromString(this.responseText, "text/xml");
+                var username = xmlDoc.getElementsByTagName('userName');
+                var nombre = xmlDoc.getElementsByTagName('nombre');
+                var apellido = xmlDoc.getElementsByTagName('apellido');
+                var email = xmlDoc.getElementsByTagName('email');
+                var prop = xmlDoc.getElementsByTagName('prop');
+                var foto = xmlDoc.getElementsByTagName('foto');
+                var foto2 = xmlDoc.getElementsByTagName('foto2');
+                for (var i = 0; i < nombre.length; i++) {
+                    var hr = document.createElement('hr');
+                    hr.style.height = '2px';
+                    hr.classList.add('my-2');
+                    var row = document.createElement('div');
+                    row.classList.add('col-md-12');
+                    var div1 = document.createElement('div');
+                    div1.classList.add('row', 'justify-content-center');
+                    var div3 = document.createElement('div');
+                    div3.classList.add('col-4');
+                    var div2 = document.createElement('div');
+                    div2.classList.add('col-8');
+                    var h4 = document.createElement('h4');
+                    h4.innerHTML = "<strong>@" + username[i].childNodes[0].nodeValue + "</strong>";
+                    var sigue = document.createElement('p');
+                    sigue.innerHTML = prop[i].childNodes[0].nodeValue + " sige a esta cuenta.";
+                    sigue.classList.add('d-inline', 'col-md-6');
+                    var imagen2 = document.createElement('img');
+                    imagen2.setAttribute('src', foto2[i].childNodes[0].nodeValue);
+                    imagen2.setAttribute('onclick', 'amigoChange("' + prop[i].childNodes[0].nodeValue + '")');
+                    imagen2.classList.add('thumb');
+                    imagen2.classList.add('d-inline');
+                    div2.appendChild(h4);
+                    div2.appendChild(imagen2);
+                    div2.appendChild(sigue);
+                    div2.classList.add('mt-3');
+                    var imagen = document.createElement('img');
+                    imagen.setAttribute('src', foto[i].childNodes[0].nodeValue);
+                    imagen.setAttribute('onclick', 'amigoChange("' + username[i].childNodes[0].nodeValue + '")');
+                    imagen.style = "border-radius: 100%";
+                    imagen.classList.add('imFix', 'img-fluid', 'd-inline', 'd-flex', 'ms-auto');
+                    div3.appendChild(imagen);
+                    div1.appendChild(div3);
+                    div1.appendChild(div2);
+                    row.appendChild(div1);
+                    superDiv.appendChild(row);
+                    superDiv.appendChild(hr);
+                }
             }
         }
     };
@@ -1017,32 +1028,57 @@ function feed() {
         if (this.readyState == 4 && this.status == 200) {
             var par = new DOMParser();
             var xmlDoc = par.parseFromString(this.responseText, "text/xml");
-            var descripcion = xmlDoc.getElementsByTagName('descripcion');
-            var lugar = xmlDoc.getElementsByTagName('descripcion');
-            var likes = xmlDoc.getElementsByTagName('likes');
-            var idUsuario = xmlDoc.getElementsByTagName('idUsuario');
-            var publi = xmlDoc.getElementsByTagName('publi');
-            for (var i = 0; i < publi.length; i++) {
-                var div2 = document.createElement('div');
-                var div3 = document.createElement('div');
-                div2.setAttribute('class', 'my-12 try');
-                var x = xmlDoc.getElementsByTagName("archivo")[i].childNodes[0].nodeValue;
-                var a = document.createElement("img");
-                a.setAttribute('class', 'imageFeed');
-                a.src = x;
-                var xP = xmlDoc.getElementsByTagName("foto")[i].childNodes[0].nodeValue;
-                var aP = document.createElement("img");
-                aP.setAttribute('class', 'perf');
-                aP.src = xP;
-                var nombreUsuario = document.createTextNode(idUsuario[i].childNodes[0].nodeValue);
-                var h4 = document.createElement('h4');
-                h4.setAttribute('class', 'margen');
-                h4.appendChild(nombreUsuario);
-                div2.appendChild(aP);
-                div2.appendChild(h4);
-                div3.appendChild(a);
-                div2.appendChild(div3);
-                div.appendChild(div2);
+            console.log(this.responseText);
+            var log = this.responseText;
+            console.log(log);
+            if (log == '0') {
+                var h2 = document.createElement('h2');
+                h2.setAttribute('class', 'text-pop-up-top nothing');
+                var txt = document.createTextNode('No tienes publicaciones que ver.');
+                h2.appendChild(txt);
+                div.appendChild(h2);
+            }
+            else {
+                var descripcion = xmlDoc.getElementsByTagName('descripcion');
+                var lugar = xmlDoc.getElementsByTagName('descripcion');
+                var likes = xmlDoc.getElementsByTagName('likes');
+                var idUsuario = xmlDoc.getElementsByTagName('idUsuario');
+                var publi = xmlDoc.getElementsByTagName('publi');
+                var idPost = xmlDoc.getElementsByTagName('idPost');
+                for (var i = 0; i < publi.length; i++) {
+                    var div2 = document.createElement('div');
+                    var div3 = document.createElement('div');
+                    div2.setAttribute('class', 'my-12 try');
+                    var x = xmlDoc.getElementsByTagName("archivo")[i].childNodes[0].nodeValue;
+                    var a = document.createElement("img");
+                    a.setAttribute('class', 'imageFeed');
+                    a.src = x;
+                    var xP = xmlDoc.getElementsByTagName("foto")[i].childNodes[0].nodeValue;
+                    var aP = document.createElement("img");
+                    aP.setAttribute('class', 'perf');
+                    aP.src = xP;
+                    // var img: any = document.createElement('img');
+                    // img.setAttribute('class', 'like');
+                    // img.id = "likes";
+                    // if (count[0].childNodes[0].nodeValue === "0") {
+                    //   img.src = "../imgs/notliked.png";
+                    // } else {
+                    //   img.src = "../imgs/liked.png";
+                    // }
+                    // img.onclick = function () {
+                    //   likes(idPost[i].childNodes[0].nodeValue);
+                    // };
+                    var nombreUsuario = document.createTextNode(idUsuario[i].childNodes[0].nodeValue);
+                    var h4 = document.createElement('h4');
+                    h4.setAttribute('class', 'margen');
+                    h4.appendChild(nombreUsuario);
+                    div2.appendChild(aP);
+                    div2.appendChild(h4);
+                    div3.appendChild(a);
+                    // div3.appendChild(img);
+                    div2.appendChild(div3);
+                    div.appendChild(div2);
+                }
             }
         }
     };
@@ -1141,32 +1177,39 @@ function showList(id) {
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
+            console.log(this.responseText);
             var par = new DOMParser();
             var xmlDoc = par.parseFromString(this.responseText, "text/xml");
             var nombre = xmlDoc.getElementsByTagName('username');
             var participante = xmlDoc.getElementsByTagName('participante');
             var row = document.createElement('div');
-            row.setAttribute('class', 'row');
-            var cerrar = document.createElement('input');
+            row.classList.add('px-5', 'row');
+            var cerrar = document.createElement('button');
+            var añadir = document.createElement('button');
+            añadir.innerText = "Asistir";
+            añadir.classList.add('btn', 'btn-success', 'asis');
+            añadir.setAttribute('onclick', 'plusUserLista(' + id + ')');
             cerrar.type = "submit";
             cerrar.onclick = function () {
                 mostrar.style.display = "none";
             };
-            cerrar.setAttribute('class', 'cerrar');
-            cerrar.value = "X";
+            cerrar.classList.add('cerrar', 'closeId', 'btn', 'btn-danger');
+            cerrar.innerText = "Cerrar";
             console.log("participantes:");
             console.log(xmlDoc);
             var tit = document.createElement('h3');
-            tit.setAttribute('class', 'part');
+            tit.classList.add('p-3', 'part');
             tit.innerText = "Participantes";
             while (mostrar.firstChild) {
                 mostrar.removeChild(mostrar.firstChild);
             }
             mostrar.appendChild(tit);
+            mostrar.appendChild(cerrar);
+            mostrar.appendChild(añadir);
             for (var i = 0; i < participante.length; i++) {
                 var col = document.createElement('div');
-                col.setAttribute('classs', 'col-md-4');
-                var userN = document.createTextNode(nombre[i].childNodes[0].nodeValue);
+                col.classList.add('p-0', 'col-md-4', 'mb-3');
+                var userN = document.createTextNode('@' + nombre[i].childNodes[0].nodeValue);
                 var h3 = document.createElement('h3');
                 h3.appendChild(userN);
                 var x = xmlDoc.getElementsByTagName("foto")[i].childNodes[0].nodeValue;
@@ -1177,11 +1220,47 @@ function showList(id) {
                 col.appendChild(h3);
                 row.appendChild(col);
                 mostrar.appendChild(row);
-                mostrar.appendChild(cerrar);
             }
         }
     };
     xhttp.open("POST", "php/showList.php", true);
+    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhttp.send("i=" + id);
+}
+function plusUserLista(id) {
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+            var log = this.responseText;
+            if (log == "1") {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Conseguido',
+                    text: 'Te has unido a la lista.',
+                    allowOutsideClick: false
+                }).then(function (result) {
+                    if (result.isConfirmed) {
+                        window.location.href = "./index.html";
+                    }
+                });
+            }
+            else if (log == "0") {
+                Swal.fire({
+                    icon: 'info',
+                    title: 'Listillo...',
+                    text: 'Ya te has unido a esta lista'
+                });
+            }
+            else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Opss...',
+                    text: 'Has encontrado un bug.'
+                });
+            }
+        }
+    };
+    xhttp.open("POST", "./php/addUserLista.php", true);
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhttp.send("i=" + id);
 }

@@ -6,57 +6,66 @@ function sugerencias() {
   var xhttp = new XMLHttpRequest();
   xhttp.onreadystatechange = function () {
     if (this.readyState == 4 && this.status == 200) {
+      let log = this.responseText;
+      console.log(log);
+      if (log == '0') {
+        var h2: any = document.createElement('h2');
+        h2.setAttribute('class', 'text-pop-up-top nothing')
+        var txt: any = document.createTextNode('No tienes mensajes todavía.');
+        h2.appendChild(txt);
+        superDiv.appendChild(h2);
+      } else {
+        var par = new DOMParser();
+        var xmlDoc = par.parseFromString(this.responseText, "text/xml");
 
-      var par = new DOMParser();
-      var xmlDoc = par.parseFromString(this.responseText, "text/xml");
+        var username = xmlDoc.getElementsByTagName('userName');
+        var nombre = xmlDoc.getElementsByTagName('nombre');
+        var apellido = xmlDoc.getElementsByTagName('apellido');
+        var email = xmlDoc.getElementsByTagName('email');
+        var prop = xmlDoc.getElementsByTagName('prop');
+        var foto = xmlDoc.getElementsByTagName('foto');
+        var foto2: any = xmlDoc.getElementsByTagName('foto2');
+        for (var i = 0; i < nombre.length; i++) {
+          var hr = document.createElement('hr');
+          hr.style.height = '2px';
+          hr.classList.add('my-2');
+          var row = document.createElement('div');
+          row.classList.add('col-md-12');
+          var div1 = document.createElement('div');
+          div1.classList.add('row', 'justify-content-center');
+          var div3 = document.createElement('div');
+          div3.classList.add('col-4');
+          var div2 = document.createElement('div');
+          div2.classList.add('col-8');
+          var h4 = document.createElement('h4');
+          h4.innerHTML = "<strong>@" + username[i].childNodes[0].nodeValue + "</strong>";
+          var sigue = document.createElement('p');
+          sigue.innerHTML = prop[i].childNodes[0].nodeValue + " sige a esta cuenta.";
+          sigue.classList.add('d-inline', 'col-md-6');
 
-      var username = xmlDoc.getElementsByTagName('userName');
-      var nombre = xmlDoc.getElementsByTagName('nombre');
-      var apellido = xmlDoc.getElementsByTagName('apellido');
-      var email = xmlDoc.getElementsByTagName('email');
-      var prop = xmlDoc.getElementsByTagName('prop');
-      var foto = xmlDoc.getElementsByTagName('foto');
-      var foto2: any = xmlDoc.getElementsByTagName('foto2');
-      for (var i = 0; i < nombre.length; i++) {
-        var hr = document.createElement('hr');
-        hr.style.height = '2px';
-        hr.classList.add('my-2');
-        var row = document.createElement('div');
-        row.classList.add('col-md-12');
-        var div1 = document.createElement('div');
-        div1.classList.add('row', 'justify-content-center');
-        var div3 = document.createElement('div');
-        div3.classList.add('col-4');
-        var div2 = document.createElement('div');
-        div2.classList.add('col-8');
-        var h4 = document.createElement('h4');
-        h4.innerHTML = "<strong>@" + username[i].childNodes[0].nodeValue + "</strong>";
-        var sigue = document.createElement('p');
-        sigue.innerHTML = prop[i].childNodes[0].nodeValue + " sige a esta cuenta.";
-        sigue.classList.add('d-inline', 'col-md-6');
+          let imagen2 = document.createElement('img');
+          imagen2.setAttribute('src', foto2[i].childNodes[0].nodeValue);
+          imagen2.setAttribute('onclick', 'amigoChange("' + prop[i].childNodes[0].nodeValue + '")');
+          imagen2.classList.add('thumb');
+          imagen2.classList.add('d-inline');
 
-        let imagen2 = document.createElement('img');
-        imagen2.setAttribute('src', foto2[i].childNodes[0].nodeValue);
-        imagen2.setAttribute('onclick', 'amigoChange("' + prop[i].childNodes[0].nodeValue + '")');
-        imagen2.classList.add('thumb');
-        imagen2.classList.add('d-inline');
+          div2.appendChild(h4);
+          div2.appendChild(imagen2);
+          div2.appendChild(sigue);
+          div2.classList.add('mt-3');
 
-        div2.appendChild(h4);
-        div2.appendChild(imagen2);
-        div2.appendChild(sigue);
-        div2.classList.add('mt-3');
-
-        let imagen: any = document.createElement('img');
-        imagen.setAttribute('src', foto[i].childNodes[0].nodeValue);
-        imagen.setAttribute('onclick', 'amigoChange("' + username[i].childNodes[0].nodeValue + '")');
-        imagen.style = "border-radius: 100%";
-        imagen.classList.add('imFix', 'img-fluid', 'd-inline', 'd-flex', 'ms-auto');
-        div3.appendChild(imagen);
-        div1.appendChild(div3);
-        div1.appendChild(div2);
-        row.appendChild(div1);
-        superDiv.appendChild(row);
-        superDiv.appendChild(hr);
+          let imagen: any = document.createElement('img');
+          imagen.setAttribute('src', foto[i].childNodes[0].nodeValue);
+          imagen.setAttribute('onclick', 'amigoChange("' + username[i].childNodes[0].nodeValue + '")');
+          imagen.style = "border-radius: 100%";
+          imagen.classList.add('imFix', 'img-fluid', 'd-inline', 'd-flex', 'ms-auto');
+          div3.appendChild(imagen);
+          div1.appendChild(div3);
+          div1.appendChild(div2);
+          row.appendChild(div1);
+          superDiv.appendChild(row);
+          superDiv.appendChild(hr);
+        }
       }
     }
   };
@@ -359,10 +368,10 @@ function mostrarId(id: any) {
 
             container2.id = "left";
             container.setAttribute('class', 'inlineContainer');
-            if(animatronic == 1){
-            container2.setAttribute('class', 'otherBubble other slide-in-left');
-            }else{
-            container2.setAttribute('class', 'otherBubble other');
+            if (animatronic == 1) {
+              container2.setAttribute('class', 'otherBubble other slide-in-left');
+            } else {
+              container2.setAttribute('class', 'otherBubble other');
             }
             p.appendChild(men);
             container2.appendChild(p);
@@ -371,13 +380,13 @@ function mostrarId(id: any) {
             var container: any = document.createElement('div');
             var container2: any = document.createElement('div');
             container.setAttribute('class', 'inlineContainer own');
-            if(animatronic == 1){
+            if (animatronic == 1) {
               container2.setAttribute('class', 'ownBubble own slide-in-right');
 
-              }else{
-                container2.setAttribute('class', 'ownBubble own');
+            } else {
+              container2.setAttribute('class', 'ownBubble own');
 
-              }
+            }
             p.appendChild(men);
             container2.appendChild(p);
             container.appendChild(container2);
@@ -813,11 +822,11 @@ function showpublis() {
 
 }
 
-function comprobarBuscador(){
-  if(localStorage.getItem('per3')){
+function comprobarBuscador() {
+  if (localStorage.getItem('per3')) {
     let id = localStorage.getItem('per3');
     localStorage.removeItem('per3');
-    let p:any = document.createElement('p');
+    let p: any = document.createElement('p');
     p.innerText = id;
     alert(p.innerText);
     showpublis2(p);
@@ -828,7 +837,7 @@ function showpublis2(id: any) {
   var URLactual = window.location.pathname;
   if (URLactual == '/findem/html/friends.html') {
     localStorage.setItem('per3', id.innerText);
-    window.location.href ="./perfilA.html";
+    window.location.href = "./perfilA.html";
   }
   var xhttp = new XMLHttpRequest();
   xhttp.onreadystatechange = function () {
@@ -1179,13 +1188,25 @@ function feed() {
   xhttp.onreadystatechange = function () {
     if (this.readyState == 4 && this.status == 200) {
       var par = new DOMParser();
-      var xmlDoc: any = par.parseFromString(this.responseText, "text/xml");
 
+      var xmlDoc: any = par.parseFromString(this.responseText, "text/xml");
+      console.log(this.responseText);
+
+      let log = this.responseText;
+      console.log(log);
+      if (log == '0') {
+        var h2: any = document.createElement('h2');
+        h2.setAttribute('class', 'text-pop-up-top nothing')
+        var txt: any = document.createTextNode('No tienes publicaciones que ver.');
+        h2.appendChild(txt);
+        div.appendChild(h2);
+      } else {
       var descripcion: any = xmlDoc.getElementsByTagName('descripcion');
       var lugar: any = xmlDoc.getElementsByTagName('descripcion');
       var likes: any = xmlDoc.getElementsByTagName('likes');
       var idUsuario: any = xmlDoc.getElementsByTagName('idUsuario');
       var publi: any = xmlDoc.getElementsByTagName('publi');
+      var idPost: any = xmlDoc.getElementsByTagName('idPost');
 
       for (var i: any = 0; i < publi.length; i++) {
         var div2: any = document.createElement('div');
@@ -1201,6 +1222,19 @@ function feed() {
         aP.setAttribute('class', 'perf');
         aP.src = xP;
 
+        // var img: any = document.createElement('img');
+        // img.setAttribute('class', 'like');
+        // img.id = "likes";
+        // if (count[0].childNodes[0].nodeValue === "0") {
+        //   img.src = "../imgs/notliked.png";
+        // } else {
+        //   img.src = "../imgs/liked.png";
+        // }
+        // img.onclick = function () {
+        //   likes(idPost[i].childNodes[0].nodeValue);
+        // };
+
+
         var nombreUsuario: any = document.createTextNode(idUsuario[i].childNodes[0].nodeValue)
         var h4: any = document.createElement('h4');
         h4.setAttribute('class', 'margen');
@@ -1208,6 +1242,7 @@ function feed() {
         div2.appendChild(aP);
         div2.appendChild(h4);
         div3.appendChild(a);
+        // div3.appendChild(img);
         div2.appendChild(div3);
         div.appendChild(div2)
 
@@ -1215,6 +1250,7 @@ function feed() {
 
 
     }
+  }
   };
   xhttp.open("POST", "php/feed.php", true);
   xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
@@ -1344,82 +1380,98 @@ function listas(value: any) {
   xhttp.send("i=" + value);
 
 }
-
 function showList(id: any) {
-
   var div: any = document.getElementById('publis');
-
   var mostrar: any = document.getElementById('listas_def');
   mostrar.style.display = "block";
   var xhttp = new XMLHttpRequest();
   xhttp.onreadystatechange = function () {
     if (this.readyState == 4 && this.status == 200) {
-
+      console.log(this.responseText);
       var par = new DOMParser();
       var xmlDoc: any = par.parseFromString(this.responseText, "text/xml");
-
-
-
       var nombre: any = xmlDoc.getElementsByTagName('username');
       var participante: any = xmlDoc.getElementsByTagName('participante');
       var row: any = document.createElement('div');
-      row.setAttribute('class', 'row');
-      var cerrar: any = document.createElement('input');
+      row.classList.add('px-5', 'row');
+      var cerrar: any = document.createElement('button');
+      let añadir: any = document.createElement('button');
+      añadir.innerText = "Asistir";
+      añadir.classList.add('btn', 'btn-success', 'asis');
+      añadir.setAttribute('onclick', 'plusUserLista(' + id + ')');
       cerrar.type = "submit";
-
       cerrar.onclick = function () {
-
         mostrar.style.display = "none";
-
       }
-
-      cerrar.setAttribute('class', 'cerrar');
-      cerrar.value = "X";
-
+      cerrar.classList.add('cerrar', 'closeId', 'btn', 'btn-danger');
+      cerrar.innerText = "Cerrar";
       console.log("participantes:");
       console.log(xmlDoc);
 
       var tit: any = document.createElement('h3');
-      tit.setAttribute('class', 'part');
+      tit.classList.add('p-3', 'part');
       tit.innerText = "Participantes";
       while (mostrar.firstChild) {
         mostrar.removeChild(mostrar.firstChild);
       }
       mostrar.appendChild(tit);
+      mostrar.appendChild(cerrar);
+      mostrar.appendChild(añadir);
       for (var i: any = 0; i < participante.length; i++) {
-
         var col: any = document.createElement('div');
-        col.setAttribute('classs', 'col-md-4');
-
-
-        var userN: any = document.createTextNode(nombre[i].childNodes[0].nodeValue);
+        col.classList.add('p-0', 'col-md-4', 'mb-3');
+        var userN: any = document.createTextNode('@' + nombre[i].childNodes[0].nodeValue);
         var h3: any = document.createElement('h3');
         h3.appendChild(userN);
-
         var x = xmlDoc.getElementsByTagName("foto")[i].childNodes[0].nodeValue;
         var a = document.createElement("img");
         a.setAttribute('class', 'image');
-        a.src = x
-
+        a.src = x;
         col.appendChild(a);
         col.appendChild(h3);
         row.appendChild(col);
-
         mostrar.appendChild(row);
-        mostrar.appendChild(cerrar);
-
-
       }
-
-
-
     }
-
   };
   xhttp.open("POST", "php/showList.php", true);
   xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
   xhttp.send("i=" + id);
-
+}
+function plusUserLista(id: any) {
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function () {
+    if (this.readyState == 4 && this.status == 200) {
+      let log = this.responseText;
+      if (log == "1") {
+        Swal.fire({
+          icon: 'success',
+          title: 'Conseguido',
+          text: 'Te has unido a la lista.',
+          allowOutsideClick: false
+        }).then((result: any) => {
+          if (result.isConfirmed) {
+            window.location.href = "./index.html";
+          }
+        });
+      } else if (log == "0") {
+        Swal.fire({
+          icon: 'info',
+          title: 'Listillo...',
+          text: 'Ya te has unido a esta lista'
+        });
+      } else {
+        Swal.fire({
+          icon: 'error',
+          title: 'Opss...',
+          text: 'Has encontrado un bug.'
+        });
+      }
+    }
+  };
+  xhttp.open("POST", "./php/addUserLista.php", true);
+  xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+  xhttp.send("i=" + id);
 }
 
 function my_callback(value) {
@@ -1427,16 +1479,16 @@ function my_callback(value) {
   listas(value);
 }
 
-function loader(){
+function loader() {
 
 
-  var load:any = document.getElementById('loaderr');
-  var cargador:any = document.getElementById('cargador');
-  
-    /* background-image: url('../imgs/locura.svg'); */
-  setTimeout(function(){
-  load.style.display = "none";
-  cargador.style.display = "block";
-  document.body.style.backgroundImage = "url(./imgs/locura.svg)";
+  var load: any = document.getElementById('loaderr');
+  var cargador: any = document.getElementById('cargador');
+
+  /* background-image: url('../imgs/locura.svg'); */
+  setTimeout(function () {
+    load.style.display = "none";
+    cargador.style.display = "block";
+    document.body.style.backgroundImage = "url(./imgs/locura.svg)";
   }, 1890);
 }
