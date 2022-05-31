@@ -25,7 +25,7 @@
   <title>INDEX</title>
 </head>
 
-<body onload="valoraciones(); feed(); listas(); sugerencias();">
+<body onload="valoraciones(); feed(); listas(); sugerencias(); pendiente()">
   <div class="loader" id="loader"></div>
   <div id="cont">
     <nav class="navbar navbar-light bg-light">
@@ -35,8 +35,9 @@
             <img src="imgs/LOGO_FINDEM.png" class="img-fluid ms-5 p-2" class="logo">
           </div>
         </div>
-        <form class="d-flex">
+        <form class="d-flex" id="menu">
           <img src="imgs/home.png" alt="" class="logo" draggable="false">
+          <img src="imgs/pendent.png" alt="" class="logo" draggable="false" id="pendent">
           <img src="imgs/message.png" alt="" class="logo2" draggable="false" onclick="redirect2()">
           <img src="imgs/friends.png" alt="" class="logo2" draggable="false" onclick="redirect4()">
           <img src="imgs/cerrar.png" alt="" class="logo2" draggable="false" onclick="cerrar()">
@@ -70,7 +71,7 @@
 
         </div>
       </div>
-      <div class="col-md-4">
+      <div class="col-md-4 max">
         <div class="publis" id="publis"></div>
       </div>
       <div class="col-md-4">
@@ -86,6 +87,17 @@
   </div>
   </div>
 
+
+  <div class="pendientes" id="esconder">
+    
+  </div>
+  <div>
+    
+  </div>
+  <div class="listas_def" id="listas_def">
+    
+    
+    </div>
   <!-- API MAPS -->
   <script async defer
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCWuDfZnbKeg-FAQ-q_vrpRXSJTarzADXo&callback=initMap"></script>

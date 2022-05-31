@@ -17,12 +17,12 @@ if($datos == "undefined"){
 		$r2 = mysqli_query($conexio, $post);
 
 		while($fila = mysqli_fetch_assoc($r2)){
-			$amigo2[] = Array('titulo' => $fila['titulo'],'fecha_inicio' => $fila['fecha_inicio'],'fecha_final' => $fila['fecha_final'],'idDiscoteca' => $fila['idDiscoteca'], 'logo' => "data:image/png;base64," . base64_encode($fila['logo']), 'nombre' => $fila['nombre']);
+			$amigo2[] = Array('titulo' => $fila['titulo'],'fecha_inicio' => $fila['fecha_inicio'],'fecha_final' => $fila['fecha_final'],'idDiscoteca' => $fila['idDiscoteca'], 'logo' => "data:image/png;base64," . base64_encode($fila['logo']), 'nombre' => $fila['nombre'], 'idLista' => $fila['idLista']);
 			
 		}
 
 		foreach($amigo2 as $codigo => $ins){
-			$todos2[] = "<lista><titulo>".$ins['titulo']."</titulo><fecha_inicio>".$ins['fecha_inicio']."</fecha_inicio><fecha_final>".$ins['fecha_final']."</fecha_final><idDiscoteca>".$ins['idDiscoteca']."</idDiscoteca><logo>".$ins['logo']."</logo><nombre>".$ins['nombre']."</nombre></lista>";
+			$todos2[] = "<lista><idLista>".$ins['idLista']."</idLista><titulo>".$ins['titulo']."</titulo><fecha_inicio>".$ins['fecha_inicio']."</fecha_inicio><fecha_final>".$ins['fecha_final']."</fecha_final><idDiscoteca>".$ins['idDiscoteca']."</idDiscoteca><logo>".$ins['logo']."</logo><nombre>".$ins['nombre']."</nombre></lista>";
 		}
 
 
