@@ -113,11 +113,7 @@ function redirect7() {
     window.location.href = "./login.html";
 }
 function redirect2() {
-    cargar();
-    setTimeout(function () {
-        volver();
-        window.location.href = "html/friends.html";
-    }, 200);
+    window.location.href = "./html/friends.html";
 }
 function refresh(iden) {
     var div = document.getElementById('mens');
@@ -835,6 +831,7 @@ function likes(id) {
             var par = new DOMParser();
             var xmlDoc = par.parseFromString(this.responseText, "text/xml");
             var string = this.responseText.split("-");
+            console.log(this.responseText);
             if (string[0] === "in") {
                 like.src = '../imgs/liked.png';
             }
@@ -1275,5 +1272,5 @@ function loader() {
         load.style.display = "none";
         cargador.style.display = "block";
         document.body.style.backgroundImage = "url(./imgs/locura.svg)";
-    }, 1890);
+    }, 200000);
 }

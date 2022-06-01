@@ -26,7 +26,9 @@ $user = $_SESSION['username'];
 	if($id == 0){
 		$insert = "INSERT INTO likes (idUsuario, idPost) VALUES ('$user', '$separado[0]')";
 		$r = mysqli_query($conexio, $insert);
-	
+
+		$insert = "INSERT INTO post (likes) VALUES (SUM(1)";
+		$r = mysqli_query($conexio, $insert);
 
 		$estado = "in";
 	}else if($id == 1){

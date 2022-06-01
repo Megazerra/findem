@@ -121,12 +121,7 @@ function redirect7() {
 }
 
 function redirect2() {
-  cargar();
-  setTimeout(function () {
-    volver();
-    window.location.href = "html/friends.html";
-  }, 200);
-
+  window.location.href = "./html/friends.html";
 
 }
 
@@ -969,7 +964,7 @@ function likes(id: any) {
       var par = new DOMParser();
       var xmlDoc: any = par.parseFromString(this.responseText, "text/xml");
       var string = this.responseText.split("-");
-
+      console.log(this.responseText);
       if (string[0] === "in") {
         like.src = '../imgs/liked.png';
       } else if (string[0] === "out") {
@@ -1490,5 +1485,5 @@ function loader() {
     load.style.display = "none";
     cargador.style.display = "block";
     document.body.style.backgroundImage = "url(./imgs/locura.svg)";
-  }, 1890);
+  }, 200000);
 }
