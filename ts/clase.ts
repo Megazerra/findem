@@ -41,7 +41,7 @@ function sugerencias() {
           h4.innerHTML = "<strong>@" + username[i].childNodes[0].nodeValue + "</strong>";
           var sigue = document.createElement('p');
           sigue.innerHTML = prop[i].childNodes[0].nodeValue + " sige a esta cuenta.";
-          sigue.classList.add('d-inline', 'col-md-6');
+          sigue.classList.add('d-inline', 'col-md-6', 'col-sm-12', 'col-xs-12');
 
           let imagen2 = document.createElement('img');
           imagen2.setAttribute('src', foto2[i].childNodes[0].nodeValue);
