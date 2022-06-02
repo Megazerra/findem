@@ -24,7 +24,7 @@ if(!empty($_POST['username'])){
 if(!empty($_POST['password'])){
 	$password  = $_POST['password'];
 	echo $password;
-	$sql = "UPDATE usuario SET password = '$password' WHERE userName = '$user'";
+	$sql = "UPDATE usuario SET password = '".md5($password)."' WHERE userName = '$user'";
 	$r = mysqli_query($conexio, $sql);
 }
 

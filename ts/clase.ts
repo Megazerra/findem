@@ -514,7 +514,6 @@ function mostrarPerfil(id: any) {
         div2.removeChild(div2.firstChild);
       }
       var h3: any = document.createElement('h3');
-
       var h5: any = document.createElement('h5');
       h5.setAttribute('class', 'name');
 
@@ -531,19 +530,12 @@ function mostrarPerfil(id: any) {
       addfriend.src = "../imgs/add.png";
       addfriend.setAttribute('class', 'botonañadir');
       addfriend.setAttribute('onclick', 'addFriend("' + userName[0].childNodes[0].nodeValue + '",' + cont[0].childNodes[0].nodeValue + ")");
-
-
-
-
-
       h3.appendChild(user);
       h5.appendChild(name);
       div2.appendChild(h3);
       div2.appendChild(h5);
       div2.appendChild(addfriend);
       div.appendChild(a);
-
-
     };
   }
   xhttp.open("POST", "../php/perfilA.php", true);
@@ -554,7 +546,7 @@ function mostrarPerfil(id: any) {
     showpublis2(id);
     localStorage.removeItem('amigo');
   } else {
-
+    // console.log("navbar: " + id.innerText);
     showpublis2(id);
     xhttp.send("i=" + id.innerText);
   }
@@ -728,13 +720,10 @@ function update2(id: any) {
   xhttp.send("i=" + id.innerText);
 }
 
-
 function perfil() {
-
   var xhttp = new XMLHttpRequest();
   xhttp.onreadystatechange = function () {
     if (this.readyState == 4 && this.status == 200) {
-
       var par = new DOMParser();
       var xmlDoc: any = par.parseFromString(this.responseText, "text/xml");
       var userName: any = xmlDoc.getElementsByTagName('userName');
@@ -744,57 +733,41 @@ function perfil() {
       var foto: any = xmlDoc.getElementsByTagName('foto');
       var div: any = document.getElementById('ima2');
       var div2: any = document.getElementById('tex2');
-
-
-
+      var div3: any = document.getElementById('btnper');
       var input: any = document.createElement('input');
       input.type = "image";
       input.value = 'crar';
       input.src = '../imgs/add.svg';
-
       var input2: any = document.createElement('input');
       input2.type = "image";
       input2.src = '../imgs/conf.svg';
       input2.value = "Configurar";
-
-
-      input.setAttribute('class', 'añadir');
-      input.setAttribute('data-toggle', 'tooltip');
-      input.setAttribute('data-placement', 'top');
-      input.setAttribute('title', 'añadir publicacion');
-
-      input2.setAttribute('class', 'añadir2');
+      input.setAttribute('class', 'aw1');
+      input.setAttribute('data-bs-toggle', 'modal');
+      input.setAttribute('data-bs-target', '#exampleModal');
+      input2.setAttribute('class', 'aw2 me-3');
+      input2.setAttribute('id', 'aw2');
       input2.setAttribute('data-toggle', 'tooltip');
       input2.setAttribute('data-placement', 'top');
       input2.setAttribute('title', 'Configuración');
-
-
-
-      input2.onclick = function () {
-        configurar();
-
-      }
-      input.onclick = function () { publicaciones() };
+      input2.setAttribute('onclick', 'quitar()');
       var h3: any = document.createElement('h3');
-      h3.setAttribute('class', 'profilename');
-
       var h5: any = document.createElement('h5');
-      h5.setAttribute('class', 'name');
-
+      h3.setAttribute('class', 'ps-3 ms-1');
+      h5.setAttribute('class', '');
       var x = xmlDoc.getElementsByTagName("foto")[0].childNodes[0].nodeValue;
       var a = document.createElement("img");
       a.setAttribute('class', 'perf');
       a.src = x;
       var user: any = document.createTextNode("@" + userName[0].childNodes[0].nodeValue);
-      var name: any = document.createTextNode(nombre[0].childNodes[0].nodeValue + apellido[0].childNodes[0].nodeValue);
+      var name: any = document.createTextNode(nombre[0].childNodes[0].nodeValue + ' ' + apellido[0].childNodes[0].nodeValue);
       h3.appendChild(user);
       h5.appendChild(name);
       div2.appendChild(h3);
       div2.appendChild(h5);
-      div2.appendChild(input);
-      div2.appendChild(input2);
+      div3.appendChild(input2);
+      div3.appendChild(input);
       div.appendChild(a);
-
     };
   }
   xhttp.open("POST", "../php/perfil.php", true);
@@ -805,42 +778,11 @@ function perfil() {
 }
 
 var desc: any = 0;
-function publicaciones() {
-  var div: any = document.getElementById('add');
-  var descripcion: any = document.createElement('input');
-  descripcion.placeholder = "Descripcion";
-  descripcion.id = "Descripcion";
-  var lugar: any = document.createElement('input');
-  lugar.placeholder = "Lugar";
-  lugar.id = "lugar";
-  var archivo: any = document.createElement('input');
-  archivo.type = "file";
-  archivo.id = "file";
-  archivo.name = "file";
-  var button: any = document.createElement('input');
-  button.type = "submit";
-  button.value = "Crear";
-  descripcion.setAttribute('class', 'addi');
-  lugar.setAttribute('class', 'addi');
-  archivo.setAttribute('class', 'addi');
-  button.setAttribute('class', 'añadirbtn');
-  button.onclick = function () { añadirpubli() };
-  if (desc == 0) {
-    div.appendChild(archivo);
-    div.appendChild(descripcion);
-    div.appendChild(lugar);
-    div.appendChild(button);
-    desc++;
-  } else {
-    div.innerText = '';
-    desc = 0;
-  }
 
-}
 
 
 function añadirpubli() {
-  var div: any = document.getElementById('add');
+  var div: any = document.getElementById('exampleModal');
   var desc: any = document.getElementById('Descripcion')
   var lugar: any = document.getElementById('lugar');
   var file: any = document.getElementById('file');
@@ -854,7 +796,7 @@ function añadirpubli() {
   })
     .then(respuesta => respuesta.text())
     .then(decodificado => {
-      // console.log(decodificado);
+      console.log(decodificado);
     });
   location.reload();
 }
@@ -1053,85 +995,7 @@ function likes(id: any) {
 }
 
 
-function configurar() {
-  var div: any = document.getElementById('config');
-  var xhttp = new XMLHttpRequest();
 
-
-
-  div.style.display = "block";
-
-
-  var divinside: any = document.createElement('div');
-  divinside.setAttribute('class', 'insidediv')
-
-  var foto: any = document.createElement('input');
-  foto.type = "file";
-  foto.id = "fotito";
-  foto.setAttribute('class', 'custom-file-input inp');
-
-
-
-
-  var nombre: any = document.createElement('input');
-  nombre.id = "name";
-  var br: any = document.createElement('br');
-  var username: any = document.createElement('input');
-  username.id = "username";
-  var gmail: any = document.createElement('input');
-  gmail.id = "gmail";
-  var password: any = document.createElement('input');
-  password.id = "password";
-  var button: any = document.createElement('input');
-  button.type = "submit";
-
-  button.onclick = function () {
-    conf();
-  }
-
-  nombre.setAttribute('class', 'inp');
-  username.setAttribute('class', 'inp');
-  gmail.setAttribute('class', 'inp');
-  password.setAttribute('class', 'inp');
-  button.setAttribute('class', 'but inp');
-  xhttp.onreadystatechange = function () {
-    if (this.readyState == 4 && this.status == 200) {
-      var par = new DOMParser();
-      var xmlDoc: any = par.parseFromString(this.responseText, "text/xml");
-      var x = xmlDoc.getElementsByTagName("foto")[0].childNodes[0].nodeValue;
-      nombre.setAttribute('placeholder', "Nombre (" + xmlDoc.getElementsByTagName("nombre")[0].childNodes[0].nodeValue + ")");
-      username.setAttribute('placeholder', "Username (" + xmlDoc.getElementsByTagName("userName")[0].childNodes[0].nodeValue + ")");
-      gmail.setAttribute('placeholder', "Username (" + xmlDoc.getElementsByTagName("email")[0].childNodes[0].nodeValue + ")");
-      password.setAttribute('placeholder', "Password");
-      var a = document.createElement("img");
-      a.setAttribute('class', 'like');
-      a.src = x;
-      divinside.appendChild(a);
-      divinside.appendChild(foto);
-      divinside.appendChild(nombre);
-      divinside.appendChild(br);
-      divinside.appendChild(username);
-      divinside.appendChild(br);
-      divinside.appendChild(gmail);
-      divinside.appendChild(br);
-      divinside.appendChild(password);
-      divinside.appendChild(button);
-
-    }
-  };
-
-
-
-  xhttp.open("POST", "../php/perfil.php", true);
-  xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-  xhttp.send("i=");
-  div.appendChild(divinside);
-
-
-
-
-
-}
 
 function conf() {
   var username: any = document.getElementById('username');
@@ -1590,6 +1454,7 @@ function alldiscos() {
 
 
 function discotecaConcreta(id:any){
+  var suma:any = 0;
   var xhttp = new XMLHttpRequest();
   xhttp.onreadystatechange = function () {
     if (this.readyState == 4 && this.status == 200) {
@@ -1600,16 +1465,17 @@ function discotecaConcreta(id:any){
 
       var nombre: any = xmlDoc.getElementsByTagName('nombre')
       var nota: any = xmlDoc.getElementsByTagName('nota');
-      var descripcion: any = xmlDoc.getElementsByTagName('descripcion')
+      var descripcion: any = xmlDoc.getElementsByTagName('descripcion');
+      var descripcionn: any = xmlDoc.getElementsByTagName('descripcionn');
       var direccion: any = xmlDoc.getElementsByTagName('direccion')
       var latitud: any = xmlDoc.getElementsByTagName('latitud');
       var longitud: any = xmlDoc.getElementsByTagName('latitud');
       var horario: any = xmlDoc.getElementsByTagName('horario');
       var href: any = xmlDoc.getElementsByTagName('href');
-      var idDiscoteca: any = xmlDoc.getElementsByTagName('idDiscoteca');
      
       var discoteca: any = xmlDoc.getElementsByTagName('discoteca');
       var valoracion: any = xmlDoc.getElementsByTagName('valoracion');
+      var foto: any = xmlDoc.getElementsByTagName('foto');
 
    
         var nombreN:any = document.createTextNode(nombre[0].childNodes[0].nodeValue);
@@ -1619,6 +1485,7 @@ function discotecaConcreta(id:any){
         var longitudN:any = document.createTextNode(longitud[0].childNodes[0].nodeValue);
         var horarioN:any = document.createTextNode(horario[0].childNodes[0].nodeValue);
         var hrefN:any = document.createTextNode(href[0].childNodes[0].nodeValue);
+        var idDiscoteca: any = xmlDoc.getElementsByTagName('idDiscoteca');
 
         var x = xmlDoc.getElementsByTagName("logo")[0].childNodes[0].nodeValue;
         var a = document.createElement("img");
@@ -1631,12 +1498,17 @@ function discotecaConcreta(id:any){
         col.setAttribute('class','col-md-3')
         col.style.height = "330px";
         
+        var add:any = document.createElement('input');
+        add.type = "submit";
+        add.setAttribute('onclick', "añadirValoracion('"+idDiscoteca[0].childNodes[0].nodeValue+"')");
+
         
 
         
 
         col.appendChild(a);
         div.appendChild(col);
+        div.appendChild(add);
         var porcentaje20 = 0;
         var porcentaje40 = 0;
         var porcentaje60 = 0;
@@ -1645,6 +1517,7 @@ function discotecaConcreta(id:any){
         for(var i:any = 0; i<valoracion.length; i++){
           var notaN:any = document.createTextNode(nota[i].childNodes[0].nodeValue);
           var h3:any = document.createElement('h3');
+          
 
 
           if(nota[i].childNodes[0].nodeValue >= 0 && nota[i].childNodes[0].nodeValue < 2){
@@ -1661,33 +1534,331 @@ function discotecaConcreta(id:any){
 
 
 
-          h3.appendChild(notaN);
-          col.appendChild(h3);
-          div.appendChild(col);
-
-
+        
+          suma += parseInt(nota[i].childNodes[0].nodeValue);
+          
         }
         var h3_:any = document.createElement('h3');
-        var txt:any = document.createTextNode("Valoraciones");
+        var txt:any = document.createTextNode("Nota media");
         h3_.appendChild(txt);
         div.appendChild(h3_);
 
         // console.log("20: "+porcentaje20+" 40: "+porcentaje40+" 60: "+porcentaje60+" 80: "+porcentaje80+" 100: "+porcentaje100);
-        var progressbar20:any = document.createElement('progress');
+        var row:any = document.createElement('div');
+        row.setAttribute('class', 'row')
         
-        var progressbar20:any = document.createElement('progress');
+        var c4:any = document.createElement('div');
+        c4.setAttribute('class', 'col-md-4');
+
+        var c42:any = document.createElement('div');
+        c42.setAttribute('class', 'col-md-4');
+
+        var c43:any = document.createElement('div');
+        c43.setAttribute('class', 'col-md-4');
 
         var progressbar20:any = document.createElement('progress');
+        progressbar20.setAttribute('value', i/porcentaje20);
+        progressbar20.setAttribute('max', '10');
 
-        var progressbar20:any = document.createElement('progress');
+        var progressbar40:any = document.createElement('progress');
+        progressbar40.setAttribute('value', i/porcentaje40);
+        progressbar40.setAttribute('max', '10');
 
-        var progressbar20:any = document.createElement('progress');
-  
+        var progressbar60:any = document.createElement('progress');
+        progressbar60.setAttribute('value', i/porcentaje60);
+        progressbar60.setAttribute('max', '10');
+
+        var progressbar80:any = document.createElement('progress');
+        progressbar80.setAttribute('value', i/porcentaje80);
+        progressbar80.setAttribute('max', '10');
+
+        var progressbar100:any = document.createElement('progress');
+        progressbar100.setAttribute('value', i/porcentaje100);
+        progressbar100.setAttribute('max', '10');
+        
+        var h1:any = document.createElement('h1');
+        var m:any;
+        m = suma/i;
+        var media:any = document.createTextNode(m);
+        h1.setAttribute('class', 'media')
+        h1.appendChild(media);
       
+        var por20:any = (porcentaje20 / i) * 100;
+        por20 = Math.round(por20 * 100) / 100;
+        var por40:any = (porcentaje40 / i) * 100;
+        por40 = Math.round(por40 * 100) / 100;
+
+        var por60:any = (porcentaje60 / i) * 100;
+        por60 = Math.round(por60 * 100) / 100;
+
+        var por80:any = (porcentaje80 / i) * 100;
+        por80 = Math.round(por80 * 100) / 100;
+
+        var por100:any = (porcentaje100 / i) * 100;
+        por100 = Math.round(por100 * 100) / 100;
+
+        // alert(por100)
+
+        var h21:any = document.createElement('h2');
+        var txt1:any = document.createTextNode(por20+"%");
+        h21.appendChild(txt1);
+
+
+        var h22:any = document.createElement('h2');
+        var txt2:any = document.createTextNode(por40+"%");
+        h22.appendChild(txt2);
+
+
+        var h23:any = document.createElement('h2');
+        var txt3:any = document.createTextNode(por60+"%");
+        h23.appendChild(txt3);
+
+
+        var h24:any = document.createElement('h2');
+        var txt4:any = document.createTextNode(por80+"%");
+        h24.appendChild(txt4);
+
+
+        var h25:any = document.createElement('h2');
+        var txt5:any = document.createTextNode(por100+"%");
+        h25.appendChild(txt5);
+        
+        var img1:any = document.createElement('img');
+        img1.src = "../imgs/1.png";
+        var img2:any = document.createElement('img');
+        img2.src = "../imgs/2.png";
+        var img3:any = document.createElement('img');
+        img3.src = "../imgs/3.png";
+        var img4:any = document.createElement('img');
+        img4.src = "../imgs/4.png";
+        var img5:any = document.createElement('img');
+        img5.src = "../imgs/5.png";
+
+     
+        
+
+        c4.appendChild(h1);
+        row.appendChild(c4);
+
+        c42.appendChild(progressbar20);
+        c42.appendChild(progressbar40);
+        c42.appendChild(progressbar60);
+        c42.appendChild(progressbar80);
+        c42.appendChild(progressbar100);
+        row.appendChild(c42);
+
+        c43.appendChild(img1);
+        c43.appendChild(h21);
+        c43.appendChild(img2);
+        c43.appendChild(h22);
+        c43.appendChild(img3);
+        c43.appendChild(h23);
+        c43.appendChild(img4);
+        c43.appendChild(h24);
+        c43.appendChild(img5);
+        c43.appendChild(h25);
+        row.appendChild(c43);
+        div.appendChild(row);
+
+        
+
+
+        for(var z:any = 0; z<valoracion.length;z++){
+          var x = xmlDoc.getElementsByTagName("foto")[z].childNodes[0].nodeValue;
+          var a = document.createElement("img");
+          a.setAttribute('class', 'image2');
+          a.src = x;
+
+          var titulo:any = xmlDoc.getElementsByTagName('titulo');
+          var h2:any = document.createElement('h2');
+          h2.setAttribute('class', 'yokese');
+          var p:any = document.createElement('p');
+          p.setAttribute('class', 'yokese2');
+          var tit:any = document.createTextNode(titulo[z].childNodes[0].nodeValue+"");
+          
+          var descripcion:any = document.createTextNode("-"+descripcionn[z].childNodes[0].nodeValue);
+          var div_separador:any = document.createElement('div');
+          div_separador.setAttribute('class', 'div_separador');
+          h2.appendChild(tit);
+          p.appendChild(descripcion);
+          div.appendChild(a);
+          div.appendChild(h2);
+          div.appendChild(p);
+        }
     }
   };
 
   xhttp.open("POST", "../php/discoConcreta.php", true);
   xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
   xhttp.send("i="+id);
+}
+
+function configurar() {
+  var div: any = document.getElementById('config');
+  var xhttp = new XMLHttpRequest();
+  var divinside: any = document.createElement('div');
+  divinside.classList.add('px-4');
+  var foto: any = document.createElement('input');
+  foto.type = "file";
+  foto.id = "fotito";
+  foto.classList.add('form-control');
+  foto.setAttribute('class', 'custom-file-input inp');
+  var nombre: any = document.createElement('input');
+  nombre.id = "name";
+  var br: any = document.createElement('br');
+  var username: any = document.createElement('input');
+  username.id = "username";
+  var gmail: any = document.createElement('input');
+  gmail.id = "gmail";
+  var password: any = document.createElement('input');
+  password.id = "password";
+  password.type = "password";
+  var button: any = document.createElement('input');
+  var button2: any = document.createElement('input');
+  button2.value = 'Volver';
+
+
+  button.type = "submit";
+  button2.type = "button";
+  button.setAttribute('onclick', 'conf();');
+  button2.setAttribute('onclick', 'mostrar()');
+  nombre.setAttribute('class', 'form-control my-3');
+  username.setAttribute('class', 'form-control mb-3');
+  gmail.setAttribute('class', 'form-control mb-3');
+  password.setAttribute('class', 'form-control');
+  button.classList.add('btn', 'btn-success', 'd-inline', 'my-3', 'col-7', 'mx-auto');
+  button2.classList.add('btn', 'btn-danger', 'd-inline', 'my-3', 'col-4', 'ms-3');
+
+  xhttp.onreadystatechange = function () {
+    if (this.readyState == 4 && this.status == 200) {
+      var par = new DOMParser();
+      var xmlDoc: any = par.parseFromString(this.responseText, "text/xml");
+      var x = xmlDoc.getElementsByTagName("foto")[0].childNodes[0].nodeValue;
+      nombre.setAttribute('value', xmlDoc.getElementsByTagName("nombre")[0].childNodes[0].nodeValue);
+      username.setAttribute('value', xmlDoc.getElementsByTagName("userName")[0].childNodes[0].nodeValue);
+      gmail.setAttribute('value', xmlDoc.getElementsByTagName("email")[0].childNodes[0].nodeValue);
+      password.setAttribute('placeholder', "Password");
+      var a = document.createElement("img");
+      a.setAttribute('class', 'like mt-4');
+      a.src = x;
+      divinside.appendChild(a);
+      divinside.appendChild(foto);
+      divinside.appendChild(nombre);
+      divinside.appendChild(username);
+      divinside.appendChild(gmail);
+      divinside.appendChild(password);
+      divinside.appendChild(button);
+      divinside.appendChild(button2);
+    }
+  };
+  xhttp.open("POST", "../php/perfil.php", true);
+  xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+  xhttp.send("i=");
+  div.appendChild(divinside);
+}
+function mostrar() {
+  let con: any = document.getElementById('config');
+  con.style.display = 'none';
+  while (con.firstChild) {
+    con.removeChild(con.firstChild);
+  }
+  let aw2 = document.getElementById('aw2');
+  aw2!.setAttribute('onclick', 'quitar()');
+}
+/*jp*/
+function quitar() {
+  configurar()
+  let con: any = document.getElementById('config');
+  con.style.display = "block";
+
+  let aw2: any = document.getElementById('aw2');
+  aw2.setAttribute('onclick', 'mostrar()');
+}
+/*jp*/
+function conf() {
+  var username: any = document.getElementById('username');
+  var password: any = document.getElementById('password')
+  var gmail: any = document.getElementById('gmail');
+  var name: any = document.getElementById('name');
+  var file: any = document.getElementById('fotito');
+  let formData = new FormData();
+
+  formData.append("image", file.files[0]);
+  formData.append("username", username.value);
+  formData.append("gmail", gmail.value);
+  formData.append("name", name.value);
+  formData.append("password", password.value);
+  fetch("../php/config.php", {
+    method: 'POST',
+    body: formData,
+  })
+    .then(respuesta => respuesta.text())
+    .then(decodificado => {
+      quitar();
+      Swal.fire({
+        icon: 'success',
+        title: 'Conseguido',
+        text: 'Configuracion aplicada.',
+        allowOutsideClick: false
+      }).then((result: any) => {
+        if (result.isConfirmed) {
+          location.reload();
+        }
+      });
+      console.log(decodificado);
+    });
+  quitar();
+}
+
+/*jp*/
+function numPublis() {
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function () {
+    if (this.readyState == 4 && this.status == 200) {
+      let id = this.responseText;
+      let div = document.getElementById('pub');
+      let p = document.createElement('p');
+      p.innerText = id;
+      p.classList.add('fw-bold', 'display-6', 'ms-5');
+      div?.appendChild(p);
+    }
+  };
+  xhttp.open("POST", "../php/consultaPerfil.php", true);
+  xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+  xhttp.send("i=pub");
+}
+/*jp*/
+function numFriends() {
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function () {
+    if (this.readyState == 4 && this.status == 200) {
+      let id = this.responseText;
+      let div = document.getElementById('fri');
+      let p = document.createElement('p');
+      p.innerText = id;
+      p.classList.add('fw-bold', 'display-6', 'text-end');
+      div?.appendChild(p);
+    }
+  };
+  xhttp.open("POST", "../php/consultaPerfil.php", true);
+  xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+  xhttp.send("i=friends");
+}
+
+function fondo(id:any, val:any){
+  let div:any = document.getElementById('mola');
+  div.setAttribute('class', '');
+  div.setAttribute('class', 'container-fluid py-5 mb-5 bg-' + val);
+}
+
+
+
+function añadirValoracion(identificador:any){
+  alert(identificador)
+  var xhttp = new XMLHttpRequest();
+
+
+  xhttp.open("POST", "../php/añadirValoracion.php", true);
+  xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+  xhttp.send("i=friends");
 }

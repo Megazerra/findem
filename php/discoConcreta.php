@@ -29,7 +29,7 @@ while($fila2 = mysqli_fetch_assoc($r2)){
 
 
 foreach($amigo2 as $codigo => $ins2){
-	$todos2[] = "<valoracion><titulo>".$ins2['titulo']."</titulo><descripcion>".$ins2['descripcion']."</descripcion><nota>".$ins2['nota']."</nota><username>".$ins2['username']."</username><foto>".$ins2['foto']."</foto></valoracion>";
+	$todos2[] = "<valoracion><titulo>".$ins2['titulo']."</titulo><descripcionn>".$ins2['descripcion']."</descripcionn><nota>".$ins2['nota']."</nota><username>".$ins2['username']."</username><foto>".$ins2['foto']."</foto></valoracion>";
 }
 
 

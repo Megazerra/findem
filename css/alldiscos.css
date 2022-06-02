@@ -583,12 +583,13 @@ h1 {
 
 .image2{
  
-    width: 100px;
-    height: 100px;
-    object-fit: cover;
-    background-color: black;
-    margin-top: 20px;
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  background-color: black;
+  margin-top: 20px;
 }
+
 
 .image3{
  
@@ -621,13 +622,60 @@ h1 {
   margin-right: auto; 
   display: none;
   box-shadow: 0px 4px 33px -12px rgba(0, 0, 0, 0.25);
+  overflow-y: scroll;
+  overflow-x: hidden;
 }
 
 
 progress {
   -webkit-appearance: none;
+  display:block;
+  margin-top: 20px;
 }
 
 ::-webkit-progress-bar {
    background-color: rgb(224, 224, 224);
+  border-radius: 5px;
+  
+}
+progress::-webkit-progress-value { background: blue; border-radius: 5px;}
+
+
+.media{
+  margin-top: 50px;
+  color: black !important;
+  text-align: center;
+}
+
+.col-md-4 > h2{
+  font-size: 1.5em;
+    margin-top: 2px;
+    display: inline-block;
+    margin-right: 34%;
+    margin-left: 2%;
+}
+
+
+.col-md-4> img{
+  width: 75px;
+  display: inline-block;
+}
+
+.foto> h3{
+  width: 180px;
+  display: inline-block;
+  margin-left: 45px;
+}
+
+
+
+.yokese{
+  display: inline-block;
+  width: 85%;
+  margin-left: 13px;
+  padding-top: 26px;
+}
+
+.yokese2{
+  margin-left: 7%;
 }

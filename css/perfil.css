@@ -71,10 +71,6 @@
     }
   }
 
-body{
-  background-image: url('../imgs/locura.svg');
-}
-
   .ge{
     margin-top: 20%;
 
@@ -263,63 +259,18 @@ body{
     height: 250px;
     border-radius: 148px;
     object-fit: cover;
-    left: -73px;
-    position: relative;
 }
 
-.imagen{
-  background-image: url(../imgs/register-background.jpg);
-    width: 100%;
-    height: 360px;
-    background-position: center;
-    background-size: 71%;
-}
 
 .tex{
   margin-top: 10%;
 }
 
 
-.name{
-  margin-top: 20px;
-}
-
-.añadir{
- 
-  margin-top: 16px;
-  float: left;
-  width: 100px;
-  height: 100px;
-  object-fit: cover;
-
-}
-
-.añadir2{
-  margin-top: 33px;
-  float: left;
-  width: 54px;
-  height: 60px;
-  object-fit: cover;
-}
-
-
-
 .addi{
   padding: 5px;
   margin-top: 10px;
   width: 100%;
-}
-
-.añadirbtn{
-  margin-top: 20px;
-  display: block;
-  margin: auto;
-  margin-right: auto;
-  margin-top: 20px;
-  padding: 8px;
-  border: 1px solid #F48907;
-  background: none;
-  color: #F48907;
 }
 
 .add{
@@ -330,7 +281,7 @@ body{
 .publicacion{
   margin-top: 16px;
   float: left;
-  width: 419px;
+  width: 100%;
   height: 246px;
   object-fit: cover;
   border-radius: 5px;
@@ -364,15 +315,15 @@ body{
 .config{
   position: absolute;
   background-color: white;
-  height: 448px;
   width: 296px;
   left: 0;
   right: 0;
   top: 20%;
   margin-left: auto;
   margin-right: auto;
-  box-shadow: 0px 4px 33px -12px rgb(0 0 0 / 25%);
+  box-shadow: 0px 4px 33px -12px rgb(0 0 0 / 25%) !important;
   display: none;
+  border-radius: 15px;
 }
 
 .cerrar{
@@ -404,9 +355,8 @@ body{
 
 
 .like{
-  width: 40px;
-
- 
+  width: 80px;
+  border-radius: 15px;
 }
 
 .mg{
@@ -543,7 +493,6 @@ body{
   display: inline-block;
   border-radius: 3px;
   padding: 20px 8px;
-  padding-left: 20px;
   outline: none;
   white-space: nowrap;
   -webkit-user-select: none;
@@ -576,20 +525,77 @@ body{
   border: none;
 }
 
-
-
-.profilename{
-  color: red;
-}
-
-.subir{
-  
+/*nuevooo*/
+#ima2{
   position: relative;
-  top: -160px;
-
+  top: 65%;
+  right: 48%;
 }
 
+#tex2{
+  position: relative;
+  /*top: 65%;*/
+  left: 28%;
+}
 
-.nombrepublis{
-  
+.aw1{
+  width: 35px !important;
+  opacity: 0.7;
+
+}
+.aw2{
+  width: 42px !important;
+  opacity: 0.7;
+}
+
+.aw1:hover, .aw2:hover{
+  opacity: 1;
+}
+
+#info{
+  position: relative;
+  /*top: 65%;*/
+  left: -8%;
+}
+
+.bg-1{
+  background-image: url('../imgs/fondo1.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 362px;
+}
+.bg-2{
+  background-image: url('../imgs/fondo2.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 362px;
+}
+.bg-3{
+  background-image: url('../imgs/fondo3.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 362px;
+
+
+
+}
+.bg-4{
+  background-image: url('../imgs/fondo4.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 362px;
+
+
+}
+.bg-5{
+  background-image: url('../imgs/fondo5.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 362px;
+}
+.bg-0{
+  background-image: url('../imgs/fondo0.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 362px;
 }
