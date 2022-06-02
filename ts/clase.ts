@@ -514,7 +514,7 @@ function mostrarPerfil(id: any) {
         div2.removeChild(div2.firstChild);
       }
       var h3: any = document.createElement('h3');
-      
+
       var h5: any = document.createElement('h5');
       h5.setAttribute('class', 'name');
 
@@ -534,7 +534,7 @@ function mostrarPerfil(id: any) {
 
 
 
-     
+
 
       h3.appendChild(user);
       h5.appendChild(name);
@@ -581,7 +581,7 @@ function addFriend(persona: any, cont: any) {
     })
       .then(respuesta => respuesta.text())
       .then(decodificado => {
-  
+
       });
 
     Swal.fire({
@@ -593,7 +593,7 @@ function addFriend(persona: any, cont: any) {
 
 
 }
-var escondercont:any = 0;
+var escondercont: any = 0;
 function pendiente() {
   var xhttp = new XMLHttpRequest();
   var div: any = document.getElementById('menu');
@@ -601,10 +601,10 @@ function pendiente() {
   var esconder: any = document.getElementById('esconder');
 
   pendent.onclick = function () {
-    if(escondercont % 2 == 0){
+    if (escondercont % 2 == 0) {
       esconder.style.display = "block";
       escondercont++;
-    }else{
+    } else {
       esconder.style.display = "none";
       escondercont++;
     }
@@ -618,52 +618,52 @@ function pendiente() {
       var username: any = xmlDoc.getElementsByTagName('username')
       var pendiente: any = xmlDoc.getElementsByTagName('pendiente');
       var cont: any = xmlDoc.getElementsByTagName('cont');
-      if(this.responseText != "0"){
+      if (this.responseText != "0") {
 
 
-        if(cont[0].childNodes[0].nodeValue > 0){
-          var noti:any = document.getElementById('noti');
+        if (cont[0].childNodes[0].nodeValue > 0) {
+          var noti: any = document.getElementById('noti');
           noti.innerText = parseInt(cont[0].childNodes[0].nodeValue);
           noti.setAttribute('class', 'noti animate__heartBeat animate__animated')
         }
         for (var i: any = 0; i < pendiente.length; i++) {
-          
-  
-  
-  
-  
+
+
+
+
+
           var dentro: any = document.createElement('div');
           dentro.setAttribute('class', 'dentrodiv');
           dentro.id = username[i].childNodes[0].nodeValue;
           var usernameN: any = document.createTextNode(username[i].childNodes[0].nodeValue);
           var h3: any = document.createElement('h3');
           h3.setAttribute('class', 'pendenttext');
-  
+
           var x = xmlDoc.getElementsByTagName("foto")[i].childNodes[0].nodeValue;
           var a = document.createElement("img");
           a.setAttribute('class', 'perf');
           a.src = x;
-          
-          var form:any = document.createElement('form');
+
+          var form: any = document.createElement('form');
           form.setAttribute('onsubmit', 'return false');
           form.style.display = "inline-block";
-  
-          
-  
+
+
+
           var aceptar: any = document.createElement('input');
           aceptar.type = "image";
           aceptar.value = "add";
           aceptar.src = "./imgs/aceptar.png";
           aceptar.setAttribute('class', 'botonacceptar');
-          aceptar.setAttribute('onclick', 'update('+username[i].childNodes[0].nodeValue+')');
-  
+          aceptar.setAttribute('onclick', 'update(' + username[i].childNodes[0].nodeValue + ')');
+
           var decline: any = document.createElement('input');
           decline.type = "image";
           decline.value = "add";
           decline.src = "./imgs/decline.png";
           decline.setAttribute('class', 'botonacceptar2');
-          decline.setAttribute('onclick', 'update2('+username[i].childNodes[0].nodeValue+')');
-  
+          decline.setAttribute('onclick', 'update2(' + username[i].childNodes[0].nodeValue + ')');
+
           h3.appendChild(usernameN);
           dentro.appendChild(a);
           dentro.appendChild(h3);
@@ -671,10 +671,10 @@ function pendiente() {
           form.appendChild(decline);
           dentro.appendChild(form);
           // dentro.appendChild(decline);
-  
+
           esconder.appendChild(dentro);
-      }
-      
+        }
+
       }
     };
   }
@@ -684,48 +684,48 @@ function pendiente() {
 }
 
 
-function update(id:any) {
+function update(id: any) {
   var xhttp = new XMLHttpRequest();
-  var noti:any = document.getElementById('noti');
-  var value = parseInt(noti.innerText,10) - 1;
-  noti.innerText = value; 
-  if(value == 0){
+  var noti: any = document.getElementById('noti');
+  var value = parseInt(noti.innerText, 10) - 1;
+  noti.innerText = value;
+  if (value == 0) {
     noti.innerText = "";
   }
-  var div:any = document.getElementById(id.innerText);
+  var div: any = document.getElementById(id.innerText);
   div.setAttribute('class', 'dentrodiv animate__backOutLeft animate__animated');
   setTimeout(function () {
     div.style.display = "none";
   }, 1000);
 
-  
+
 
   xhttp.open("POST", "./php/actualizar.php", true);
   xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-  xhttp.send("i="+id.innerText);
+  xhttp.send("i=" + id.innerText);
 }
 
-function update2(id:any) {
+function update2(id: any) {
   var xhttp = new XMLHttpRequest();
-  var noti:any = document.getElementById('noti');
-  var value = parseInt(noti.innerText,10) - 1;
-  noti.innerText = value; 
-  if(value == 0){
+  var noti: any = document.getElementById('noti');
+  var value = parseInt(noti.innerText, 10) - 1;
+  noti.innerText = value;
+  if (value == 0) {
     noti.innerText = "";
   }
-  var div:any = document.getElementById(id.innerText);
+  var div: any = document.getElementById(id.innerText);
   div.setAttribute('class', 'dentrodiv animate__backOutRight animate__animated');
   setTimeout(function () {
     div.style.display = "none";
   }, 1000);
   xhttp.onreadystatechange = function () {
     if (this.readyState == 4 && this.status == 200) {
-        
-      }
-    };
+
+    }
+  };
   xhttp.open("POST", "./php/actualizar2.php", true);
   xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-  xhttp.send("i="+id.innerText);
+  xhttp.send("i=" + id.innerText);
 }
 
 
@@ -777,7 +777,7 @@ function perfil() {
       input.onclick = function () { publicaciones() };
       var h3: any = document.createElement('h3');
       h3.setAttribute('class', 'profilename');
- 
+
       var h5: any = document.createElement('h5');
       h5.setAttribute('class', 'name');
 
@@ -910,7 +910,7 @@ function showpublis2(id: any) {
   var xhttp = new XMLHttpRequest();
   xhttp.onreadystatechange = function () {
     if (this.readyState == 4 && this.status == 200) {
-   
+
       var par = new DOMParser();
       var xmlDoc: any = par.parseFromString(this.responseText, "text/xml");
       var div: any = document.getElementById('row2');
@@ -1037,7 +1037,7 @@ function likes(id: any) {
       var par = new DOMParser();
       var xmlDoc: any = par.parseFromString(this.responseText, "text/xml");
       var string = this.responseText.split("-");
-  
+
       if (string[0] === "in") {
         like.src = '../imgs/liked.png';
       } else if (string[0] === "out") {
@@ -1152,7 +1152,7 @@ function conf() {
   })
     .then(respuesta => respuesta.text())
     .then(decodificado => {
-    
+
     });
   // location.reload();
 }
@@ -1258,10 +1258,10 @@ function feed() {
       var par = new DOMParser();
 
       var xmlDoc: any = par.parseFromString(this.responseText, "text/xml");
-  
+
 
       let log = this.responseText;
-   
+
       if (log == '0') {
         var h2: any = document.createElement('h2');
         h2.setAttribute('class', 'text-pop-up-top nothing')
@@ -1269,78 +1269,78 @@ function feed() {
         h2.appendChild(txt);
         div.appendChild(h2);
       } else {
-      var descripcion: any = xmlDoc.getElementsByTagName('descripcion');
-      var lugar: any = xmlDoc.getElementsByTagName('descripcion');
-      var likes: any = xmlDoc.getElementsByTagName('likes');
-      var idUsuario: any = xmlDoc.getElementsByTagName('idUsuario');
-      var publi: any = xmlDoc.getElementsByTagName('publi');
-      var idPost: any = xmlDoc.getElementsByTagName('idPost');
-      var realizado: any = xmlDoc.getElementsByTagName('realizado');
-      var likes: any = xmlDoc.getElementsByTagName('likes');
+        var descripcion: any = xmlDoc.getElementsByTagName('descripcion');
+        var lugar: any = xmlDoc.getElementsByTagName('descripcion');
+        var likes: any = xmlDoc.getElementsByTagName('likes');
+        var idUsuario: any = xmlDoc.getElementsByTagName('idUsuario');
+        var publi: any = xmlDoc.getElementsByTagName('publi');
+        var idPost: any = xmlDoc.getElementsByTagName('idPost');
+        var realizado: any = xmlDoc.getElementsByTagName('realizado');
+        var likes: any = xmlDoc.getElementsByTagName('likes');
 
-      for (var i: any = 0; i < publi.length; i++) {
-        var div2: any = document.createElement('div');
-        var div3: any = document.createElement('div');
-        div2.setAttribute('class', 'my-12 try')
-        var x = xmlDoc.getElementsByTagName("archivo")[i].childNodes[0].nodeValue;
-        var a = document.createElement("img");
-        a.setAttribute('class', 'imageFeed');
-        a.src = x;
-        a.id = idPost[i].childNodes[0].nodeValue;
-        
-        
+        for (var i: any = 0; i < publi.length; i++) {
+          var div2: any = document.createElement('div');
+          var div3: any = document.createElement('div');
+          div2.setAttribute('class', 'my-12 try')
+          var x = xmlDoc.getElementsByTagName("archivo")[i].childNodes[0].nodeValue;
+          var a = document.createElement("img");
+          a.setAttribute('class', 'imageFeed');
+          a.src = x;
+          a.id = idPost[i].childNodes[0].nodeValue;
 
 
-        var xP = xmlDoc.getElementsByTagName("foto")[i].childNodes[0].nodeValue;
-        var aP = document.createElement("img");
-        aP.setAttribute('class', 'perf');
-        aP.src = xP;
 
-        var nombreUsuario: any = document.createTextNode(idUsuario[i].childNodes[0].nodeValue);
-        var h4: any = document.createElement('h4');
-        var hr:any = document.createElement('hr');
 
-        h4.setAttribute('class', 'margen');
-        h4.appendChild(nombreUsuario);
-        var especial:any = document.createElement('div');
-        especial.setAttribute('class', 'hrentrefotos');
-        especial.appendChild(aP);
-        especial.appendChild(h4);
-     
-        div2.appendChild(especial);
-        div3.appendChild(a);
-        var separador:any = document.createElement('div');
-        separador.setAttribute('class','separador');
+          var xP = xmlDoc.getElementsByTagName("foto")[i].childNodes[0].nodeValue;
+          var aP = document.createElement("img");
+          aP.setAttribute('class', 'perf');
+          aP.src = xP;
 
-        var corasonR:any = document.createElement('img');
-        corasonR.setAttribute('onclick', "likesFeed("+idPost[i].childNodes[0].nodeValue+")");
-        corasonR.id = 'likesfeed';
-        if(realizado[i].childNodes[0].nodeValue == "1"){
-          corasonR.src = "./imgs/liked.png";
-          corasonR.setAttribute('class', 'corason');
-          separador.appendChild(corasonR);
-        }else if(realizado[i].childNodes[0].nodeValue == "0"){
+          var nombreUsuario: any = document.createTextNode(idUsuario[i].childNodes[0].nodeValue);
+          var h4: any = document.createElement('h4');
+          var hr: any = document.createElement('hr');
 
-          corasonR.src = "./imgs/notliked.png";
-          corasonR.setAttribute('class', 'corason');
-          separador.appendChild(corasonR);
+          h4.setAttribute('class', 'margen');
+          h4.appendChild(nombreUsuario);
+          var especial: any = document.createElement('div');
+          especial.setAttribute('class', 'hrentrefotos');
+          especial.appendChild(aP);
+          especial.appendChild(h4);
+
+          div2.appendChild(especial);
+          div3.appendChild(a);
+          var separador: any = document.createElement('div');
+          separador.setAttribute('class', 'separador');
+
+          var corasonR: any = document.createElement('img');
+          corasonR.setAttribute('onclick', "likesFeed(" + idPost[i].childNodes[0].nodeValue + ")");
+          corasonR.id = 'likesfeed';
+          if (realizado[i].childNodes[0].nodeValue == "1") {
+            corasonR.src = "./imgs/liked.png";
+            corasonR.setAttribute('class', 'corason');
+            separador.appendChild(corasonR);
+          } else if (realizado[i].childNodes[0].nodeValue == "0") {
+
+            corasonR.src = "./imgs/notliked.png";
+            corasonR.setAttribute('class', 'corason');
+            separador.appendChild(corasonR);
+          }
+          var h44: any = document.createElement('h4');
+          var likesN: any = document.createTextNode(" " + likes[i].childNodes[0].nodeValue + " Me gusta");
+          h44.appendChild(likesN);
+          h44.setAttribute('class', 'line');
+          separador.appendChild(h44);
+
+          div3.appendChild(separador);
+          // div3.appendChild(img);
+          div2.appendChild(div3);
+          div.appendChild(div2)
+
         }
-        var h44:any = document.createElement('h4');
-        var likesN:any = document.createTextNode(" "+likes[i].childNodes[0].nodeValue+" Me gusta");
-        h44.appendChild(likesN);
-        h44.setAttribute('class', 'line');
-        separador.appendChild(h44);
 
-        div3.appendChild(separador);
-        // div3.appendChild(img);
-        div2.appendChild(div3);
-        div.appendChild(div2)
 
       }
-
-
     }
-  }
   };
   xhttp.open("POST", "php/feed.php", true);
   xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
@@ -1348,7 +1348,7 @@ function feed() {
 }
 
 
-function likesFeed(identificador:any) {
+function likesFeed(identificador: any) {
 
 
   var xhttp = new XMLHttpRequest();
@@ -1357,15 +1357,15 @@ function likesFeed(identificador:any) {
     if (this.readyState == 4 && this.status == 200) {
       var par = new DOMParser();
       var xmlDoc: any = par.parseFromString(this.responseText, "text/xml");
-      
-  
+
+
       var string = this.responseText.split("-");
-     
+
       if (string[0] === "in") {
-     
+
         like.src = './imgs/liked.png';
       } else if (string[0] === "out") {
-     
+
         like.src = './imgs/notliked.png';
       }
     }
@@ -1380,13 +1380,13 @@ function listas(value: any) {
   var div: any = document.getElementById('listas');
   var buscador: any = document.createElement('div');
   buscador.setAttribute('id', 'buscador');
-  
+
   var xhttp = new XMLHttpRequest();
   xhttp.onreadystatechange = function () {
     if (this.readyState == 4 && this.status == 200) {
       var par = new DOMParser();
       var xmlDoc: any = par.parseFromString(this.responseText, "text/xml");
-     
+
       var lista: any = xmlDoc.getElementsByTagName('lista');
       var lista2: any = xmlDoc.getElementsByTagName('lista2');
       var titulo: any = xmlDoc.getElementsByTagName('titulo');
@@ -1461,7 +1461,7 @@ function listas(value: any) {
 }
 
 function plusUserLista(id: any) {
-  let close:any = document.getElementById('listas_def');
+  let close: any = document.getElementById('listas_def');
   var xhttp = new XMLHttpRequest();
   xhttp.onreadystatechange = function () {
     if (this.readyState == 4 && this.status == 200) {
@@ -1505,8 +1505,8 @@ function plusUserLista(id: any) {
   xhttp.send("i=" + id);
 }
 
-function my_callback(value:any) {
-  let list:any = document.getElementById('listas');
+function my_callback(value: any) {
+  let list: any = document.getElementById('listas');
   while (list.firstChild) {
     list.removeChild(list.firstChild);
   }
@@ -1525,4 +1525,169 @@ function loader() {
     cargador.style.display = "block";
     document.body.style.backgroundImage = "url(./imgs/locura.svg)";
   }, 100);
+}
+
+
+
+function alldiscos() {
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function () {
+    if (this.readyState == 4 && this.status == 200) {
+      var par = new DOMParser();
+      var xmlDoc: any = par.parseFromString(this.responseText, "text/xml");
+      var nombre: any = xmlDoc.getElementsByTagName('nombre')
+      var descripcion: any = xmlDoc.getElementsByTagName('descripcion')
+      var direccion: any = xmlDoc.getElementsByTagName('direccion')
+      var latitud: any = xmlDoc.getElementsByTagName('latitud');
+      var longitud: any = xmlDoc.getElementsByTagName('latitud');
+      var horario: any = xmlDoc.getElementsByTagName('horario');
+      var href: any = xmlDoc.getElementsByTagName('href');
+      var idDiscoteca: any = xmlDoc.getElementsByTagName('idDiscoteca');
+     
+      var discoteca: any = xmlDoc.getElementsByTagName('discoteca');
+
+      for(var i:any = 0; i<discoteca.length; i++){
+        var nombreN:any = document.createTextNode(nombre[i].childNodes[0].nodeValue);
+        var descripcionN:any = document.createTextNode(descripcion[i].childNodes[0].nodeValue);
+        var direccionN:any = document.createTextNode(direccion[i].childNodes[0].nodeValue);
+        var latitudN:any = document.createTextNode(latitud[i].childNodes[0].nodeValue);
+        var longitudN:any = document.createTextNode(longitud[i].childNodes[0].nodeValue);
+        var horarioN:any = document.createTextNode(horario[i].childNodes[0].nodeValue);
+        var hrefN:any = document.createTextNode(href[i].childNodes[0].nodeValue);
+
+       
+
+        var x = xmlDoc.getElementsByTagName("logo")[i].childNodes[0].nodeValue;
+        var a = document.createElement("img");
+        a.setAttribute('class', 'image2');
+        a.src = x;
+        a.id = idDiscoteca[i].childNodes[0].nodeValue;
+        a.setAttribute('onclick', 'discotecaConcreta("'+idDiscoteca[i].childNodes[0].nodeValue+'")');
+
+
+        var div:any = document.getElementById('here');
+        var col:any = document.createElement('div');
+        col.setAttribute('class','col-md-3')
+        
+        var h3:any = document.createElement('h3');
+        
+
+        h3.appendChild(nombreN);
+
+        col.appendChild(a);
+        col.appendChild(h3);
+        div.appendChild(col);
+        
+      }
+
+    }
+  };
+
+  xhttp.open("POST", "../php/alldiscos.php", true);
+  xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+  xhttp.send("i=");
+}
+
+
+function discotecaConcreta(id:any){
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function () {
+    if (this.readyState == 4 && this.status == 200) {
+      var par = new DOMParser();
+      var xmlDoc: any = par.parseFromString(this.responseText, "text/xml");
+      // console.log(this.responseText);
+      console.log(xmlDoc);
+
+      var nombre: any = xmlDoc.getElementsByTagName('nombre')
+      var nota: any = xmlDoc.getElementsByTagName('nota');
+      var descripcion: any = xmlDoc.getElementsByTagName('descripcion')
+      var direccion: any = xmlDoc.getElementsByTagName('direccion')
+      var latitud: any = xmlDoc.getElementsByTagName('latitud');
+      var longitud: any = xmlDoc.getElementsByTagName('latitud');
+      var horario: any = xmlDoc.getElementsByTagName('horario');
+      var href: any = xmlDoc.getElementsByTagName('href');
+      var idDiscoteca: any = xmlDoc.getElementsByTagName('idDiscoteca');
+     
+      var discoteca: any = xmlDoc.getElementsByTagName('discoteca');
+      var valoracion: any = xmlDoc.getElementsByTagName('valoracion');
+
+   
+        var nombreN:any = document.createTextNode(nombre[0].childNodes[0].nodeValue);
+        var descripcionN:any = document.createTextNode(descripcion[0].childNodes[0].nodeValue);
+        var direccionN:any = document.createTextNode(direccion[0].childNodes[0].nodeValue);
+        var latitudN:any = document.createTextNode(latitud[0].childNodes[0].nodeValue);
+        var longitudN:any = document.createTextNode(longitud[0].childNodes[0].nodeValue);
+        var horarioN:any = document.createTextNode(horario[0].childNodes[0].nodeValue);
+        var hrefN:any = document.createTextNode(href[0].childNodes[0].nodeValue);
+
+        var x = xmlDoc.getElementsByTagName("logo")[0].childNodes[0].nodeValue;
+        var a = document.createElement("img");
+        a.setAttribute('class', 'image3');
+        a.src = x;
+        
+        var div:any = document.getElementById('foto');
+        div.style.display = "block";
+        var col:any = document.createElement('div');
+        col.setAttribute('class','col-md-3')
+        col.style.height = "330px";
+        
+        
+
+        
+
+        col.appendChild(a);
+        div.appendChild(col);
+        var porcentaje20 = 0;
+        var porcentaje40 = 0;
+        var porcentaje60 = 0;
+        var porcentaje80 = 0;
+        var porcentaje100 = 0;
+        for(var i:any = 0; i<valoracion.length; i++){
+          var notaN:any = document.createTextNode(nota[i].childNodes[0].nodeValue);
+          var h3:any = document.createElement('h3');
+
+
+          if(nota[i].childNodes[0].nodeValue >= 0 && nota[i].childNodes[0].nodeValue < 2){
+            porcentaje20++;
+          }else if(nota[i].childNodes[0].nodeValue >= 2 && nota[i].childNodes[0].nodeValue < 4){
+            porcentaje40++;
+          }else if(nota[i].childNodes[0].nodeValue >= 4 && nota[i].childNodes[0].nodeValue < 6){
+            porcentaje60++;
+          }else if(nota[i].childNodes[0].nodeValue >= 6 && nota[i].childNodes[0].nodeValue < 8){
+            porcentaje80++;
+          }else if(nota[i].childNodes[0].nodeValue >= 8 && nota[i].childNodes[0].nodeValue >= 10){
+            porcentaje100++;
+          }
+
+
+
+          h3.appendChild(notaN);
+          col.appendChild(h3);
+          div.appendChild(col);
+
+
+        }
+        var h3_:any = document.createElement('h3');
+        var txt:any = document.createTextNode("Valoraciones");
+        h3_.appendChild(txt);
+        div.appendChild(h3_);
+
+        // console.log("20: "+porcentaje20+" 40: "+porcentaje40+" 60: "+porcentaje60+" 80: "+porcentaje80+" 100: "+porcentaje100);
+        var progressbar20:any = document.createElement('progress');
+        
+        var progressbar20:any = document.createElement('progress');
+
+        var progressbar20:any = document.createElement('progress');
+
+        var progressbar20:any = document.createElement('progress');
+
+        var progressbar20:any = document.createElement('progress');
+  
+      
+    }
+  };
+
+  xhttp.open("POST", "../php/discoConcreta.php", true);
+  xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+  xhttp.send("i="+id);
 }

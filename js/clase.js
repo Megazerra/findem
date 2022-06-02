@@ -1311,3 +1311,127 @@ function loader() {
         document.body.style.backgroundImage = "url(./imgs/locura.svg)";
     }, 100);
 }
+function alldiscos() {
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+            var par = new DOMParser();
+            var xmlDoc = par.parseFromString(this.responseText, "text/xml");
+            var nombre = xmlDoc.getElementsByTagName('nombre');
+            var descripcion = xmlDoc.getElementsByTagName('descripcion');
+            var direccion = xmlDoc.getElementsByTagName('direccion');
+            var latitud = xmlDoc.getElementsByTagName('latitud');
+            var longitud = xmlDoc.getElementsByTagName('latitud');
+            var horario = xmlDoc.getElementsByTagName('horario');
+            var href = xmlDoc.getElementsByTagName('href');
+            var idDiscoteca = xmlDoc.getElementsByTagName('idDiscoteca');
+            var discoteca = xmlDoc.getElementsByTagName('discoteca');
+            for (var i = 0; i < discoteca.length; i++) {
+                var nombreN = document.createTextNode(nombre[i].childNodes[0].nodeValue);
+                var descripcionN = document.createTextNode(descripcion[i].childNodes[0].nodeValue);
+                var direccionN = document.createTextNode(direccion[i].childNodes[0].nodeValue);
+                var latitudN = document.createTextNode(latitud[i].childNodes[0].nodeValue);
+                var longitudN = document.createTextNode(longitud[i].childNodes[0].nodeValue);
+                var horarioN = document.createTextNode(horario[i].childNodes[0].nodeValue);
+                var hrefN = document.createTextNode(href[i].childNodes[0].nodeValue);
+                var x = xmlDoc.getElementsByTagName("logo")[i].childNodes[0].nodeValue;
+                var a = document.createElement("img");
+                a.setAttribute('class', 'image2');
+                a.src = x;
+                a.id = idDiscoteca[i].childNodes[0].nodeValue;
+                a.setAttribute('onclick', 'discotecaConcreta("' + idDiscoteca[i].childNodes[0].nodeValue + '")');
+                var div = document.getElementById('here');
+                var col = document.createElement('div');
+                col.setAttribute('class', 'col-md-3');
+                var h3 = document.createElement('h3');
+                h3.appendChild(nombreN);
+                col.appendChild(a);
+                col.appendChild(h3);
+                div.appendChild(col);
+            }
+        }
+    };
+    xhttp.open("POST", "../php/alldiscos.php", true);
+    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhttp.send("i=");
+}
+function discotecaConcreta(id) {
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+            var par = new DOMParser();
+            var xmlDoc = par.parseFromString(this.responseText, "text/xml");
+            // console.log(this.responseText);
+            console.log(xmlDoc);
+            var nombre = xmlDoc.getElementsByTagName('nombre');
+            var nota = xmlDoc.getElementsByTagName('nota');
+            var descripcion = xmlDoc.getElementsByTagName('descripcion');
+            var direccion = xmlDoc.getElementsByTagName('direccion');
+            var latitud = xmlDoc.getElementsByTagName('latitud');
+            var longitud = xmlDoc.getElementsByTagName('latitud');
+            var horario = xmlDoc.getElementsByTagName('horario');
+            var href = xmlDoc.getElementsByTagName('href');
+            var idDiscoteca = xmlDoc.getElementsByTagName('idDiscoteca');
+            var discoteca = xmlDoc.getElementsByTagName('discoteca');
+            var valoracion = xmlDoc.getElementsByTagName('valoracion');
+            var nombreN = document.createTextNode(nombre[0].childNodes[0].nodeValue);
+            var descripcionN = document.createTextNode(descripcion[0].childNodes[0].nodeValue);
+            var direccionN = document.createTextNode(direccion[0].childNodes[0].nodeValue);
+            var latitudN = document.createTextNode(latitud[0].childNodes[0].nodeValue);
+            var longitudN = document.createTextNode(longitud[0].childNodes[0].nodeValue);
+            var horarioN = document.createTextNode(horario[0].childNodes[0].nodeValue);
+            var hrefN = document.createTextNode(href[0].childNodes[0].nodeValue);
+            var x = xmlDoc.getElementsByTagName("logo")[0].childNodes[0].nodeValue;
+            var a = document.createElement("img");
+            a.setAttribute('class', 'image3');
+            a.src = x;
+            var div = document.getElementById('foto');
+            div.style.display = "block";
+            var col = document.createElement('div');
+            col.setAttribute('class', 'col-md-3');
+            col.style.height = "330px";
+            col.appendChild(a);
+            div.appendChild(col);
+            var porcentaje20 = 0;
+            var porcentaje40 = 0;
+            var porcentaje60 = 0;
+            var porcentaje80 = 0;
+            var porcentaje100 = 0;
+            for (var i = 0; i < valoracion.length; i++) {
+                var notaN = document.createTextNode(nota[i].childNodes[0].nodeValue);
+                var h3 = document.createElement('h3');
+                if (nota[i].childNodes[0].nodeValue >= 0 && nota[i].childNodes[0].nodeValue < 2) {
+                    porcentaje20++;
+                }
+                else if (nota[i].childNodes[0].nodeValue >= 2 && nota[i].childNodes[0].nodeValue < 4) {
+                    porcentaje40++;
+                }
+                else if (nota[i].childNodes[0].nodeValue >= 4 && nota[i].childNodes[0].nodeValue < 6) {
+                    porcentaje60++;
+                }
+                else if (nota[i].childNodes[0].nodeValue >= 6 && nota[i].childNodes[0].nodeValue < 8) {
+                    porcentaje80++;
+                }
+                else if (nota[i].childNodes[0].nodeValue >= 8 && nota[i].childNodes[0].nodeValue >= 10) {
+                    porcentaje100++;
+                }
+                h3.appendChild(notaN);
+                col.appendChild(h3);
+                div.appendChild(col);
+            }
+            var h3_ = document.createElement('h3');
+            var txt = document.createTextNode("Valoraciones");
+            h3_.appendChild(txt);
+            div.appendChild(h3_);
+            // console.log("20: "+porcentaje20+" 40: "+porcentaje40+" 60: "+porcentaje60+" 80: "+porcentaje80+" 100: "+porcentaje100);
+            var progressbar20 = document.createElement('progress');
+            var progressbar20 = document.createElement('progress');
+            var progressbar20 = document.createElement('progress');
+            var progressbar20 = document.createElement('progress');
+            var progressbar20 = document.createElement('progress');
+        }
+    };
+    xhttp.open("POST", "../php/discoConcreta.php", true);
+    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhttp.send("i=" + id);
+}
