@@ -13,8 +13,6 @@ $user = $_SESSION['username'];
 	while($fila = mysqli_fetch_assoc($r2)){
 		$id = $fila['COUNT(*)'];
 	}
-
-
 	$select2 = "SELECT COUNT(*) FROM likes WHERE idPost = '$separado[0]'";
 	$r22 = mysqli_query($conexio, $select);
 	
@@ -22,11 +20,11 @@ $user = $_SESSION['username'];
 		$total = $fila['COUNT(*)'];
 	}
 
-
 	if($id == 0){
 		$insert = "INSERT INTO likes (idUsuario, idPost) VALUES ('$user', '$separado[0]')";
 		$r = mysqli_query($conexio, $insert);
 
+	
 		$insert = "UPDATE post SET likes = likes + 1 WHERE idPost = '$separado[0]'";
 		$r = mysqli_query($conexio, $insert);
 
@@ -50,9 +48,7 @@ $user = $_SESSION['username'];
 
 	}
 	
-	
 	echo $estado."-".$total;
-	
 	
 
 

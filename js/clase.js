@@ -7,7 +7,7 @@ function sugerencias() {
     xhttp.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
             var log = this.responseText;
-            console.log(log);
+            // console.log(log);
             if (log == '0') {
                 var h2 = document.createElement('h2');
                 h2.setAttribute('class', 'text-pop-up-top nothing');
@@ -295,7 +295,6 @@ function mostrarId(id) {
         if (this.readyState == 4 && this.status == 200) {
             var parser = new DOMParser();
             var xmlDoc = parser.parseFromString(this.responseText, "text/xml");
-            // console.log(this.responseText);
             if (this.responseText == "0") {
                 var h2 = document.createElement('h2');
                 h2.setAttribute('class', 'text-pop-up-top');
@@ -471,7 +470,6 @@ function mostrarPerfil(id) {
         localStorage.removeItem('amigo');
     }
     else {
-        // console.log("navbar: " + id.innerText);
         showpublis2(id);
         xhttp.send("i=" + id.innerText);
     }
@@ -494,7 +492,6 @@ function addFriend(persona, cont) {
         })
             .then(function (respuesta) { return respuesta.text(); })
             .then(function (decodificado) {
-            console.log(decodificado);
         });
         Swal.fire({
             icon: 'success',
@@ -503,42 +500,70 @@ function addFriend(persona, cont) {
         });
     }
 }
+var escondercont = 0;
 function pendiente() {
     var xhttp = new XMLHttpRequest();
     var div = document.getElementById('menu');
     var pendent = document.getElementById('pendent');
     var esconder = document.getElementById('esconder');
     pendent.onclick = function () {
-        esconder.style.display = "block";
+        if (escondercont % 2 == 0) {
+            esconder.style.display = "block";
+            escondercont++;
+        }
+        else {
+            esconder.style.display = "none";
+            escondercont++;
+        }
     };
     xhttp.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
             var par = new DOMParser();
             var xmlDoc = par.parseFromString(this.responseText, "text/xml");
-            // console.log(this.responseText)
             var username = xmlDoc.getElementsByTagName('username');
             var pendiente = xmlDoc.getElementsByTagName('pendiente');
-            for (var i = 0; i < pendiente.length; i++) {
-                var dentro = document.createElement('div');
-                dentro.style.marginTop = "10px";
-                var usernameN = document.createTextNode(username[i].childNodes[0].nodeValue);
-                var h3 = document.createElement('h3');
-                h3.style.display = "inline-block";
-                var x = xmlDoc.getElementsByTagName("foto")[i].childNodes[0].nodeValue;
-                var a = document.createElement("img");
-                a.setAttribute('class', 'perf');
-                a.src = x;
-                var aceptar = document.createElement('input');
-                aceptar.type = "image";
-                aceptar.value = "add";
-                aceptar.src = "./imgs/aceptar.png";
-                aceptar.setAttribute('class', 'botonacceptar');
-                aceptar.setAttribute('onclick', 'update()');
-                h3.appendChild(usernameN);
-                dentro.appendChild(a);
-                dentro.appendChild(h3);
-                dentro.appendChild(aceptar);
-                esconder.appendChild(dentro);
+            var cont = xmlDoc.getElementsByTagName('cont');
+            if (this.responseText != "0") {
+                if (cont[0].childNodes[0].nodeValue > 0) {
+                    var noti = document.getElementById('noti');
+                    noti.innerText = parseInt(cont[0].childNodes[0].nodeValue);
+                    noti.setAttribute('class', 'noti animate__heartBeat animate__animated');
+                }
+                for (var i = 0; i < pendiente.length; i++) {
+                    var dentro = document.createElement('div');
+                    dentro.setAttribute('class', 'dentrodiv');
+                    dentro.id = username[i].childNodes[0].nodeValue;
+                    var usernameN = document.createTextNode(username[i].childNodes[0].nodeValue);
+                    var h3 = document.createElement('h3');
+                    h3.setAttribute('class', 'pendenttext');
+                    var x = xmlDoc.getElementsByTagName("foto")[i].childNodes[0].nodeValue;
+                    var a = document.createElement("img");
+                    a.setAttribute('class', 'perf');
+                    a.src = x;
+                    var form = document.createElement('form');
+                    form.setAttribute('onsubmit', 'return false');
+                    form.style.display = "inline-block";
+                    var aceptar = document.createElement('input');
+                    aceptar.type = "image";
+                    aceptar.value = "add";
+                    aceptar.src = "./imgs/aceptar.png";
+                    aceptar.setAttribute('class', 'botonacceptar');
+                    aceptar.setAttribute('onclick', 'update(' + username[i].childNodes[0].nodeValue + ')');
+                    var decline = document.createElement('input');
+                    decline.type = "image";
+                    decline.value = "add";
+                    decline.src = "./imgs/decline.png";
+                    decline.setAttribute('class', 'botonacceptar2');
+                    decline.setAttribute('onclick', 'update2(' + username[i].childNodes[0].nodeValue + ')');
+                    h3.appendChild(usernameN);
+                    dentro.appendChild(a);
+                    dentro.appendChild(h3);
+                    form.appendChild(aceptar);
+                    form.appendChild(decline);
+                    dentro.appendChild(form);
+                    // dentro.appendChild(decline);
+                    esconder.appendChild(dentro);
+                }
             }
         }
         ;
@@ -547,17 +572,43 @@ function pendiente() {
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhttp.send("i=");
 }
-function update() {
+function update(id) {
     var xhttp = new XMLHttpRequest();
+    var noti = document.getElementById('noti');
+    var value = parseInt(noti.innerText, 10) - 1;
+    noti.innerText = value;
+    if (value == 0) {
+        noti.innerText = "";
+    }
+    var div = document.getElementById(id.innerText);
+    div.setAttribute('class', 'dentrodiv animate__backOutLeft animate__animated');
+    setTimeout(function () {
+        div.style.display = "none";
+    }, 1000);
     xhttp.open("POST", "./php/actualizar.php", true);
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    xhttp.send("i=");
-    Swal.fire({
-        icon: 'success',
-        title: 'Añadido',
-        text: 'Usuario añadido a amigos!.'
-    });
-    setTimeout(function () { location.reload(); }, 1000);
+    xhttp.send("i=" + id.innerText);
+}
+function update2(id) {
+    var xhttp = new XMLHttpRequest();
+    var noti = document.getElementById('noti');
+    var value = parseInt(noti.innerText, 10) - 1;
+    noti.innerText = value;
+    if (value == 0) {
+        noti.innerText = "";
+    }
+    var div = document.getElementById(id.innerText);
+    div.setAttribute('class', 'dentrodiv animate__backOutRight animate__animated');
+    setTimeout(function () {
+        div.style.display = "none";
+    }, 1000);
+    xhttp.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+        }
+    };
+    xhttp.open("POST", "./php/actualizar2.php", true);
+    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhttp.send("i=" + id.innerText);
 }
 function perfil() {
     var xhttp = new XMLHttpRequest();
@@ -593,6 +644,7 @@ function perfil() {
             };
             input.onclick = function () { publicaciones(); };
             var h3 = document.createElement('h3');
+            h3.setAttribute('class', 'profilename');
             var h5 = document.createElement('h5');
             h5.setAttribute('class', 'name');
             var x = xmlDoc.getElementsByTagName("foto")[0].childNodes[0].nodeValue;
@@ -664,7 +716,7 @@ function añadirpubli() {
     })
         .then(function (respuesta) { return respuesta.text(); })
         .then(function (decodificado) {
-        console.log(decodificado);
+        // console.log(decodificado);
     });
     location.reload();
 }
@@ -714,7 +766,6 @@ function showpublis2(id) {
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
-            console.log(this.responseText);
             var par = new DOMParser();
             var xmlDoc = par.parseFromString(this.responseText, "text/xml");
             var div = document.getElementById('row2');
@@ -831,7 +882,6 @@ function likes(id) {
             var par = new DOMParser();
             var xmlDoc = par.parseFromString(this.responseText, "text/xml");
             var string = this.responseText.split("-");
-            console.log(this.responseText);
             if (string[0] === "in") {
                 like.src = '../imgs/liked.png';
             }
@@ -921,7 +971,6 @@ function conf() {
     })
         .then(function (respuesta) { return respuesta.text(); })
         .then(function (decodificado) {
-        console.log(decodificado);
     });
     // location.reload();
 }
@@ -1025,9 +1074,7 @@ function feed() {
         if (this.readyState == 4 && this.status == 200) {
             var par = new DOMParser();
             var xmlDoc = par.parseFromString(this.responseText, "text/xml");
-            console.log(this.responseText);
             var log = this.responseText;
-            console.log(log);
             if (log == '0') {
                 var h2 = document.createElement('h2');
                 h2.setAttribute('class', 'text-pop-up-top nothing');
@@ -1042,6 +1089,8 @@ function feed() {
                 var idUsuario = xmlDoc.getElementsByTagName('idUsuario');
                 var publi = xmlDoc.getElementsByTagName('publi');
                 var idPost = xmlDoc.getElementsByTagName('idPost');
+                var realizado = xmlDoc.getElementsByTagName('realizado');
+                var likes = xmlDoc.getElementsByTagName('likes');
                 for (var i = 0; i < publi.length; i++) {
                     var div2 = document.createElement('div');
                     var div3 = document.createElement('div');
@@ -1050,28 +1099,43 @@ function feed() {
                     var a = document.createElement("img");
                     a.setAttribute('class', 'imageFeed');
                     a.src = x;
+                    a.id = idPost[i].childNodes[0].nodeValue;
                     var xP = xmlDoc.getElementsByTagName("foto")[i].childNodes[0].nodeValue;
                     var aP = document.createElement("img");
                     aP.setAttribute('class', 'perf');
                     aP.src = xP;
-                    // var img: any = document.createElement('img');
-                    // img.setAttribute('class', 'like');
-                    // img.id = "likes";
-                    // if (count[0].childNodes[0].nodeValue === "0") {
-                    //   img.src = "../imgs/notliked.png";
-                    // } else {
-                    //   img.src = "../imgs/liked.png";
-                    // }
-                    // img.onclick = function () {
-                    //   likes(idPost[i].childNodes[0].nodeValue);
-                    // };
                     var nombreUsuario = document.createTextNode(idUsuario[i].childNodes[0].nodeValue);
                     var h4 = document.createElement('h4');
+                    var hr = document.createElement('hr');
                     h4.setAttribute('class', 'margen');
                     h4.appendChild(nombreUsuario);
-                    div2.appendChild(aP);
-                    div2.appendChild(h4);
+                    var especial = document.createElement('div');
+                    especial.setAttribute('class', 'hrentrefotos');
+                    especial.appendChild(aP);
+                    especial.appendChild(h4);
+                    div2.appendChild(especial);
                     div3.appendChild(a);
+                    var separador = document.createElement('div');
+                    separador.setAttribute('class', 'separador');
+                    var corasonR = document.createElement('img');
+                    corasonR.setAttribute('onclick', "likesFeed(" + idPost[i].childNodes[0].nodeValue + ")");
+                    corasonR.id = 'likesfeed';
+                    if (realizado[i].childNodes[0].nodeValue == "1") {
+                        corasonR.src = "./imgs/liked.png";
+                        corasonR.setAttribute('class', 'corason');
+                        separador.appendChild(corasonR);
+                    }
+                    else if (realizado[i].childNodes[0].nodeValue == "0") {
+                        corasonR.src = "./imgs/notliked.png";
+                        corasonR.setAttribute('class', 'corason');
+                        separador.appendChild(corasonR);
+                    }
+                    var h44 = document.createElement('h4');
+                    var likesN = document.createTextNode(" " + likes[i].childNodes[0].nodeValue + " Me gusta");
+                    h44.appendChild(likesN);
+                    h44.setAttribute('class', 'line');
+                    separador.appendChild(h44);
+                    div3.appendChild(separador);
                     // div3.appendChild(img);
                     div2.appendChild(div3);
                     div.appendChild(div2);
@@ -1083,15 +1147,35 @@ function feed() {
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhttp.send("i=");
 }
+function likesFeed(identificador) {
+    var xhttp = new XMLHttpRequest();
+    var like = document.getElementById('likesfeed');
+    xhttp.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+            var par = new DOMParser();
+            var xmlDoc = par.parseFromString(this.responseText, "text/xml");
+            var string = this.responseText.split("-");
+            if (string[0] === "in") {
+                like.src = './imgs/liked.png';
+            }
+            else if (string[0] === "out") {
+                like.src = './imgs/notliked.png';
+            }
+        }
+    };
+    xhttp.open("POST", "./php/likesnew.php", true);
+    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhttp.send("i=" + identificador);
+}
 function listas(value) {
     var div = document.getElementById('listas');
-    var buscador = document.getElementById('buscador');
+    var buscador = document.createElement('div');
+    buscador.setAttribute('id', 'buscador');
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
             var par = new DOMParser();
             var xmlDoc = par.parseFromString(this.responseText, "text/xml");
-            console.log(xmlDoc);
             var lista = xmlDoc.getElementsByTagName('lista');
             var lista2 = xmlDoc.getElementsByTagName('lista2');
             var titulo = xmlDoc.getElementsByTagName('titulo');
@@ -1107,9 +1191,6 @@ function listas(value) {
             select.setAttribute('data-placeholder', "Filtrar por discotecas");
             select.setAttribute('data-callback', "my_callback");
             for (var x = 0; x < lista2.length; x++) {
-                while (buscador.firstChild) {
-                    buscador.removeChild(buscador.firstChild);
-                }
                 var option = document.createElement('option');
                 option.innerText = nombreA[x].childNodes[0].nodeValue;
                 option.value = id[x].childNodes[0].nodeValue;
@@ -1167,64 +1248,8 @@ function listas(value) {
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhttp.send("i=" + value);
 }
-function showList(id) {
-    var div = document.getElementById('publis');
-    var mostrar = document.getElementById('listas_def');
-    mostrar.style.display = "block";
-    var xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function () {
-        if (this.readyState == 4 && this.status == 200) {
-            console.log(this.responseText);
-            var par = new DOMParser();
-            var xmlDoc = par.parseFromString(this.responseText, "text/xml");
-            var nombre = xmlDoc.getElementsByTagName('username');
-            var participante = xmlDoc.getElementsByTagName('participante');
-            var row = document.createElement('div');
-            row.classList.add('px-5', 'row');
-            var cerrar = document.createElement('button');
-            var añadir = document.createElement('button');
-            añadir.innerText = "Asistir";
-            añadir.classList.add('btn', 'btn-success', 'asis');
-            añadir.setAttribute('onclick', 'plusUserLista(' + id + ')');
-            cerrar.type = "submit";
-            cerrar.onclick = function () {
-                mostrar.style.display = "none";
-            };
-            cerrar.classList.add('cerrar', 'closeId', 'btn', 'btn-danger');
-            cerrar.innerText = "Cerrar";
-            console.log("participantes:");
-            console.log(xmlDoc);
-            var tit = document.createElement('h3');
-            tit.classList.add('p-3', 'part');
-            tit.innerText = "Participantes";
-            while (mostrar.firstChild) {
-                mostrar.removeChild(mostrar.firstChild);
-            }
-            mostrar.appendChild(tit);
-            mostrar.appendChild(cerrar);
-            mostrar.appendChild(añadir);
-            for (var i = 0; i < participante.length; i++) {
-                var col = document.createElement('div');
-                col.classList.add('p-0', 'col-md-4', 'mb-3');
-                var userN = document.createTextNode('@' + nombre[i].childNodes[0].nodeValue);
-                var h3 = document.createElement('h3');
-                h3.appendChild(userN);
-                var x = xmlDoc.getElementsByTagName("foto")[i].childNodes[0].nodeValue;
-                var a = document.createElement("img");
-                a.setAttribute('class', 'image');
-                a.src = x;
-                col.appendChild(a);
-                col.appendChild(h3);
-                row.appendChild(col);
-                mostrar.appendChild(row);
-            }
-        }
-    };
-    xhttp.open("POST", "php/showList.php", true);
-    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    xhttp.send("i=" + id);
-}
 function plusUserLista(id) {
+    var close = document.getElementById('listas_def');
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
@@ -1237,7 +1262,7 @@ function plusUserLista(id) {
                     allowOutsideClick: false
                 }).then(function (result) {
                     if (result.isConfirmed) {
-                        window.location.href = "./index.html";
+                        close.style.display = "none";
                     }
                 });
             }
@@ -1246,6 +1271,10 @@ function plusUserLista(id) {
                     icon: 'info',
                     title: 'Listillo...',
                     text: 'Ya te has unido a esta lista'
+                }).then(function (result) {
+                    if (result.isConfirmed) {
+                        close.style.display = "none";
+                    }
                 });
             }
             else {
@@ -1253,6 +1282,10 @@ function plusUserLista(id) {
                     icon: 'error',
                     title: 'Opss...',
                     text: 'Has encontrado un bug.'
+                }).then(function (result) {
+                    if (result.isConfirmed) {
+                        close.style.display = "none";
+                    }
                 });
             }
         }
@@ -1262,6 +1295,10 @@ function plusUserLista(id) {
     xhttp.send("i=" + id);
 }
 function my_callback(value) {
+    var list = document.getElementById('listas');
+    while (list.firstChild) {
+        list.removeChild(list.firstChild);
+    }
     listas(value);
 }
 function loader() {
@@ -1272,5 +1309,5 @@ function loader() {
         load.style.display = "none";
         cargador.style.display = "block";
         document.body.style.backgroundImage = "url(./imgs/locura.svg)";
-    }, 200000);
+    }, 100);
 }

@@ -10,8 +10,8 @@ function addDisco() {
 }
 
 function showPosition(position) {
-    var lat = position.coords.latitude;
-    var long = position.coords.longitude;
+    var lat = document.getElementById("lati");
+    var long = document.getElementById("longi");
     var nombre = document.getElementById("nombre");
     var dir = document.getElementById("direccion");
     var horario = document.getElementById("horario");
@@ -19,7 +19,7 @@ function showPosition(position) {
     var img = document.getElementById("img");
 
     var descripcion = document.getElementById("descripcion");
-    if (nombre.value != "" && dir.value != "" && horario.value != "" && url.value != "" + descripcion.value != "" && img.value != "") {
+    if (nombre.value != "" && dir.value != "" && horario.value != "" && url.value != "" + descripcion.value != "" && img.value != "" && lat.value != "" && long.value != "") {
         let formData = new FormData();
         formData.append("image", img.files[0]);
         formData.append("nombre", nombre.value);
@@ -27,8 +27,8 @@ function showPosition(position) {
         formData.append("horario", horario.value);
         formData.append("descripcion", descripcion.value);
         formData.append("url", url.value);
-        formData.append("lat", lat);
-        formData.append("long", long);
+        formData.append("lat", lat.value);
+        formData.append("long", long.value);
         fetch("../php/insertDisco.php", {
             method: 'POST',
             body: formData,
@@ -45,7 +45,6 @@ function showPosition(position) {
         }, 500);
         
     } else {
-        alert(img.value);
         Swal.fire({
             icon: 'error',
             title: 'Oops...',

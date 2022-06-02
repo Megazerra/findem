@@ -36,7 +36,7 @@ var mobile_width = 800;
            deanimate(getawselectElement($(this)))
         });
 
-        console.log(element.attr("id"));
+        // console.log(element.attr("id"));
         return {
             blue: function() {
                 element.css("color", "blue");

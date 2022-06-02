@@ -9,7 +9,7 @@ function initMap() {
             let latUser = parseFloat(geoUser[0]);
             let lngUser = parseFloat(geoUser[1]);
             const user = { lat: latUser, lng: lngUser };
-            console.log(user);
+ 
             // inicio del mapa
             // The map, centered at Sabadell
             const map = new google.maps.Map(document.getElementById("map"), {

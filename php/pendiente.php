@@ -6,7 +6,17 @@ $user = $_SESSION['username'];
 // $datos = trim($_POST["i"]);
 
 
-        $sql = "SELECT * FROM amigo ami JOIN usuario us ON(us.userName = ami.idUsuarioAmigo) WHERE ami.idUsuario = '$user' AND pendiente = '0'";
+		$count = "SELECT COUNT(*) FROM amigo ami JOIN usuario us ON(us.userName = ami.idUsuarioAmigo) WHERE ami.idUsuario = '$user' AND pendiente = '0'";
+		$rcount = mysqli_query($conexio, $count);
+
+		while($fila = mysqli_fetch_assoc($rcount)){
+			$count = $fila['COUNT(*)'];
+		}
+
+        
+
+        if($count > 0){
+			$sql = "SELECT * FROM amigo ami JOIN usuario us ON(us.userName = ami.idUsuarioAmigo) WHERE ami.idUsuario = '$user' AND pendiente = '0'";
         $r = mysqli_query($conexio, $sql);
 
 	    while($fila = mysqli_fetch_assoc($r)){
@@ -18,8 +28,11 @@ $user = $_SESSION['username'];
 			$todos[] = "<pendiente><username>".$ins['username']."</username><foto>".$ins['foto']."</foto></pendiente>";
 		}
 
-        
-		echo "<pendientes>".implode("\n", $todos). "</pendientes>";
+			echo "<pendientes>".implode("\n", $todos). "<cont>".$count."</cont></pendientes>";
+		}else if($count == 0){
+			echo "0";
+		}
+		
 	
 
 ?>

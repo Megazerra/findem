@@ -263,8 +263,17 @@ body{
     height: 250px;
     border-radius: 148px;
     object-fit: cover;
+    left: -73px;
+    position: relative;
 }
 
+.imagen{
+  background-image: url(../imgs/register-background.jpg);
+    width: 100%;
+    height: 360px;
+    background-position: center;
+    background-size: 71%;
+}
 
 .tex{
   margin-top: 10%;
@@ -565,4 +574,22 @@ body{
 .but{
   width: 100px;
   border: none;
+}
+
+
+
+.profilename{
+  color: red;
+}
+
+.subir{
+  
+  position: relative;
+  top: -160px;
+
+}
+
+
+.nombrepublis{
+  
 }

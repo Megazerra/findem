@@ -1,13 +1,16 @@
 
 let Swal: any;
 comprobarBuscador();
+
+
 function sugerencias() {
   let superDiv: any = document.getElementById('sugerencias');
   var xhttp = new XMLHttpRequest();
+
   xhttp.onreadystatechange = function () {
     if (this.readyState == 4 && this.status == 200) {
       let log = this.responseText;
-      console.log(log);
+      // console.log(log);
       if (log == '0') {
         var h2: any = document.createElement('h2');
         h2.setAttribute('class', 'text-pop-up-top nothing')
@@ -333,7 +336,7 @@ function mostrarId(id: any) {
     if (this.readyState == 4 && this.status == 200) {
       var parser = new DOMParser();
       var xmlDoc = parser.parseFromString(this.responseText, "text/xml");
-      // console.log(this.responseText);
+
       if (this.responseText == "0") {
         var h2: any = document.createElement('h2');
         h2.setAttribute('class', 'text-pop-up-top')
@@ -511,6 +514,7 @@ function mostrarPerfil(id: any) {
         div2.removeChild(div2.firstChild);
       }
       var h3: any = document.createElement('h3');
+      
       var h5: any = document.createElement('h5');
       h5.setAttribute('class', 'name');
 
@@ -530,6 +534,7 @@ function mostrarPerfil(id: any) {
 
 
 
+     
 
       h3.appendChild(user);
       h5.appendChild(name);
@@ -549,7 +554,7 @@ function mostrarPerfil(id: any) {
     showpublis2(id);
     localStorage.removeItem('amigo');
   } else {
-    // console.log("navbar: " + id.innerText);
+
     showpublis2(id);
     xhttp.send("i=" + id.innerText);
   }
@@ -576,7 +581,7 @@ function addFriend(persona: any, cont: any) {
     })
       .then(respuesta => respuesta.text())
       .then(decodificado => {
-        console.log(decodificado);
+  
       });
 
     Swal.fire({
@@ -588,7 +593,7 @@ function addFriend(persona: any, cont: any) {
 
 
 }
-
+var escondercont:any = 0;
 function pendiente() {
   var xhttp = new XMLHttpRequest();
   var div: any = document.getElementById('menu');
@@ -596,8 +601,13 @@ function pendiente() {
   var esconder: any = document.getElementById('esconder');
 
   pendent.onclick = function () {
-
-    esconder.style.display = "block";
+    if(escondercont % 2 == 0){
+      esconder.style.display = "block";
+      escondercont++;
+    }else{
+      esconder.style.display = "none";
+      escondercont++;
+    }
 
   }
   xhttp.onreadystatechange = function () {
@@ -605,35 +615,66 @@ function pendiente() {
 
       var par = new DOMParser();
       var xmlDoc: any = par.parseFromString(this.responseText, "text/xml");
-      // console.log(this.responseText)
       var username: any = xmlDoc.getElementsByTagName('username')
       var pendiente: any = xmlDoc.getElementsByTagName('pendiente');
+      var cont: any = xmlDoc.getElementsByTagName('cont');
+      if(this.responseText != "0"){
 
-      for (var i: any = 0; i < pendiente.length; i++) {
-        var dentro: any = document.createElement('div');
-        dentro.style.marginTop = "10px"
-        var usernameN: any = document.createTextNode(username[i].childNodes[0].nodeValue);
-        var h3: any = document.createElement('h3');
-        h3.style.display = "inline-block"
 
-        var x = xmlDoc.getElementsByTagName("foto")[i].childNodes[0].nodeValue;
-        var a = document.createElement("img");
-        a.setAttribute('class', 'perf');
-        a.src = x;
-
-        var aceptar: any = document.createElement('input');
-        aceptar.type = "image";
-        aceptar.value = "add";
-        aceptar.src = "./imgs/aceptar.png";
-        aceptar.setAttribute('class', 'botonacceptar');
-        aceptar.setAttribute('onclick', 'update()');
-
-        h3.appendChild(usernameN);
-        dentro.appendChild(a);
-        dentro.appendChild(h3);
-        dentro.appendChild(aceptar);
-
-        esconder.appendChild(dentro);
+        if(cont[0].childNodes[0].nodeValue > 0){
+          var noti:any = document.getElementById('noti');
+          noti.innerText = parseInt(cont[0].childNodes[0].nodeValue);
+          noti.setAttribute('class', 'noti animate__heartBeat animate__animated')
+        }
+        for (var i: any = 0; i < pendiente.length; i++) {
+          
+  
+  
+  
+  
+          var dentro: any = document.createElement('div');
+          dentro.setAttribute('class', 'dentrodiv');
+          dentro.id = username[i].childNodes[0].nodeValue;
+          var usernameN: any = document.createTextNode(username[i].childNodes[0].nodeValue);
+          var h3: any = document.createElement('h3');
+          h3.setAttribute('class', 'pendenttext');
+  
+          var x = xmlDoc.getElementsByTagName("foto")[i].childNodes[0].nodeValue;
+          var a = document.createElement("img");
+          a.setAttribute('class', 'perf');
+          a.src = x;
+          
+          var form:any = document.createElement('form');
+          form.setAttribute('onsubmit', 'return false');
+          form.style.display = "inline-block";
+  
+          
+  
+          var aceptar: any = document.createElement('input');
+          aceptar.type = "image";
+          aceptar.value = "add";
+          aceptar.src = "./imgs/aceptar.png";
+          aceptar.setAttribute('class', 'botonacceptar');
+          aceptar.setAttribute('onclick', 'update('+username[i].childNodes[0].nodeValue+')');
+  
+          var decline: any = document.createElement('input');
+          decline.type = "image";
+          decline.value = "add";
+          decline.src = "./imgs/decline.png";
+          decline.setAttribute('class', 'botonacceptar2');
+          decline.setAttribute('onclick', 'update2('+username[i].childNodes[0].nodeValue+')');
+  
+          h3.appendChild(usernameN);
+          dentro.appendChild(a);
+          dentro.appendChild(h3);
+          form.appendChild(aceptar);
+          form.appendChild(decline);
+          dentro.appendChild(form);
+          // dentro.appendChild(decline);
+  
+          esconder.appendChild(dentro);
+      }
+      
       }
     };
   }
@@ -643,18 +684,48 @@ function pendiente() {
 }
 
 
-function update() {
+function update(id:any) {
   var xhttp = new XMLHttpRequest();
+  var noti:any = document.getElementById('noti');
+  var value = parseInt(noti.innerText,10) - 1;
+  noti.innerText = value; 
+  if(value == 0){
+    noti.innerText = "";
+  }
+  var div:any = document.getElementById(id.innerText);
+  div.setAttribute('class', 'dentrodiv animate__backOutLeft animate__animated');
+  setTimeout(function () {
+    div.style.display = "none";
+  }, 1000);
+
+  
 
   xhttp.open("POST", "./php/actualizar.php", true);
   xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-  xhttp.send("i=");
-  Swal.fire({
-    icon: 'success',
-    title: 'Añadido',
-    text: 'Usuario añadido a amigos!.'
-  });
-  setTimeout(function () { location.reload() }, 1000);
+  xhttp.send("i="+id.innerText);
+}
+
+function update2(id:any) {
+  var xhttp = new XMLHttpRequest();
+  var noti:any = document.getElementById('noti');
+  var value = parseInt(noti.innerText,10) - 1;
+  noti.innerText = value; 
+  if(value == 0){
+    noti.innerText = "";
+  }
+  var div:any = document.getElementById(id.innerText);
+  div.setAttribute('class', 'dentrodiv animate__backOutRight animate__animated');
+  setTimeout(function () {
+    div.style.display = "none";
+  }, 1000);
+  xhttp.onreadystatechange = function () {
+    if (this.readyState == 4 && this.status == 200) {
+        
+      }
+    };
+  xhttp.open("POST", "./php/actualizar2.php", true);
+  xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+  xhttp.send("i="+id.innerText);
 }
 
 
@@ -705,6 +776,8 @@ function perfil() {
       }
       input.onclick = function () { publicaciones() };
       var h3: any = document.createElement('h3');
+      h3.setAttribute('class', 'profilename');
+ 
       var h5: any = document.createElement('h5');
       h5.setAttribute('class', 'name');
 
@@ -781,7 +854,7 @@ function añadirpubli() {
   })
     .then(respuesta => respuesta.text())
     .then(decodificado => {
-      console.log(decodificado);
+      // console.log(decodificado);
     });
   location.reload();
 }
@@ -837,7 +910,7 @@ function showpublis2(id: any) {
   var xhttp = new XMLHttpRequest();
   xhttp.onreadystatechange = function () {
     if (this.readyState == 4 && this.status == 200) {
-      console.log(this.responseText);
+   
       var par = new DOMParser();
       var xmlDoc: any = par.parseFromString(this.responseText, "text/xml");
       var div: any = document.getElementById('row2');
@@ -964,7 +1037,7 @@ function likes(id: any) {
       var par = new DOMParser();
       var xmlDoc: any = par.parseFromString(this.responseText, "text/xml");
       var string = this.responseText.split("-");
-      console.log(this.responseText);
+  
       if (string[0] === "in") {
         like.src = '../imgs/liked.png';
       } else if (string[0] === "out") {
@@ -1079,7 +1152,7 @@ function conf() {
   })
     .then(respuesta => respuesta.text())
     .then(decodificado => {
-      console.log(decodificado);
+    
     });
   // location.reload();
 }
@@ -1185,10 +1258,10 @@ function feed() {
       var par = new DOMParser();
 
       var xmlDoc: any = par.parseFromString(this.responseText, "text/xml");
-      console.log(this.responseText);
+  
 
       let log = this.responseText;
-      console.log(log);
+   
       if (log == '0') {
         var h2: any = document.createElement('h2');
         h2.setAttribute('class', 'text-pop-up-top nothing')
@@ -1202,6 +1275,8 @@ function feed() {
       var idUsuario: any = xmlDoc.getElementsByTagName('idUsuario');
       var publi: any = xmlDoc.getElementsByTagName('publi');
       var idPost: any = xmlDoc.getElementsByTagName('idPost');
+      var realizado: any = xmlDoc.getElementsByTagName('realizado');
+      var likes: any = xmlDoc.getElementsByTagName('likes');
 
       for (var i: any = 0; i < publi.length; i++) {
         var div2: any = document.createElement('div');
@@ -1211,32 +1286,52 @@ function feed() {
         var a = document.createElement("img");
         a.setAttribute('class', 'imageFeed');
         a.src = x;
+        a.id = idPost[i].childNodes[0].nodeValue;
+        
+        
+
 
         var xP = xmlDoc.getElementsByTagName("foto")[i].childNodes[0].nodeValue;
         var aP = document.createElement("img");
         aP.setAttribute('class', 'perf');
         aP.src = xP;
 
-        // var img: any = document.createElement('img');
-        // img.setAttribute('class', 'like');
-        // img.id = "likes";
-        // if (count[0].childNodes[0].nodeValue === "0") {
-        //   img.src = "../imgs/notliked.png";
-        // } else {
-        //   img.src = "../imgs/liked.png";
-        // }
-        // img.onclick = function () {
-        //   likes(idPost[i].childNodes[0].nodeValue);
-        // };
-
-
-        var nombreUsuario: any = document.createTextNode(idUsuario[i].childNodes[0].nodeValue)
+        var nombreUsuario: any = document.createTextNode(idUsuario[i].childNodes[0].nodeValue);
         var h4: any = document.createElement('h4');
+        var hr:any = document.createElement('hr');
+
         h4.setAttribute('class', 'margen');
         h4.appendChild(nombreUsuario);
-        div2.appendChild(aP);
-        div2.appendChild(h4);
+        var especial:any = document.createElement('div');
+        especial.setAttribute('class', 'hrentrefotos');
+        especial.appendChild(aP);
+        especial.appendChild(h4);
+     
+        div2.appendChild(especial);
         div3.appendChild(a);
+        var separador:any = document.createElement('div');
+        separador.setAttribute('class','separador');
+
+        var corasonR:any = document.createElement('img');
+        corasonR.setAttribute('onclick', "likesFeed("+idPost[i].childNodes[0].nodeValue+")");
+        corasonR.id = 'likesfeed';
+        if(realizado[i].childNodes[0].nodeValue == "1"){
+          corasonR.src = "./imgs/liked.png";
+          corasonR.setAttribute('class', 'corason');
+          separador.appendChild(corasonR);
+        }else if(realizado[i].childNodes[0].nodeValue == "0"){
+
+          corasonR.src = "./imgs/notliked.png";
+          corasonR.setAttribute('class', 'corason');
+          separador.appendChild(corasonR);
+        }
+        var h44:any = document.createElement('h4');
+        var likesN:any = document.createTextNode(" "+likes[i].childNodes[0].nodeValue+" Me gusta");
+        h44.appendChild(likesN);
+        h44.setAttribute('class', 'line');
+        separador.appendChild(h44);
+
+        div3.appendChild(separador);
         // div3.appendChild(img);
         div2.appendChild(div3);
         div.appendChild(div2)
@@ -1252,22 +1347,46 @@ function feed() {
   xhttp.send("i=");
 }
 
-function listas(value: any) {
-  var div: any = document.getElementById('listas');
 
-  var buscador: any = document.getElementById('buscador');
+function likesFeed(identificador:any) {
 
 
   var xhttp = new XMLHttpRequest();
-
-
+  var like: any = document.getElementById('likesfeed');
   xhttp.onreadystatechange = function () {
-
     if (this.readyState == 4 && this.status == 200) {
-
       var par = new DOMParser();
       var xmlDoc: any = par.parseFromString(this.responseText, "text/xml");
-      console.log(xmlDoc);
+      
+  
+      var string = this.responseText.split("-");
+     
+      if (string[0] === "in") {
+     
+        like.src = './imgs/liked.png';
+      } else if (string[0] === "out") {
+     
+        like.src = './imgs/notliked.png';
+      }
+    }
+  };
+
+  xhttp.open("POST", "./php/likesnew.php", true);
+  xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+  xhttp.send("i=" + identificador);
+}
+
+function listas(value: any) {
+  var div: any = document.getElementById('listas');
+  var buscador: any = document.createElement('div');
+  buscador.setAttribute('id', 'buscador');
+  
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function () {
+    if (this.readyState == 4 && this.status == 200) {
+      var par = new DOMParser();
+      var xmlDoc: any = par.parseFromString(this.responseText, "text/xml");
+     
       var lista: any = xmlDoc.getElementsByTagName('lista');
       var lista2: any = xmlDoc.getElementsByTagName('lista2');
       var titulo: any = xmlDoc.getElementsByTagName('titulo');
@@ -1278,162 +1397,71 @@ function listas(value: any) {
       var nombre: any = xmlDoc.getElementsByTagName('nombre');
       var nombreA: any = xmlDoc.getElementsByTagName('nombreA');
       var id: any = xmlDoc.getElementsByTagName('id');
-
-
       var select: any = document.createElement('select');
       select.name = "Filtro de discotecas";
       select.setAttribute('data-placeholder', "Filtrar por discotecas");
       select.setAttribute('data-callback', "my_callback");
-
       for (var x: any = 0; x < lista2.length; x++) {
-        while (buscador.firstChild) {
-          buscador.removeChild(buscador.firstChild);
-        }
         var option: any = document.createElement('option');
         option.innerText = nombreA[x].childNodes[0].nodeValue;
         option.value = id[x].childNodes[0].nodeValue;
         select.appendChild(option);
         buscador.appendChild(select);
-
       }
-
       for (var i: any = 0; i < lista.length; i++) {
-
-
-
         var tituloN: any = document.createTextNode(titulo[i].childNodes[0].nodeValue);
         var fecha_inicioN: any = document.createTextNode(fecha_inicio[i].childNodes[0].nodeValue);
         var fecha_finalN: any = document.createTextNode(fecha_final[i].childNodes[0].nodeValue);
         var idDiscotecaN: any = document.createTextNode(idDiscoteca[i].childNodes[0].nodeValue);
         var div2: any = document.createElement('div');
         div2.setAttribute('class', 'col-md-4 aleix');
-
         var row: any = document.createElement('row');
         row.setAttribute('class', 'row esp');
-
         var div3: any = document.createElement('div');
         div3.setAttribute('class', 'col-md-8 aleix');
-
-
         var x = xmlDoc.getElementsByTagName("logo")[i].childNodes[0].nodeValue;
         var a = document.createElement("img");
         a.setAttribute('class', 'list');
         a.id = idDiscoteca[i].childNodes[0].nodeValue;
         a.src = x;
         a.setAttribute('onclick', 'showList("' + idLista[i].childNodes[0].nodeValue + '")');
-
-
         let arr = fecha_inicio[i].childNodes[0].nodeValue.split(' ');
-
         var p: any = document.createElement('p');
         p.setAttribute('class', 'fecha');
         var p2: any = document.createElement('p');
         p2.setAttribute('class', 'hora');
-
         p.innerText = arr[0];
         p2.innerText = arr[1];
-
         let arr2 = fecha_final[i].childNodes[0].nodeValue.split(' ');
-
         var p_: any = document.createElement('p');
         p_.setAttribute('class', 'hora');
-
         p_.innerText = arr2[1];
-
-
         var h3: any = document.createElement('h3');
         h3.setAttribute('class', 'listah3');
         h3.appendChild(tituloN);
         var arrow: any = document.createElement('img');
         arrow.src = "./imgs/arrow.svg";
-
-
-
-
         div3.appendChild(p);
         div3.appendChild(p2);
         div3.appendChild(arrow);
         div3.appendChild(p_);
         div3.appendChild(h3);
         div2.appendChild(a);
-
         row.appendChild(div2);
         row.appendChild(div3);
-
         div.appendChild(row);
-
       }
     }
     $(select).awselect();
-
   };
-
   div.appendChild(buscador);
-
   xhttp.open("POST", "php/listas.php", true);
   xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
   xhttp.send("i=" + value);
-
 }
-function showList(id: any) {
-  var div: any = document.getElementById('publis');
-  var mostrar: any = document.getElementById('listas_def');
-  mostrar.style.display = "block";
-  var xhttp = new XMLHttpRequest();
-  xhttp.onreadystatechange = function () {
-    if (this.readyState == 4 && this.status == 200) {
-      console.log(this.responseText);
-      var par = new DOMParser();
-      var xmlDoc: any = par.parseFromString(this.responseText, "text/xml");
-      var nombre: any = xmlDoc.getElementsByTagName('username');
-      var participante: any = xmlDoc.getElementsByTagName('participante');
-      var row: any = document.createElement('div');
-      row.classList.add('px-5', 'row');
-      var cerrar: any = document.createElement('button');
-      let añadir: any = document.createElement('button');
-      añadir.innerText = "Asistir";
-      añadir.classList.add('btn', 'btn-success', 'asis');
-      añadir.setAttribute('onclick', 'plusUserLista(' + id + ')');
-      cerrar.type = "submit";
-      cerrar.onclick = function () {
-        mostrar.style.display = "none";
-      }
-      cerrar.classList.add('cerrar', 'closeId', 'btn', 'btn-danger');
-      cerrar.innerText = "Cerrar";
-      console.log("participantes:");
-      console.log(xmlDoc);
 
-      var tit: any = document.createElement('h3');
-      tit.classList.add('p-3', 'part');
-      tit.innerText = "Participantes";
-      while (mostrar.firstChild) {
-        mostrar.removeChild(mostrar.firstChild);
-      }
-      mostrar.appendChild(tit);
-      mostrar.appendChild(cerrar);
-      mostrar.appendChild(añadir);
-      for (var i: any = 0; i < participante.length; i++) {
-        var col: any = document.createElement('div');
-        col.classList.add('p-0', 'col-md-4', 'mb-3');
-        var userN: any = document.createTextNode('@' + nombre[i].childNodes[0].nodeValue);
-        var h3: any = document.createElement('h3');
-        h3.appendChild(userN);
-        var x = xmlDoc.getElementsByTagName("foto")[i].childNodes[0].nodeValue;
-        var a = document.createElement("img");
-        a.setAttribute('class', 'image');
-        a.src = x;
-        col.appendChild(a);
-        col.appendChild(h3);
-        row.appendChild(col);
-        mostrar.appendChild(row);
-      }
-    }
-  };
-  xhttp.open("POST", "php/showList.php", true);
-  xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-  xhttp.send("i=" + id);
-}
 function plusUserLista(id: any) {
+  let close:any = document.getElementById('listas_def');
   var xhttp = new XMLHttpRequest();
   xhttp.onreadystatechange = function () {
     if (this.readyState == 4 && this.status == 200) {
@@ -1446,7 +1474,7 @@ function plusUserLista(id: any) {
           allowOutsideClick: false
         }).then((result: any) => {
           if (result.isConfirmed) {
-            window.location.href = "./index.html";
+            close.style.display = "none";
           }
         });
       } else if (log == "0") {
@@ -1454,12 +1482,20 @@ function plusUserLista(id: any) {
           icon: 'info',
           title: 'Listillo...',
           text: 'Ya te has unido a esta lista'
+        }).then((result: any) => {
+          if (result.isConfirmed) {
+            close.style.display = "none";
+          }
         });
       } else {
         Swal.fire({
           icon: 'error',
           title: 'Opss...',
           text: 'Has encontrado un bug.'
+        }).then((result: any) => {
+          if (result.isConfirmed) {
+            close.style.display = "none";
+          }
         });
       }
     }
@@ -1469,8 +1505,11 @@ function plusUserLista(id: any) {
   xhttp.send("i=" + id);
 }
 
-function my_callback(value) {
-
+function my_callback(value:any) {
+  let list:any = document.getElementById('listas');
+  while (list.firstChild) {
+    list.removeChild(list.firstChild);
+  }
   listas(value);
 }
 
@@ -1485,5 +1524,5 @@ function loader() {
     load.style.display = "none";
     cargador.style.display = "block";
     document.body.style.backgroundImage = "url(./imgs/locura.svg)";
-  }, 200000);
+  }, 100);
 }

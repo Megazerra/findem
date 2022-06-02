@@ -68,11 +68,9 @@ function eliminar() {
 
         var xmlhttp = new XMLHttpRequest();
         xmlhttp.onreadystatechange = function () {
-            console.log(this.responseText);
         };
         xmlhttp.open("POST", "../php/delDisco.php", true);
         xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-        alert(id);
         xmlhttp.send("i=" + id);
         let btn = document.getElementById('delBtn').disabled = true;
     }

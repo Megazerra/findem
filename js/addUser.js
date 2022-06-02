@@ -1,17 +1,3 @@
-function tipo() {
-    var tipo = document.getElementById("tipo");
-    if (tipo.value == "business") {
-        let label = document.createElement('label');
-        let input = document.createElement('input');
-        label.innerText = "Link de la página de empresa";
-        input.setAttribute('id', 'labelEmp');
-        label.classList.add('mt-3');
-        input.classList.add('d-block');
-        input.classList.add('form-control');
-        input.setAttribute('id', 'linkEmp');
-    }
-}
-
 function addUser() {
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(showPosition);
@@ -35,19 +21,18 @@ function showPosition(position) {
     if(tipo.value == "business"){
         var href = document.getElementById("link");
     }
-    console.log("es: " + tipo.value);
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
             var id = this.responseText;
-            if (id == '1') {
+            if (id == "1"){
                 Swal.fire({
                     icon: 'success',
                     title: 'Conseguido',
                     text: 'Usuario creado correctamente.'
                 });
             }
-            else {
+            else if(id == '0'){
                 Swal.fire({
                     icon: 'error',
                     title: 'Oops...',
@@ -103,11 +88,8 @@ function mostrarUsers(check, num, filtro) {
     var xmlhttp = new XMLHttpRequest();
     xmlhttp.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
-            console.log(this.responseText);
             var parser = new DOMParser();
             var xmlDoc = parser.parseFromString(this.responseText, "text/xml");
-            console.log(this.responseText);
-            console.log(xmlDoc);
             var username = xmlDoc.getElementsByTagName('userName');
             var nombre = xmlDoc.getElementsByTagName('nombre');
             var apellido = xmlDoc.getElementsByTagName('apellido');
