@@ -35,7 +35,7 @@ if (!empty($cont)) {
     //Para eliminar los usuarios que son ya amigos del usuario cliente
     for ($i = 0; $i < sizeOf($ban); $i++) {
         for ($j = 0; $j < sizeOf($new); $j++) {
-            if ($ban[$i] == $new[$j]['userName']) {
+            if ($ban[$i] == $new[$j]['userName'] || $id == $new[$j]['userName']) {
                 unset($new[$j]);
                 $new = array_values($new);
             }

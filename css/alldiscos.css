@@ -679,3 +679,13 @@ progress::-webkit-progress-value { background: blue; border-radius: 5px;}
 .yokese2{
   margin-left: 7%;
 }
+
+
+.fijadisimo{
+  display: block;
+    background-color: gray;
+    height: 30px;
+    position: absolute;
+    top: 173px;
+    left: 101px;
+}

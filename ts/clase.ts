@@ -1,6 +1,5 @@
 
 let Swal: any;
-comprobarBuscador();
 
 
 function sugerencias() {
@@ -543,13 +542,12 @@ function mostrarPerfil(id: any) {
   if (localStorage.getItem('amigo')) {
     // console.log("local: " + id);
     xhttp.send("i=" + id);
-    showpublis2(id);
     localStorage.removeItem('amigo');
   } else {
     // console.log("navbar: " + id.innerText);
-    showpublis2(id);
     xhttp.send("i=" + id.innerText);
   }
+  showpublis2(id);
 
 }
 
@@ -838,17 +836,11 @@ function comprobarBuscador() {
     localStorage.removeItem('per3');
     let p: any = document.createElement('p');
     p.innerText = id;
-    alert(p.innerText);
     showpublis2(p);
   }
 }
 
 function showpublis2(id: any) {
-  var URLactual = window.location.pathname;
-  if (URLactual == '/findem/html/friends.html') {
-    localStorage.setItem('per3', id.innerText);
-    window.location.href = "./perfilA.html";
-  }
   var xhttp = new XMLHttpRequest();
   xhttp.onreadystatechange = function () {
     if (this.readyState == 4 && this.status == 200) {
@@ -882,7 +874,7 @@ function showpublis2(id: any) {
   };
   xhttp.open("POST", "../php/showpubli2.php", true);
   xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-  xhttp.send("i=" + id.innerText);
+  xhttp.send("i=" + id);
 
 }
 
@@ -992,33 +984,6 @@ function likes(id: any) {
   xhttp.open("POST", "../php/likes.php", true);
   xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
   xhttp.send("i=" + params);
-}
-
-
-
-
-function conf() {
-  var username: any = document.getElementById('username');
-  var password: any = document.getElementById('password')
-  var gmail: any = document.getElementById('gmail');
-  var name: any = document.getElementById('name');
-  var file: any = document.getElementById('fotito');
-  let formData = new FormData();
-
-  formData.append("image", file.files[0]);
-  formData.append("username", username.value);
-  formData.append("gmail", gmail.value);
-  formData.append("name", name.value);
-  formData.append("password", password.value);
-  fetch("../php/config.php", {
-    method: 'POST',
-    body: formData,
-  })
-    .then(respuesta => respuesta.text())
-    .then(decodificado => {
-
-    });
-  // location.reload();
 }
 
 function valoraciones() {
@@ -1177,8 +1142,10 @@ function feed() {
           separador.setAttribute('class', 'separador');
 
           var corasonR: any = document.createElement('img');
-          corasonR.setAttribute('onclick', "likesFeed(" + idPost[i].childNodes[0].nodeValue + ")");
-          corasonR.id = 'likesfeed';
+          corasonR.setAttribute('onclick', "likesFeed('" + idPost[i].childNodes[0].nodeValue + "','" + i+ "hola')");
+
+          corasonR.id = i+"hola";
+          
           if (realizado[i].childNodes[0].nodeValue == "1") {
             corasonR.src = "./imgs/liked.png";
             corasonR.setAttribute('class', 'corason');
@@ -1212,21 +1179,20 @@ function feed() {
 }
 
 
-function likesFeed(identificador: any) {
-
+function likesFeed(identificador: any, number:any) {
 
   var xhttp = new XMLHttpRequest();
-  var like: any = document.getElementById('likesfeed');
+  var id:any = number;
+  var like: any = document.getElementById(id);
   xhttp.onreadystatechange = function () {
     if (this.readyState == 4 && this.status == 200) {
       var par = new DOMParser();
       var xmlDoc: any = par.parseFromString(this.responseText, "text/xml");
 
-
+      console.log(this.responseText);
       var string = this.responseText.split("-");
 
       if (string[0] === "in") {
-
         like.src = './imgs/liked.png';
       } else if (string[0] === "out") {
 
@@ -1494,13 +1460,44 @@ function discotecaConcreta(id:any){
         
         var div:any = document.getElementById('foto');
         div.style.display = "block";
+
         var col:any = document.createElement('div');
         col.setAttribute('class','col-md-3')
         col.style.height = "330px";
         
         var add:any = document.createElement('input');
         add.type = "submit";
-        add.setAttribute('onclick', "añadirValoracion('"+idDiscoteca[0].childNodes[0].nodeValue+"')");
+        add.onclick = function () {
+          var fijadisimo:any = document.createElement('fijadisimo');
+          fijadisimo.setAttribute('class', 'fijadisimo');
+
+          var tituloA:any = document.createElement('input');
+          tituloA.id = "titA";
+          tituloA.placeholder = "Título de la reseña";
+          var descripcionA:any = document.createElement('input');
+          descripcionA.id = "descA";
+          descripcionA.placeholder = "Descripción de la reseña";
+          
+          var notaA:any = document.createElement('input');
+          notaA.id = "notA";
+          notaA.type = "number";
+          nota.placeholder = "nota";
+    
+          var inputAñadir:any = document.createElement('input');
+          inputAñadir.type = "submit";
+          inputAñadir.setAttribute('onclick', "añadirValoracion('"+idDiscoteca[0].childNodes[0].nodeValue+"')");
+
+          fijadisimo.appendChild(tituloA);
+          fijadisimo.appendChild(descripcionA);
+          fijadisimo.appendChild(notaA);
+          fijadisimo.appendChild(inputAñadir);
+          div.appendChild(fijadisimo);
+
+
+
+          
+        }
+
 
         
 
@@ -1536,7 +1533,7 @@ function discotecaConcreta(id:any){
 
         
           suma += parseInt(nota[i].childNodes[0].nodeValue);
-          
+        
         }
         var h3_:any = document.createElement('h3');
         var txt:any = document.createTextNode("Nota media");
@@ -1579,6 +1576,8 @@ function discotecaConcreta(id:any){
         var h1:any = document.createElement('h1');
         var m:any;
         m = suma/i;
+        m = Math.round(m * 100) / 100
+        
         var media:any = document.createTextNode(m);
         h1.setAttribute('class', 'media')
         h1.appendChild(media);
@@ -1684,6 +1683,7 @@ function discotecaConcreta(id:any){
           div.appendChild(a);
           div.appendChild(h2);
           div.appendChild(p);
+        
         }
     }
   };
@@ -1807,7 +1807,6 @@ function conf() {
       });
       console.log(decodificado);
     });
-  quitar();
 }
 
 /*jp*/
@@ -1854,11 +1853,22 @@ function fondo(id:any, val:any){
 
 
 function añadirValoracion(identificador:any){
-  alert(identificador)
   var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function () {
+    if (this.readyState == 4 && this.status == 200) {
+      console.log(this.responseText);
+    }
+  };
+  var titA:any = document.getElementById('titA');
+  var notA:any = document.getElementById('notA');
+  if(notA.value > 10){
+    notA.value = 10;
+  }
+  var descA:any = document.getElementById('descA');
 
+  var params:any = titA.value+"-"+notA.value+"-"+descA.value+"-"+identificador;
 
   xhttp.open("POST", "../php/añadirValoracion.php", true);
   xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-  xhttp.send("i=friends");
+  xhttp.send("i="+params);
 }

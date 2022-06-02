@@ -1,6 +1,5 @@
 "use strict";
 var Swal;
-comprobarBuscador();
 function sugerencias() {
     var superDiv = document.getElementById('sugerencias');
     var xhttp = new XMLHttpRequest();
@@ -466,14 +465,13 @@ function mostrarPerfil(id) {
     if (localStorage.getItem('amigo')) {
         // console.log("local: " + id);
         xhttp.send("i=" + id);
-        showpublis2(id);
         localStorage.removeItem('amigo');
     }
     else {
         // console.log("navbar: " + id.innerText);
-        showpublis2(id);
         xhttp.send("i=" + id.innerText);
     }
+    showpublis2(id);
 }
 function addFriend(persona, cont) {
     var xhttp = new XMLHttpRequest();
@@ -720,16 +718,10 @@ function comprobarBuscador() {
         localStorage.removeItem('per3');
         var p = document.createElement('p');
         p.innerText = id;
-        alert(p.innerText);
         showpublis2(p);
     }
 }
 function showpublis2(id) {
-    var URLactual = window.location.pathname;
-    if (URLactual == '/findem/html/friends.html') {
-        localStorage.setItem('per3', id.innerText);
-        window.location.href = "./perfilA.html";
-    }
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
@@ -757,7 +749,7 @@ function showpublis2(id) {
     };
     xhttp.open("POST", "../php/showpubli2.php", true);
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    xhttp.send("i=" + id.innerText);
+    xhttp.send("i=" + id);
 }
 function mostrarPubli(id, idPersona) {
     var iden = id;
@@ -861,27 +853,6 @@ function likes(id) {
     xhttp.open("POST", "../php/likes.php", true);
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhttp.send("i=" + params);
-}
-function conf() {
-    var username = document.getElementById('username');
-    var password = document.getElementById('password');
-    var gmail = document.getElementById('gmail');
-    var name = document.getElementById('name');
-    var file = document.getElementById('fotito');
-    var formData = new FormData();
-    formData.append("image", file.files[0]);
-    formData.append("username", username.value);
-    formData.append("gmail", gmail.value);
-    formData.append("name", name.value);
-    formData.append("password", password.value);
-    fetch("../php/config.php", {
-        method: 'POST',
-        body: formData,
-    })
-        .then(function (respuesta) { return respuesta.text(); })
-        .then(function (decodificado) {
-    });
-    // location.reload();
 }
 function valoraciones() {
     var div = document.getElementById('val');
@@ -1027,8 +998,8 @@ function feed() {
                     var separador = document.createElement('div');
                     separador.setAttribute('class', 'separador');
                     var corasonR = document.createElement('img');
-                    corasonR.setAttribute('onclick', "likesFeed(" + idPost[i].childNodes[0].nodeValue + ")");
-                    corasonR.id = 'likesfeed';
+                    corasonR.setAttribute('onclick', "likesFeed('" + idPost[i].childNodes[0].nodeValue + "','" + i + "hola')");
+                    corasonR.id = i + "hola";
                     if (realizado[i].childNodes[0].nodeValue == "1") {
                         corasonR.src = "./imgs/liked.png";
                         corasonR.setAttribute('class', 'corason');
@@ -1056,13 +1027,15 @@ function feed() {
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhttp.send("i=");
 }
-function likesFeed(identificador) {
+function likesFeed(identificador, number) {
     var xhttp = new XMLHttpRequest();
-    var like = document.getElementById('likesfeed');
+    var id = number;
+    var like = document.getElementById(id);
     xhttp.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
             var par = new DOMParser();
             var xmlDoc = par.parseFromString(this.responseText, "text/xml");
+            console.log(this.responseText);
             var string = this.responseText.split("-");
             if (string[0] === "in") {
                 like.src = './imgs/liked.png';
@@ -1304,7 +1277,28 @@ function discotecaConcreta(id) {
             col.style.height = "330px";
             var add = document.createElement('input');
             add.type = "submit";
-            add.setAttribute('onclick', "añadirValoracion('" + idDiscoteca[0].childNodes[0].nodeValue + "')");
+            add.onclick = function () {
+                var fijadisimo = document.createElement('fijadisimo');
+                fijadisimo.setAttribute('class', 'fijadisimo');
+                var tituloA = document.createElement('input');
+                tituloA.id = "titA";
+                tituloA.placeholder = "Título de la reseña";
+                var descripcionA = document.createElement('input');
+                descripcionA.id = "descA";
+                descripcionA.placeholder = "Descripción de la reseña";
+                var notaA = document.createElement('input');
+                notaA.id = "notA";
+                notaA.type = "number";
+                nota.placeholder = "nota";
+                var inputAñadir = document.createElement('input');
+                inputAñadir.type = "submit";
+                inputAñadir.setAttribute('onclick', "añadirValoracion('" + idDiscoteca[0].childNodes[0].nodeValue + "')");
+                fijadisimo.appendChild(tituloA);
+                fijadisimo.appendChild(descripcionA);
+                fijadisimo.appendChild(notaA);
+                fijadisimo.appendChild(inputAñadir);
+                div.appendChild(fijadisimo);
+            };
             col.appendChild(a);
             div.appendChild(col);
             div.appendChild(add);
@@ -1364,6 +1358,7 @@ function discotecaConcreta(id) {
             var h1 = document.createElement('h1');
             var m;
             m = suma / i;
+            m = Math.round(m * 100) / 100;
             var media = document.createTextNode(m);
             h1.setAttribute('class', 'media');
             h1.appendChild(media);
@@ -1558,7 +1553,6 @@ function conf() {
         });
         console.log(decodificado);
     });
-    quitar();
 }
 /*jp*/
 function numPublis() {
@@ -1600,9 +1594,20 @@ function fondo(id, val) {
     div.setAttribute('class', 'container-fluid py-5 mb-5 bg-' + val);
 }
 function añadirValoracion(identificador) {
-    alert(identificador);
     var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+            console.log(this.responseText);
+        }
+    };
+    var titA = document.getElementById('titA');
+    var notA = document.getElementById('notA');
+    if (notA.value > 10) {
+        notA.value = 10;
+    }
+    var descA = document.getElementById('descA');
+    var params = titA.value + "-" + notA.value + "-" + descA.value + "-" + identificador;
     xhttp.open("POST", "../php/añadirValoracion.php", true);
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    xhttp.send("i=friends");
+    xhttp.send("i=" + params);
 }

@@ -100,14 +100,14 @@ nav {
 
 .publis {
 
-  margin-top: -82%;
-    border-top: 7px solid #6d71b2;
-    border-radius: 19px;
-    background-color: white;
-    box-shadow: 0px 4px 33px -12px rgb(0 0 0 / 25%);
-    /* height: 700px; */
-    overflow-y: scroll;
-    height: 995px;
+  margin-top: -88%;
+  border-top: 7px solid #6d71b2;
+  border-radius: 19px;
+  background-color: white;
+  box-shadow: 0px 4px 33px -12px rgb(0 0 0 / 25%);
+  /* height: 700px; */
+  overflow-y: scroll;
+  height: 995px;
   
 }
 
@@ -300,7 +300,7 @@ h3 {
  .sugerencias{
   overflow-y: scroll !important;
   overflow-x: hidden !important;
-  margin-top: 8%;
+  margin-top: -25%;
   height: 71%;
 
 }
